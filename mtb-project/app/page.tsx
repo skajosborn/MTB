@@ -1,19 +1,12 @@
 import Image from "next/image";
+import { BackgroundCarousel } from "./components/BackgroundCarousel";
 
 export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/trail4.jpg"
-            alt="Mountain biking hero image"
-            fill
-            className="object-cover brightness-50"
-            priority
-          />
-        </div>
+        <BackgroundCarousel />
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">Ride the Trails</h1>
           <p className="text-xl md:text-2xl mb-8">Discover the best mountain biking experiences</p>
