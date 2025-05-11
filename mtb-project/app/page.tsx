@@ -10,9 +10,9 @@ export default function Home() {
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">Ride the Trails</h1>
           <p className="text-xl md:text-2xl mb-8">Discover the best mountain biking experiences</p>
-          <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition-colors">
+          <a href="/trails" className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition-colors inline-block cursor-pointer">
             Explore Trails
-          </button>
+          </a>
         </div>
       </section>
 

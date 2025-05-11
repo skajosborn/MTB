@@ -5,8 +5,25 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 
+// Define a type for trail data
+type TrailData = {
+  name: string;
+  difficulty: string;
+  location: string;
+  length: string;
+  elevationGain: string;
+  description: string;
+  image: string;
+  mapUrl: string;
+}
+
+// Define a type for our trails dictionary
+type TrailsDataType = {
+  [key: string]: TrailData;
+}
+
 // Trail data (in a real app, this would come from an API or database)
-const trailsData = {
+const trailsData: TrailsDataType = {
   'slickrock-trail': {
     name: 'Slickrock Trail',
     difficulty: 'Advanced',
@@ -31,7 +48,7 @@ const trailsData = {
 };
 
 // Default data for trails not in our database
-const defaultTrailData = {
+const defaultTrailData: TrailData = {
   name: 'Trail Information',
   difficulty: 'Unknown',
   location: 'Location not specified',
@@ -44,19 +61,20 @@ const defaultTrailData = {
 
 export default function TrailPage() {
   const params = useParams();
-  const [trailData, setTrailData] = useState<any>(null);
+  const [trailData, setTrailData] = useState<TrailData | null>(null);
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     // Get the trail slug from the URL
     const { trailSlug } = params;
+    const slug = trailSlug as string;
     
     // Simulate loading delay
     setTimeout(() => {
       // Look up trail data, use default if not found
-      const data = trailsData[trailSlug as string] || {
+      const data = slug in trailsData ? trailsData[slug] : {
         ...defaultTrailData,
-        name: (trailSlug as string).split('-').map(word => 
+        name: slug.split('-').map(word => 
           word.charAt(0).toUpperCase() + word.slice(1)
         ).join(' ')
       };
@@ -66,7 +84,7 @@ export default function TrailPage() {
     }, 300);
   }, [params]);
   
-  if (loading) {
+  if (loading || !trailData) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="text-center">
@@ -89,7 +107,7 @@ export default function TrailPage() {
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           {/* Hero Image */}
           <div className="relative h-64 sm:h-80 md:h-96">
-            {trailData.image && (
+            {trailData?.image && (
               <Image 
                 src={trailData.image}
                 alt={trailData.name}
