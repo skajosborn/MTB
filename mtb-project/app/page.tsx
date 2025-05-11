@@ -3,9 +3,9 @@ import { BackgroundCarousel } from "./components/BackgroundCarousel";
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center">
+      <section className="relative h-screen -mt-20 flex items-center justify-center">
         <BackgroundCarousel />
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">Ride the Trails</h1>
@@ -13,6 +13,41 @@ export default function Home() {
           <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition-colors">
             Explore Trails
           </button>
+        </div>
+      </section>
+
+      {/* Featured Video Section */}
+      <section className="py-16 px-4 bg-gray-800 text-white">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-8">Experience the Thrill</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="relative aspect-video w-full mx-auto shadow-2xl rounded-lg overflow-hidden">
+              <iframe 
+                width="100%" 
+                height="100%" 
+                src="https://www.youtube.com/embed/ojMvLUjlmKQ?si=ci0GCMZqyme0Jbdz" 
+                title="YouTube video player" 
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin" 
+                allowFullScreen
+                className="absolute inset-0"
+              ></iframe>
+            </div>
+            <div className="relative aspect-video w-full mx-auto shadow-2xl rounded-lg overflow-hidden">
+              <iframe 
+                width="100%" 
+                height="100%" 
+                src="https://www.youtube.com/embed/QLtqDpgK6dg?si=7VPkkd1RH6ifElsR" 
+                title="YouTube video player" 
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin" 
+                allowFullScreen
+                className="absolute inset-0"
+              ></iframe>
+            </div>
+          </div>
         </div>
       </section>
 
