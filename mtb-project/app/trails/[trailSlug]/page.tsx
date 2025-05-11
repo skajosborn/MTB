@@ -15,6 +15,7 @@ type TrailData = {
   description: string;
   image: string;
   mapUrl: string;
+  videoUrl?: string;
 }
 
 // Define a type for our trails dictionary
@@ -24,6 +25,17 @@ type TrailsDataType = {
 
 // Trail data (in a real app, this would come from an API or database)
 const trailsData: TrailsDataType = {
+  'croom': {
+    name: 'Croom',
+    difficulty: 'Advanced',
+    location: 'Brooksville, Florida',
+    length: '25+ miles',
+    elevationGain: '600 feet',
+    description: 'The Croom Motorcycle Area offers an extensive network of mountain biking trails with a variety of terrain. From flowing singletrack to technical sections, these trails provide great riding experiences for mountain bikers in central Florida.',
+    image: '/slickrock.jpg',
+    mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14048.609155217813!2d-82.30127323022462!3d28.542212200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e840c22da7b915%3A0xb79b2387345f868a!2sCroom%20Motorcycle%20Area!5e0!3m2!1sen!2sus!4v1717528158099!5m2!1sen!2sus',
+    videoUrl: 'https://www.youtube.com/embed/Scn0QcNs_mM?si=AqL_B7441WRrYDYF'
+  },
   'slickrock-trail': {
     name: 'Slickrock Trail',
     difficulty: 'Advanced',
@@ -174,6 +186,26 @@ export default function TrailPage() {
             <div className="md:col-span-2">
               <h2 className="text-2xl font-bold mb-4">Trail Overview</h2>
               <p className="text-gray-700 mb-6">{trailData.description}</p>
+              
+              {/* YouTube Video (if available) */}
+              {trailData.videoUrl && (
+                <div className="mb-8">
+                  <h3 className="text-xl font-semibold mb-3">Trail Video</h3>
+                  <div className="aspect-video w-full rounded-lg overflow-hidden shadow-lg">
+                    <iframe
+                      src={trailData.videoUrl}
+                      width="100%"
+                      height="100%"
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                      className="w-full h-full"
+                    ></iframe>
+                  </div>
+                </div>
+              )}
               
               {trailData.mapUrl && (
                 <div>

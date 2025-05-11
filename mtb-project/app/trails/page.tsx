@@ -4,12 +4,12 @@ import Link from 'next/link';
 // Define trail data
 const trails = [
   {
-    slug: 'slickrock-trail',
-    name: 'Slickrock Trail',
+    slug: 'croom',
+    name: 'Croom',
     difficulty: 'Advanced',
-    location: 'Moab, Utah',
-    image: '/slickrock.jpg',
-    description: 'One of the most famous mountain bike rides in the world, consisting of a 10.5-mile loop across Navajo sandstone.'
+    location: 'Brooksville, Florida',
+    image: '/images/croom/croom2.jpg',
+    description: 'An extensive network of mountain biking trails with a variety of terrain from flowing singletrack to technical sections.'
   },
   {
     slug: 'whole-enchilada',
