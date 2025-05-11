@@ -18,10 +18,43 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [trailsMenuOpen, setTrailsMenuOpen] = useState(false);
   const trailsMenuRef = useRef<HTMLDivElement | null>(null);
+  
+  // Add a delay timer for the dropdown
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  // Handle mouse enter for the dropdown
+  const handleTrailsMenuEnter = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setTrailsMenuOpen(true);
+  };
+
+  // Handle mouse leave with delay
+  const handleTrailsMenuLeave = () => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setTrailsMenuOpen(false);
+    }, 300); // 300ms delay before closing
+  };
+
+  // Click handler for the button
+  const toggleTrailsMenu = () => {
+    setTrailsMenuOpen(!trailsMenuOpen);
+  };
+
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -82,13 +115,14 @@ export function Navbar() {
                   {/* Trails Menu Dropdown */}
                   <div 
                     className="relative" 
-                    onMouseEnter={() => setTrailsMenuOpen(true)}
-                    onMouseLeave={() => setTrailsMenuOpen(false)}
+                    onMouseEnter={handleTrailsMenuEnter}
+                    onMouseLeave={handleTrailsMenuLeave}
                     ref={trailsMenuRef}
                   >
                     <button 
                       className="rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white flex items-center"
-                      onClick={() => setTrailsMenuOpen(!trailsMenuOpen)}
+                      onClick={toggleTrailsMenu}
+                      aria-expanded={trailsMenuOpen}
                     >
                       Mountain Bike Trails
                       <svg className="ml-1 h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
@@ -99,8 +133,10 @@ export function Navbar() {
                     {/* Dropdown Menu */}
                     <div 
                       className={`absolute left-0 mt-2 w-64 bg-black bg-opacity-90 rounded-md shadow-lg z-50 transition-all duration-300 ease-in-out ${
-                        trailsMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
+                        trailsMenuOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-4 invisible'
                       }`}
+                      onMouseEnter={handleTrailsMenuEnter} 
+                      onMouseLeave={handleTrailsMenuLeave}
                     >
                       <div className="py-2 px-3">
                         <div className="space-y-1">
@@ -116,6 +152,7 @@ export function Navbar() {
                                   'border-l-4 border-red-500'} 
                                 cursor-pointer hover:translate-x-1 transition-transform duration-200
                               `}
+                              onClick={() => setTrailsMenuOpen(false)}
                             >
                               <div className="flex items-center">
                                 <span className="hover:underline">{trail.name}</span>
