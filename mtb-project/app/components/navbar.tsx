@@ -108,7 +108,7 @@ export function Navbar() {
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4 h-full items-center">
-                  <a href="/" className="rounded-md bg-gray-900 px-3 py-2 text-base font-bold text-white" aria-current="page">CENFLO MTB CONNECTION</a>
+                  <a href="/" className="rounded-md bg-gray-900 px-3 py-2 text-base font-bold text-gradient from-gray-300 via-green-700 to-gray-500" aria-current="page">CENFLO MTB CONNECTION</a>
                   <a href="/trails" className="rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Trails Directory</a>
                   
                   {/* Trails Menu Dropdown */}

@@ -8,35 +8,29 @@ export default function CroomTrailPage() {
   const [activeTab, setActiveTab] = useState('overview');
   
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen pt-20">
       {/* Hero Header Section */}
-      <div className="bg-black/0 min-h-[40vh] flex flex-col items-center justify-center text-center py-16 px-4">
-        <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">Croom Trails</h1>
-        <div className="inline-block bg-orange-500 px-4 py-1 rounded-full text-white font-semibold mb-4">
-          Advanced Difficulty
+      <div className="relative min-h-[50vh] flex flex-col items-center justify-center text-center py-16 px-4 pt-20">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/bikebg.png"
+            alt="Croom Trails landscape"
+            fill
+            className="object-cover brightness-50"
+            priority
+          />
         </div>
-        <p className="text-xl text-white max-w-2xl mx-auto">
-          Explore Florida's premier mountain biking destination with over 50 miles of diverse terrain
-        </p>
-      </div>
-      
-      {/* Featured Video */}
-      <div className="max-w-4xl mx-auto px-4 -mt-8 mb-8 relative z-10">
-        <div className="aspect-video w-full rounded-lg overflow-hidden shadow-2xl">
-          <iframe
-            src="https://www.youtube.com/embed/Scn0QcNs_mM?si=AqL_B7441WRrYDYF"
-            width="100%"
-            height="100%"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-            className="w-full h-full"
-          ></iframe>
+        <div className="relative z-10">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">Croom Trails</h1>
+          <div className="inline-block bg-orange-500 px-4 py-1 rounded-full text-white font-semibold mb-4">
+            Advanced Difficulty
+          </div>
+          <p className="text-xl text-white max-w-2xl mx-auto">
+            Explore Florida's premier mountain biking destination with over 50 miles of diverse terrain
+          </p>
         </div>
       </div>
-      
+
       {/* Quick Stats Bar */}
       <div className="bg-gray-800 text-white py-4">
         <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
@@ -107,8 +101,10 @@ export default function CroomTrailPage() {
         </div>
       </div>
       
+      
+      
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 mt-10">
         {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -127,22 +123,38 @@ export default function CroomTrailPage() {
               </div>
               
               {/* Trail Maintenance & Community */}
-              <div className="mt-10">
+              <div className="mt-20">
                 <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center mr-4">
+                  {/* <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center mr-4">
                     <span className="text-white text-lg">🛠️</span>
-                  </div>
+                  </div> */}
                   <h3 className="text-2xl font-bold text-white">Trail Maintenance & Community</h3>
                 </div>
-                <div className="bg-gray-800 rounded-lg p-6 shadow-lg">
-                  <p className="text-gray-300">The SWAMP Mountain Bike Club actively maintains the trail system, ensuring trails are safe and enjoyable. They also host events and group rides, fostering a vibrant mountain biking community.</p>
+                <div className="rounded-lg shadow-lg">
+                  <p className="text-gray-300">The <a href="https://www.swampmtbclub.com/trails" className="text-green-500 hover:text-green-300 font-bold">SWAMP</a> Mountain Bike Club actively maintains the trail system, ensuring trails are safe and enjoyable. They also host events and group rides, fostering a vibrant mountain biking community.</p>
                 </div>
               </div>
+               {/* Featured Video */}
+            <div className="max-w-4xl mx-auto px-4 mt-20 mb-8 relative z-10">
+                <div className="aspect-video w-full rounded-lg overflow-hidden shadow-2xl">
+                <iframe
+                    src="https://www.youtube.com/embed/Scn0QcNs_mM?si=AqL_B7441WRrYDYF"
+                    width="100%"
+                    height="100%"
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    className="w-full h-full"
+                ></iframe>
+                </div>
             </div>
+        </div>
             
             <div>
               {/* Trail Details Card */}
-              <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+              <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mb-18 mt-">
                 <div className="bg-gray-700 px-6 py-4">
                   <h3 className="text-xl font-bold text-white">Trail Details</h3>
                 </div>
@@ -183,7 +195,7 @@ export default function CroomTrailPage() {
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14048.609155217813!2d-82.30127323022462!3d28.542212200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e840c22da7b915%3A0xb79b2387345f868a!2sCroom%20Motorcycle%20Area!5e0!3m2!1sen!2sus!4v1717528158099!5m2!1sen!2sus"
                     width="100%"
-                    height="300"
+                    height="400"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
@@ -451,10 +463,122 @@ export default function CroomTrailPage() {
           </div>
         )}
       </div>
+
+      {/* Photo Gallery */}
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <h2 className="text-3xl font-bold text-white mb-8">Photo Gallery</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+          <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+            <Image
+              src="/feature1.jpg"
+              alt="Trail through pine forest" 
+              fill
+              className="object-cover hover:scale-105 transition-transform"
+            />
+          </div>
+          <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+          <Image
+            src="/bridge2.jpg" 
+            alt="Technical rock garden section"
+            fill
+            className="object-cover hover:scale-105 transition-transform"
+          />
+        </div>
+        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+          <Image
+            src="/good.jpg"
+            alt="Scenic overlook of trails"
+            fill
+            className="object-cover hover:scale-105 transition-transform"
+          />
+        </div>
+        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+          <Image
+            src="/good2.jpg"
+            alt="Scenic overlook of trails"
+            fill
+            className="object-cover hover:scale-105 transition-transform"
+          />
+        </div>
+        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+          <Image
+            src="/good3.jpg"
+            alt="Scenic overlook of trails"
+            fill
+            className="object-cover hover:scale-105 transition-transform"
+          />
+        </div>
+        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+          <Image
+            src="/lake1.jpg"
+            alt="Scenic overlook of trails"
+            fill
+            className="object-cover hover:scale-105 transition-transform"
+          />
+        </div>
+        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+          <Image
+            src="/hill4.jpg"
+            alt="Scenic overlook of trails"
+            fill
+            className="object-cover hover:scale-105 transition-transform"
+          />
+        </div>
+        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+          <Image
+            src="/rocks2.jpg"
+            alt="Scenic overlook of trails"
+            fill
+            className="object-cover hover:scale-105 transition-transform"
+          />
+        </div>
+        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+          <Image
+            src="/river.jpg"
+            alt="Scenic overlook of trails"
+            fill
+            className="object-cover hover:scale-105 transition-transform"
+          />
+        </div>
+        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+          <Image
+            src="/feature3.jpg"
+            alt="Scenic overlook of trails"
+            fill
+            className="object-cover hover:scale-105 transition-transform"
+          />
+        </div>
+        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+          <Image
+            src="/rocks.jpg"
+            alt="Scenic overlook of trails"
+            fill
+            className="object-cover hover:scale-105 transition-transform"
+          />
+        </div>
+        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+          <Image
+            src="/longbridge.jpg"
+            alt="Scenic overlook of trails"
+            fill
+            className="object-cover hover:scale-105 transition-transform"
+          />
+        </div>
+        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+          <Image
+            src="/feature4.jpg"
+            alt="Scenic overlook of trails"
+            fill
+            className="object-cover hover:scale-105 transition-transform"
+          />
+        </div>
+      </div>
+      </div>
       
       {/* Call to Action */}
-      <div className="bg-gradient-to-r from-green-600 to-green-700 py-16">
-        <div className="max-w-4xl mx-auto text-center px-4">
+      <div className="bg-gray-800">
+        <div className="max-w-4xl mx-auto text-center py-8 px-4">
           <h2 className="text-3xl font-bold text-white mb-4">Ready to Ride Croom?</h2>
           <p className="text-xl text-white opacity-90 mb-8">Grab your bike and helmet and experience some of Florida's best trails.</p>
           <div className="flex flex-wrap justify-center gap-4">

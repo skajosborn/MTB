@@ -40,7 +40,8 @@ export default function Home() {
       <section className="relative h-screen -mt-20 flex items-center justify-center">
         <BackgroundCarousel />
         <div className="relative z-10 text-center text-white px-4">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">Ride the Trails</h1>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">Central FLorida</h1>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">MTB Trails</h1>
           <p className="text-xl md:text-2xl mb-8">Discover the best mountain biking experiences</p>
           <a href="/trails" className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition-colors inline-block cursor-pointer">
             Explore Trails
