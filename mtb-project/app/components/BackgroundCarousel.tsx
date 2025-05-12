@@ -10,7 +10,7 @@ const images = [
   '/bike.jpg',
   '/bridge4.jpg',
   '/bridge20.jpg',
-  '/rockfeature.jpg',
+  '/rocks.jpg',
   '/trail7.jpg'
 ];
 

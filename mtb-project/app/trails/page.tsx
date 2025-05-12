@@ -12,39 +12,39 @@ const trails = [
     description: 'An extensive network of mountain biking trails with a variety of terrain from flowing singletrack to technical sections.'
   },
   {
-    slug: 'whole-enchilada',
-    name: 'The Whole Enchilada',
+    slug: 'Balm Boyette',
+    name: 'Balm Boyette',
     difficulty: 'Expert',
     location: 'Moab, Utah',
-    image: '/enchilada.jpg',
+    image: '/good4.jpg',
     description: 'An epic trail that begins in the high alpine terrain of the La Sal Mountains and descends over 7,000 feet.'
   },
   {
-    slug: 'mckenzie-river-trail',
-    name: 'McKenzie River Trail',
+    slug: 'Santos & Vortex',
+    name: 'Santos & Vortex',
     difficulty: 'Intermediate',
     location: 'Eugene, OR',
     image: '/trail4.jpg',
     description: 'A 26-mile singletrack trail following the McKenzie River through ancient forest and lava flows.'
   },
   {
-    slug: 'porcupine-rim',
-    name: 'Porcupine Rim',
+    slug: 'Mount Dora',
+    name: 'Mount Dora',
     difficulty: 'Advanced',
     location: 'Moab, Utah',
     image: '/good3.jpg',
     description: 'A challenging trail with technical terrain and breathtaking views of Castle Valley.'
   },
   {
-    slug: 'the-flume-trail',
-    name: 'The Flume Trail',
+    slug: 'Alafia',
+    name: 'Alafia',
     difficulty: 'Intermediate',
     location: 'Lake Tahoe, NV',
     image: '/good2.jpg',
     description: 'Famous for its stunning views of Lake Tahoe and narrow singletrack along a mountain ledge.'
   },
   {
-    slug: '18-road',
+    slug: 'Loyce E. Harpe',
     name: '18 Road',
     difficulty: 'Beginner',
     location: 'Fruita, CO',
@@ -52,16 +52,16 @@ const trails = [
     description: 'A network of flowing singletrack trails perfect for riders of all skill levels.'
   },
   {
-    slug: 'captain-ahab',
-    name: 'Captain Ahab',
-    difficulty: 'Expert',
-    location: 'Moab, Utah',
+    slug: 'carter-road',
+    name: 'Carter Road',
+    difficulty: 'Intermediate',
+    location: 'Citrus Wildlife Management Area, FL',
     image: '/bike.jpg',
-    description: 'Technical descending with ledges, drops, and challenging rock features.'
+    description: 'A unique riding experience through Florida swamplands with wooden boardwalks and diverse ecosystems.'
   },
   {
-    slug: 'doctor-park',
-    name: 'Doctor Park',
+    slug: '49th Ave Trailhead',
+    name: '49th Ave Trailhead',
     difficulty: 'Advanced',
     location: 'Crested Butte, CO',
     image: '/magestic.jpg',
@@ -74,7 +74,7 @@ export default function TrailsDirectory() {
     <main className="min-h-screen bg-gray-100 pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Mountain Bike Trails Directory</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mt-8 mb-4">Mountain Bike Trails Directory</h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Discover the most exciting mountain bike trails from around the world. 
             Click on any trail to view detailed information, maps, and more.

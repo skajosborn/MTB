@@ -1,5 +1,37 @@
 import Image from "next/image";
 import { BackgroundCarousel } from "./components/BackgroundCarousel";
+import Link from "next/link";
+
+// Featured trails data
+const featuredTrails = [
+  {
+    id: 1,
+    name: "Croom",
+    slug: "croom",
+    description: "Explore Florida's premier mountain biking destination with 25+ miles of diverse terrain.",
+    difficulty: "Advanced",
+    length: "25+ miles",
+    image: "/trail-1.jpg"
+  },
+  {
+    id: 2,
+    name: "Slickrock Trail",
+    slug: "slickrock-trail",
+    description: "Experience the world-famous trail across Navajo sandstone with excellent traction.",
+    difficulty: "Advanced",
+    length: "11.3 miles",
+    image: "/trail-2.jpg"
+  },
+  {
+    id: 3,
+    name: "Whole Enchilada",
+    slug: "whole-enchilada",
+    description: "Epic trail that descends 7,000 feet through diverse ecosystems to the Colorado River.",
+    difficulty: "Expert",
+    length: "33.0 miles",
+    image: "/trail-3.jpg"
+  }
+];
 
 export default function Home() {
   return (
@@ -54,25 +86,38 @@ export default function Home() {
       {/* Featured Trails Section */}
       <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">Featured Trails</h2>
+          <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">Featured Trails</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((trail) => (
-              <div key={trail} className="bg-white rounded-lg shadow-lg overflow-hidden">
-                <div className="relative h-48">
+            {featuredTrails.map((trail) => (
+              <div key={trail.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                <div className="relative h-60">
                   <Image
-                    src={`/trail-${trail}.jpg`}
-                    alt={`Trail ${trail}`}
+                    src={trail.image}
+                    alt={trail.name}
                     fill
-                    className="object-cover"
+                    className="object-cover hover:scale-105 transition-transform duration-300"
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">Trail Name {trail}</h3>
-                  <p className="text-gray-600 mb-4">Experience the thrill of this amazing trail with stunning views and challenging terrain.</p>
-                  <div className="flex justify-between text-sm text-gray-500">
-                    <span>Difficulty: Intermediate</span>
-                    <span>Length: 5.2 miles</span>
+                  <h3 className="text-xl text-gray-900 font-bold mb-2">{trail.name}</h3>
+                  <p className="text-gray-600 mb-4">{trail.description}</p>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className={`px-3 py-1 rounded-full text-white text-sm ${
+                      trail.difficulty === 'Beginner' ? 'bg-green-600' :
+                      trail.difficulty === 'Intermediate' ? 'bg-blue-600' :
+                      trail.difficulty === 'Advanced' ? 'bg-orange-600' :
+                      'bg-red-600'
+                    }`}>
+                      {trail.difficulty}
+                    </span>
+                    <span className="text-sm text-gray-500">Length: {trail.length}</span>
                   </div>
+                  <Link 
+                    href={`/trails/${trail.slug}`}
+                    className="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors"
+                  >
+                    View Trail
+                  </Link>
                 </div>
               </div>
             ))}
@@ -81,13 +126,13 @@ export default function Home() {
       </section>
 
       {/* Call to Action Section */}
-      <section className="py-20 px-4 bg-green-600 text-white">
+      <section className="py-20 px-4 bg-gray-800 text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6">Ready to Hit the Trails?</h2>
           <p className="text-xl mb-8">Join our community of mountain bikers and discover new adventures every day.</p>
-          <button className="bg-white text-green-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-full transition-colors">
-            Get Started
-          </button>
+          <Link href="/trails" className="bg-white text-green-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-full transition-colors inline-block">
+            Browse All Trails
+          </Link>
         </div>
       </section>
     </main>

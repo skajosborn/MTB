@@ -6,6 +6,7 @@ import Link from 'next/link';
 // Trail data - this could be moved to a shared data file later
 const trails = [
   { name: "Croom", slug: "croom", difficulty: "Advanced" },
+  { name: "Carter Road", slug: "carter-road", difficulty: "Intermediate" },
   { name: "Slickrock Trail", slug: "slickrock-trail", difficulty: "Advanced" },
   { name: "Whole Enchilada", slug: "whole-enchilada", difficulty: "Expert" },
   { name: "McKenzie River Trail", slug: "mckenzie-river-trail", difficulty: "Intermediate" },
@@ -61,7 +62,7 @@ export default function TrailSidebar({ currentTrail }: TrailSidebarProps) {
           md:w-1/4 md:static md:block md:h-screen md:sticky md:top-20 md:overflow-y-auto
           fixed inset-y-0 left-0 w-4/5 h-full overflow-y-auto
           ${isMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-          bg-gradient-to-b from-green-900 via-gray-900 to-gray-800
+          bg-black/20
         `}
       >
         {/* Content div */}

@@ -28,10 +28,10 @@ const trailsData: TrailsDataType = {
   'croom': {
     name: 'Croom',
     difficulty: 'Advanced',
-    location: 'Brooksville, Florida',
-    length: '25+ miles',
-    elevationGain: '600 feet',
-    description: 'The Croom Motorcycle Area offers an extensive network of mountain biking trails with a variety of terrain. From flowing singletrack to technical sections, these trails provide great riding experiences for mountain bikers in central Florida.',
+    location: 'Withlacoochee State Forest, Brooksville, Florida',
+    length: '50+ miles',
+    elevationGain: '600+ feet',
+    description: 'Croom Mountain Bike Trail Park, nestled within Florida\'s Withlacoochee State Forest, offers over 50 miles of diverse singletrack trails. Managed by the SWAMP Mountain Bike Club, the park features a variety of terrains, including rolling hills, pine flatwoods, and challenging sections with steep climbs and technical features. The trail system is designed to cater to riders of all skill levels, from beginners to seasoned experts.',
     image: '/slickrock.jpg',
     mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14048.609155217813!2d-82.30127323022462!3d28.542212200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e840c22da7b915%3A0xb79b2387345f868a!2sCroom%20Motorcycle%20Area!5e0!3m2!1sen!2sus!4v1717528158099!5m2!1sen!2sus',
     videoUrl: 'https://www.youtube.com/embed/Scn0QcNs_mM?si=AqL_B7441WRrYDYF'
@@ -69,6 +69,128 @@ const defaultTrailData: TrailData = {
   description: 'Detailed information about this trail is coming soon. Please check back later for updates on trail conditions, features, and recommendations.',
   image: '/trail-default.jpg',
   mapUrl: ''
+};
+
+// Render the Croom trail sections specifically
+const renderCroomSections = (slug: string) => {
+  if (slug !== 'croom') return null;
+  
+  return (
+    <div className="mt-8 space-y-10">
+      {/* Beginner Trails Section */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex items-center mb-4">
+          <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center mr-3">
+            <span className="text-white font-bold">🟢</span>
+          </div>
+          <h3 className="text-2xl font-bold">Beginner-Friendly Trails</h3>
+        </div>
+        <div className="space-y-3 ml-11">
+          <div>
+            <p className="font-semibold">South Blue Trail</p>
+            <p className="text-gray-600">An easy trail ideal for newcomers, featuring flat terrain and gentle curves.</p>
+          </div>
+          <div>
+            <p className="font-semibold">Northwest Blue Trail</p>
+            <p className="text-gray-600">Another beginner-friendly option with minimal elevation changes and a smooth path.</p>
+          </div>
+          <div>
+            <p className="font-semibold">Southwest Blue Trail</p>
+            <p className="text-gray-600">Offers a relaxed ride through scenic areas, perfect for those new to mountain biking.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Intermediate Trails Section */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex items-center mb-4">
+          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+            <span className="text-white font-bold">🟡</span>
+          </div>
+          <h3 className="text-2xl font-bold">Intermediate Trails</h3>
+        </div>
+        <div className="space-y-3 ml-11">
+          <div>
+            <p className="font-semibold">Yellow Trail (12-mile loop)</p>
+            <p className="text-gray-600">Starting at the Tucker Hill trailhead, this loop is well-marked and popular among riders seeking a moderate challenge.</p>
+          </div>
+          <div>
+            <p className="font-semibold">Southeast Blue Trail</p>
+            <p className="text-gray-600">Provides a mix of rolling terrain and mild technical sections, suitable for riders looking to advance their skills.</p>
+          </div>
+          <div>
+            <p className="font-semibold">Sugar Mountain Loop</p>
+            <p className="text-gray-600">Features undulating paths and varied scenery, offering an engaging ride for intermediate bikers.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Advanced Trails Section */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex items-center mb-4">
+          <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center mr-3">
+            <span className="text-white font-bold">🔴</span>
+          </div>
+          <h3 className="text-2xl font-bold">Advanced Trails</h3>
+        </div>
+        <div className="space-y-3 ml-11">
+          <div>
+            <p className="font-semibold">Drunken Monkey</p>
+            <p className="text-gray-600">A short but demanding trail with technical features that test even experienced riders.</p>
+          </div>
+          <div>
+            <p className="font-semibold">Southern Comfort</p>
+            <p className="text-gray-600">Known for its challenging climbs and descents, this trail offers a rigorous workout.</p>
+          </div>
+          <div>
+            <p className="font-semibold">Bootlegger Hill</p>
+            <p className="text-gray-600">Features steep gradients and sharp turns, requiring advanced bike handling skills.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Trail Access & Amenities */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex items-center mb-4">
+          <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center mr-3">
+            <span className="text-white font-bold">📍</span>
+          </div>
+          <h3 className="text-2xl font-bold">Trail Access & Amenities</h3>
+        </div>
+        <div className="space-y-3 ml-11">
+          <div>
+            <p className="font-semibold">Primary Trailhead</p>
+            <p className="text-gray-600">Tucker Hill Day Use Area on Croom Road (Forest Road 6), equipped with restrooms, picnic areas, and a bike wash station.</p>
+          </div>
+          <div>
+            <p className="font-semibold">Trail Markings</p>
+            <p className="text-gray-600">Color-coded signs (yellow, blue, red) indicate trail difficulty and loops.</p>
+          </div>
+          <div>
+            <p className="font-semibold">Bailout Points</p>
+            <p className="text-gray-600">Strategically placed along longer loops for riders needing shorter routes.</p>
+          </div>
+          <div>
+            <p className="font-semibold">Fees</p>
+            <p className="text-gray-600">A nominal parking fee is required; annual passes are available.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Trail Maintenance & Community */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex items-center mb-4">
+          <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center mr-3">
+            <span className="text-white font-bold">🛠️</span>
+          </div>
+          <h3 className="text-2xl font-bold">Trail Maintenance & Community</h3>
+        </div>
+        <div className="ml-11">
+          <p className="text-gray-600">The SWAMP Mountain Bike Club actively maintains the trail system, ensuring trails are safe and enjoyable. They also host events and group rides, fostering a vibrant mountain biking community.</p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default function TrailPage() {
@@ -223,6 +345,9 @@ export default function TrailPage() {
                   </div>
                 </div>
               )}
+              
+              {/* Render Croom-specific trail sections */}
+              {renderCroomSections(params.trailSlug as string)}
             </div>
           </div>
         </div>
