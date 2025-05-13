@@ -89,17 +89,21 @@ export function Navbar() {
             </div>
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex shrink-0 items-center">
-                <Image
-                  src="/bikeicon.png"
-                  alt="Bike Icon"
-                  width={48}
-                  height={48}
-                  className="h-12 w-auto brightness-0 invert"
-                />
+                <Link href="/">
+                  <Image
+                    src="/bikeicon.png"
+                    alt="Bike Icon"
+                    width={48}
+                    height={48}
+                    className="h-12 w-auto brightness-0 invert"
+                  />
+                </Link>
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4 h-full items-center">
-                  <Link href="/" className="rounded-md bg-gray-900 px-3 py-2 text-base font-bold text-gradient from-gray-300 via-green-700 to-gray-500" aria-current="page">CENFLO MTB CONNECTION</Link>
+                  <Link href="/" className="rounded-md bg-gray-900 px-3 py-2 text-base font-bold text-gradient from-gray-300 via-green-700 to-gray-500" aria-current="page">
+                    CENFLO MTB CONNECTION
+                  </Link>
                   
                   {/* Trails Menu Dropdown */}
                   <div 
@@ -215,9 +219,15 @@ export function Navbar() {
         {mobileMenuOpen && (
           <div className="sm:hidden" id="mobile-menu">
             <div className="space-y-1 px-2 pt-2 pb-3">
-              <Link href="/" className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" aria-current="page">Home</Link>
-              <Link href="/trails" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Trails Directory</Link>
-              <Link href="/trails/buy-sell-trade" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Buy/Sell/Trade</Link>
+              <Link href="/" className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" aria-current="page">
+                Home
+              </Link>
+              <Link href="/trails" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                Trails Directory
+              </Link>
+              <Link href="/trails/buy-sell-trade" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                Buy/Sell/Trade
+              </Link>
             </div>
           </div>
         )}

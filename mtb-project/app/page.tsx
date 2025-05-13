@@ -8,7 +8,7 @@ const featuredTrails = [
     id: 1,
     name: "Croom",
     slug: "croom",
-    description: "Explore Florida's premier mountain biking destination with 25+ miles of diverse terrain.",
+    description: "Explore Florida&apos;s premier mountain biking destination with 25+ miles of diverse terrain.",
     difficulty: "Advanced",
     length: "25+ miles",
     image: "/trail-1.jpg"

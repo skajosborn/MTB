@@ -30,7 +30,7 @@ const ensureAbsoluteUrl = (url: string) => {
 // Add proper types for the API response
 interface WeatherAPIResponse {
   forecast: {
-    forecastday: {
+    forecastday: Array<{
       date: string;
       day: {
         condition: {
@@ -47,8 +47,13 @@ interface WeatherAPIResponse {
           text: string;
         };
       }>;
-    }[];
+    }>;
   };
+}
+
+interface ErrorType extends Error {
+  name: string;
+  message: string;
 }
 
 export default function WeatherForecast({ location, latitude, longitude, apiKey }: WeatherForecastProps) {
@@ -80,7 +85,7 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
         
         console.log('Using API key (truncated):', apiKey.substring(0, 5) + '...');
         
-        // Use OpenWeatherMap API key
+        // Use WeatherAPI endpoint
         const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=5&aqi=no&alerts=no`;
         
         console.log('Fetching weather data from:', apiUrl?.replace(apiKey, 'API_KEY_HIDDEN'));
@@ -147,24 +152,21 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
       } catch (err: unknown) {
         if (timeoutId) clearTimeout(timeoutId);
         
-        if (err instanceof Error) {
-          if (err.name === 'AbortError') {
-            console.error('API request timeout');
-            throw new Error('Weather API request timed out');
-          }
-          
-          console.error('Error fetching weather data:', err);
-          let errorMessage = err.message;
-          
-          // Don't show API key errors to users
-          if (errorMessage.includes('API key')) {
-            errorMessage = 'Weather API not configured correctly';
-          }
-          
-          setError(errorMessage);
-        } else {
-          setError('An unexpected error occurred');
+        const error = err as ErrorType;
+        if (error.name === 'AbortError') {
+          console.error('API request timeout');
+          throw new Error('Weather API request timed out');
         }
+        
+        console.error('Error fetching weather data:', error);
+        let errorMessage = error.message;
+        
+        // Don&apos;t show API key errors to users
+        if (errorMessage.includes('API key')) {
+          errorMessage = 'Weather API not configured correctly';
+        }
+        
+        setError(errorMessage);
         
         // Fallback to default values
         setWeatherData([
@@ -221,7 +223,13 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
               {weatherData.map((day, index) => (
                 <div key={index} className="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
                   <div className="flex items-center">
-                    <Image src={ensureAbsoluteUrl(day.icon)} alt="weather icon" width={32} height={32} className="w-8 h-8 mr-3 inline-block" />
+                    <Image 
+                      src={ensureAbsoluteUrl(day.icon)} 
+                      alt="weather icon" 
+                      width={32} 
+                      height={32} 
+                      className="w-8 h-8 mr-3 inline-block" 
+                    />
                     <span className="text-white">{day.day}</span>
                   </div>
                   <div className="text-white">{day.high}° / {day.low}°</div>
@@ -245,7 +253,13 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
             {hourlyData.map((hour, idx) => (
               <div key={idx} className="flex flex-col items-center bg-gray-700 rounded-lg px-2 py-3 min-w-[70px]">
                 <span className="text-xs text-gray-300">{hour.time}</span>
-                <Image src={ensureAbsoluteUrl(hour.icon)} alt={hour.text} width={32} height={32} className="w-8 h-8 my-1" />
+                <Image 
+                  src={ensureAbsoluteUrl(hour.icon)} 
+                  alt={hour.text} 
+                  width={32} 
+                  height={32} 
+                  className="w-8 h-8 my-1" 
+                />
                 <span className="text-white font-medium">{hour.temp}°</span>
               </div>
             ))}
