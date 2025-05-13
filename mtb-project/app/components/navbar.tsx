@@ -4,14 +4,14 @@ import React, { useState, useRef, useEffect } from 'react';
 
 // Combine trail data into one list
 const trails = [
-  { name: "Slickrock Trail", difficulty: "Advanced" },
-  { name: "Whole Enchilada", difficulty: "Expert" },
-  { name: "McKenzie River Trail", difficulty: "Intermediate" },
-  { name: "Porcupine Rim", difficulty: "Advanced" },
-  { name: "The Flume Trail", difficulty: "Intermediate" },
+  { name: "Croom", difficulty: "Advanced" },
+  { name: "Balm Boyette", difficulty: "Expert" },
+  { name: "Santos & Vortex", difficulty: "Intermediate" },
+  { name: "Mount Dora", difficulty: "Advanced" },
+  { name: "Alafia", difficulty: "Intermediate" },
   { name: "18 Road", difficulty: "Beginner" },
-  { name: "Captain Ahab", difficulty: "Expert" },
-  { name: "Doctor Park", difficulty: "Advanced" },
+  { name: "Carter Road", difficulty: "Intermediate" },
+  { name: "49th Ave Trailhead", difficulty: "Advanced" },
 ];
 
 export function Navbar() {
