@@ -18,7 +18,7 @@ export default function CarterRoadTrailPage() {
             Intermediate Difficulty
           </div>
           <p className="text-xl text-white max-w-2xl mx-auto">
-            Explore Florida's hidden gem with flowing singletrack through scenic swamplands
+            Explore Florida&apos;s hidden gem with flowing singletrack through scenic swamplands
           </p>
         </div>
       </div>
@@ -179,6 +179,7 @@ export default function CarterRoadTrailPage() {
                           allowFullScreen
                           loading="lazy"
                           referrerPolicy="no-referrer-when-downgrade"
+                          title="Carter Road Trail Location"
                         ></iframe>
                       </div>
                     </div>
@@ -394,7 +395,7 @@ export default function CarterRoadTrailPage() {
                         <li>Always check trail conditions before riding, especially after rain</li>
                         <li>Bring plenty of water, as Florida humidity can lead to rapid dehydration</li>
                         <li>Wear insect repellent during warmer months</li>
-                        <li>Use wider tires (2.2"+) for better stability on boardwalks</li>
+                        <li>Use wider tires (2.2&quot;+) for better stability on boardwalks</li>
                         <li>Be cautious on boardwalks when wet, as they can become slippery</li>
                         <li>Respect wildlife and maintain a safe distance if encountered</li>
                       </ul>
@@ -434,7 +435,7 @@ export default function CarterRoadTrailPage() {
                       <h3 className="text-xl font-semibold text-white mb-3">Recommended Gear</h3>
                       <ul className="list-disc pl-5 text-gray-300 space-y-2">
                         <li>Hardtail or short-travel full suspension bike works well</li>
-                        <li>Wider tires (2.2-2.6") provide stability on various surfaces</li>
+                        <li>Wider tires (2.2-2.6&quot;) provide stability on various surfaces</li>
                         <li>Hydration pack with at least 2 liters of water</li>
                         <li>Basic tool kit including spare tube and patch kit</li>
                         <li>Sunscreen and insect repellent</li>
@@ -555,7 +556,7 @@ export default function CarterRoadTrailPage() {
           <div className="border-t border-gray-700 py-16">
             <div className="max-w-4xl mx-auto text-center px-4">
               <h2 className="text-3xl font-bold text-white mb-4">Ready to Ride Carter Road?</h2>
-              <p className="text-xl text-white opacity-90 mb-8">Experience the natural beauty of Florida's diverse ecosystems on two wheels.</p>
+              <p className="text-xl text-white opacity-90 mb-8">Experience Florida&apos;s diverse ecosystems on two wheels.</p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Link href="/trails" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition-colors">
                   Explore More Trails

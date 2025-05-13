@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 // Combine trail data into one list
 const trails = [
@@ -9,7 +11,6 @@ const trails = [
   { name: "Santos & Vortex", difficulty: "Intermediate" },
   { name: "Mount Dora", difficulty: "Advanced" },
   { name: "Alafia", difficulty: "Intermediate" },
-  { name: "18 Road", difficulty: "Beginner" },
   { name: "Carter Road", difficulty: "Intermediate" },
   { name: "49th Ave Trailhead", difficulty: "Advanced" },
 ];
@@ -41,11 +42,6 @@ export function Navbar() {
     closeTimeoutRef.current = setTimeout(() => {
       setTrailsMenuOpen(false);
     }, 300); // 300ms delay before closing
-  };
-
-  // Click handler for the button
-  const toggleTrailsMenu = () => {
-    setTrailsMenuOpen(!trailsMenuOpen);
   };
 
   // Clean up timeout on unmount
@@ -93,34 +89,38 @@ export function Navbar() {
             </div>
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex shrink-0 items-center">
-                <img
+                <Image
                   src="/bikeicon.png"
                   alt="Bike Icon"
+                  width={48}
+                  height={48}
                   className="h-12 w-auto brightness-0 invert"
                 />
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4 h-full items-center">
-                  <a href="/" className="rounded-md bg-gray-900 px-3 py-2 text-base font-bold text-gradient from-gray-300 via-green-700 to-gray-500" aria-current="page">CENFLO MTB CONNECTION</a>
-                  <a href="/trails" className="rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Trails Directory</a>
+                  <Link href="/" className="rounded-md bg-gray-900 px-3 py-2 text-base font-bold text-gradient from-gray-300 via-green-700 to-gray-500" aria-current="page">CENFLO MTB CONNECTION</Link>
                   
                   {/* Trails Menu Dropdown */}
                   <div 
-                    className="relative" 
+                    className="relative"
                     onMouseEnter={handleTrailsMenuEnter}
                     onMouseLeave={handleTrailsMenuLeave}
                     ref={trailsMenuRef}
                   >
-                    <button 
-                      className="rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white flex items-center"
-                      onClick={toggleTrailsMenu}
+                    <Link
+                      href="/trails"
+                      className="rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white flex items-center cursor-pointer"
                       aria-expanded={trailsMenuOpen}
+                      onClick={() => setTrailsMenuOpen(false)}
+                      tabIndex={0}
+                      onMouseDown={e => e.stopPropagation()}
                     >
-                      Mountain Bike Trails
+                      MTB Trails
                       <svg className="ml-1 h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                       </svg>
-                    </button>
+                    </Link>
                     
                     {/* Dropdown Menu */}
                     <div 
@@ -133,7 +133,7 @@ export function Navbar() {
                       <div className="py-2 px-3">
                         <div className="space-y-1">
                           {trails.map((trail) => (
-                            <a 
+                            <Link 
                               key={trail.name}
                               href={`/trails/${trail.name.toLowerCase().replace(/\s+/g, '-')}`}
                               className={`
@@ -156,14 +156,14 @@ export function Navbar() {
                                   {trail.difficulty}
                                 </span>
                               </div>
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       </div>
                     </div>
                   </div>
                   
-                  <a href="#" className="rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
+                  <Link href="/trails/buy-sell-trade" className="rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Buy/Sell/Trade</Link>
                 </div>
               </div>
             </div>
@@ -189,26 +189,21 @@ export function Navbar() {
                   >
                     <span className="absolute -inset-1.5"></span>
                     <span className="sr-only">Open user menu</span>
-                    <img className="size-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                    <Image 
+                      className="size-8 rounded-full" 
+                      width={32} 
+                      height={32} 
+                      src="/usergreen.png" 
+                      alt="User profile" 
+                    />
                   </button>
                 </div>
 
-                {/*
-                  Dropdown menu, show/hide based on menu state.
-
-                  Entering: "transition ease-out duration-100"
-                    From: "transform opacity-0 scale-95"
-                    To: "transform opacity-100 scale-100"
-                  Leaving: "transition ease-in duration-75"
-                    From: "transform opacity-100 scale-100"
-                    To: "transform opacity-0 scale-95"
-                */}
                 {isOpen && (
                   <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex={-1}>
-                    {/* Active: "bg-gray-100 outline-hidden", Not Active: "" */}
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex={-1} id="user-menu-item-0">Your Profile</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex={-1} id="user-menu-item-1">Settings</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex={-1} id="user-menu-item-2">Sign out</a>
+                    <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabIndex={-1} id="user-menu-item-0">Your Profile</Link>
+                    <Link href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabIndex={-1} id="user-menu-item-1">Settings</Link>
+                    <Link href="/signout" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabIndex={-1} id="user-menu-item-2">Sign out</Link>
                   </div>
                 )}
               </div>
@@ -220,11 +215,9 @@ export function Navbar() {
         {mobileMenuOpen && (
           <div className="sm:hidden" id="mobile-menu">
             <div className="space-y-1 px-2 pt-2 pb-3">
-              {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-              <a href="#" className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" aria-current="page">Dashboard</a>
-              <a href="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</a>
-              <a href="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Projects</a>
-              <a href="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
+              <Link href="/" className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" aria-current="page">Home</Link>
+              <Link href="/trails" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Trails Directory</Link>
+              <Link href="/trails/buy-sell-trade" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Buy/Sell/Trade</Link>
             </div>
           </div>
         )}

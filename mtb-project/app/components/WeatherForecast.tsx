@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 
 
@@ -18,39 +19,44 @@ interface WeatherForecastProps {
   apiKey: string;
 }
 
+// Add this helper function after the interfaces
+const ensureAbsoluteUrl = (url: string) => {
+  if (url.startsWith('//')) {
+    return `https:${url}`;
+  }
+  return url;
+};
+
+// Add proper types for the API response
+interface WeatherAPIResponse {
+  forecast: {
+    forecastday: {
+      date: string;
+      day: {
+        condition: {
+          icon: string;
+        };
+        maxtemp_f: number;
+        mintemp_f: number;
+      };
+      hour: Array<{
+        time: string;
+        temp_f: number;
+        condition: {
+          icon: string;
+          text: string;
+        };
+      }>;
+    }[];
+  };
+}
+
 export default function WeatherForecast({ location, latitude, longitude, apiKey }: WeatherForecastProps) {
   const [weatherData, setWeatherData] = useState<WeatherDay[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string>('');
   const [hourlyData, setHourlyData] = useState<{ time: string; temp: number; icon: string; text: string }[]>([]);
-
-  // Helper function to get proper weather icon
-  const getWeatherIcon = (conditionCode: string): string => {
-    // Map OpenWeatherMap condition codes to emojis
-    const iconMap: Record<string, string> = {
-      '01d': '☀️', // clear sky day
-      '01n': '🌙', // clear sky night
-      '02d': '⛅', // few clouds day
-      '02n': '☁️', // few clouds night
-      '03d': '☁️', // scattered clouds
-      '03n': '☁️',
-      '04d': '☁️', // broken clouds
-      '04n': '☁️',
-      '09d': '🌧️', // shower rain
-      '09n': '🌧️',
-      '10d': '🌦️', // rain day
-      '10n': '🌧️', // rain night
-      '11d': '⛈️', // thunderstorm
-      '11n': '⛈️',
-      '13d': '❄️', // snow
-      '13n': '❄️',
-      '50d': '🌫️', // mist
-      '50n': '🌫️',
-    };
-
-    return iconMap[conditionCode] || '🌤️';
-  };
 
   // Function to get day name
   const getDayName = (dateStr: string): string => {
@@ -99,23 +105,24 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
           throw new Error(`API responded with status ${response.status}: ${errorText}`);
         }
         
-        const data = await response.json();
+        const data = (await response.json()) as WeatherAPIResponse;
         console.log('Weather data received successfully');
         
         // Process WeatherAPI data format
-        const todayDate = data.forecast.forecastday[0].date;
+        const forecastDays = data.forecast.forecastday;
+        const todayDate = forecastDays[0].date;
         const todayWeekday = getDayName(todayDate);
         const processedData: WeatherDay[] = [
           {
             day: 'Today',
-            icon: data.forecast.forecastday[0].day.condition.icon,
-            high: Math.round(data.forecast.forecastday[0].day.maxtemp_f),
-            low: Math.round(data.forecast.forecastday[0].day.mintemp_f),
+            icon: forecastDays[0].day.condition.icon,
+            high: Math.round(forecastDays[0].day.maxtemp_f),
+            low: Math.round(forecastDays[0].day.mintemp_f),
           },
-          ...data.forecast.forecastday
+          ...forecastDays
             .slice(1)
-            .filter((day: any) => day.date !== todayDate && getDayName(day.date) !== todayWeekday)
-            .map((day: any) => ({
+            .filter((day) => day.date !== todayDate && getDayName(day.date) !== todayWeekday)
+            .map((day) => ({
               day: getDayName(day.date),
               icon: day.day.condition.icon,
               high: Math.round(day.day.maxtemp_f),
@@ -124,7 +131,7 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
         ];
 
         // For hourly forecast (for today)
-        const todayHourly = data.forecast.forecastday[0]?.hour.map((hour: any) => ({
+        const todayHourly = forecastDays[0]?.hour.map((hour) => ({
           time: hour.time.split(' ')[1], // "HH:MM"
           temp: Math.round(hour.temp_f),
           icon: hour.condition.icon,
@@ -137,26 +144,27 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
         // Format current time for "last updated"
         const now = new Date();
         setLastUpdated(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (timeoutId) clearTimeout(timeoutId);
         
-        if (err.name === 'AbortError') {
-          console.error('API request timeout');
-          throw new Error('Weather API request timed out');
-        }
-        
-        console.error('Error fetching weather data:', err);
-        let errorMessage = 'Could not load weather data';
-        
         if (err instanceof Error) {
-          errorMessage = err.message;
+          if (err.name === 'AbortError') {
+            console.error('API request timeout');
+            throw new Error('Weather API request timed out');
+          }
+          
+          console.error('Error fetching weather data:', err);
+          let errorMessage = err.message;
+          
           // Don't show API key errors to users
           if (errorMessage.includes('API key')) {
             errorMessage = 'Weather API not configured correctly';
           }
+          
+          setError(errorMessage);
+        } else {
+          setError('An unexpected error occurred');
         }
-        
-        setError(errorMessage);
         
         // Fallback to default values
         setWeatherData([
@@ -213,7 +221,7 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
               {weatherData.map((day, index) => (
                 <div key={index} className="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
                   <div className="flex items-center">
-                    <img src={day.icon} alt="weather icon" className="w-8 h-8 mr-3 inline-block" />
+                    <Image src={ensureAbsoluteUrl(day.icon)} alt="weather icon" width={32} height={32} className="w-8 h-8 mr-3 inline-block" />
                     <span className="text-white">{day.day}</span>
                   </div>
                   <div className="text-white">{day.high}° / {day.low}°</div>
@@ -232,12 +240,12 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
       {/* Hourly Forecast for Today */}
       {hourlyData.length > 0 && (
         <>
-          <h4 className="text-lg font-semibold text-white mt-8 mb-2">Today's Hourly Forecast</h4>
+          <h4 className="text-lg font-semibold text-white mt-8 mb-2">Today&apos;s Hourly Forecast</h4>
           <div className="flex overflow-x-auto space-x-4 pb-2">
             {hourlyData.map((hour, idx) => (
               <div key={idx} className="flex flex-col items-center bg-gray-700 rounded-lg px-2 py-3 min-w-[70px]">
                 <span className="text-xs text-gray-300">{hour.time}</span>
-                <img src={hour.icon} alt={hour.text} className="w-8 h-8 my-1" />
+                <Image src={ensureAbsoluteUrl(hour.icon)} alt={hour.text} width={32} height={32} className="w-8 h-8 my-1" />
                 <span className="text-white font-medium">{hour.temp}°</span>
               </div>
             ))}

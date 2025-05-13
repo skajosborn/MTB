@@ -28,7 +28,7 @@ export default function CroomTrailPage() {
             Advanced Difficulty
           </div>
           <p className="text-xl text-white max-w-2xl mx-auto">
-            Explore Florida's premier mountain biking destination with over 50 miles of diverse terrain
+            Explore Florida&apos;s premier mountain biking destination with over 50 miles of diverse terrain
           </p>
         </div>
       </div>
@@ -114,7 +114,7 @@ export default function CroomTrailPage() {
               <h2 className="text-3xl font-bold text-white mb-6">About Croom</h2>
               <div className="prose prose-invert max-w-none">
                 <p className="text-gray-300 text-lg mb-4">
-                  Croom Mountain Bike Trail Park, nestled within Florida's Withlacoochee State Forest, offers over 50 miles of diverse singletrack trails. Managed by the SWAMP Mountain Bike Club, the park features a variety of terrains, including rolling hills, pine flatwoods, and challenging sections with steep climbs and technical features.
+                  Croom Mountain Bike Trail Park, nestled within Florida&apos;s Withlacoochee State Forest, offers over 50 miles of diverse singletrack trails. Managed by the SWAMP Mountain Bike Club, the park features a variety of terrains, including rolling hills, pine flatwoods, and challenging sections with steep climbs and technical features.
                 </p>
                 <p className="text-gray-300 text-lg mb-4">
                   The trail system is designed to cater to riders of all skill levels, from beginners to seasoned experts. Located in the Withlacoochee State Forest, Croom features unique landscape with small hills and varied topography unusual for Florida.
@@ -249,7 +249,7 @@ export default function CroomTrailPage() {
             <div className="mt-10 bg-gray-800 rounded-lg p-6 shadow-lg">
               <h3 className="text-xl font-semibold text-white mb-3">Beginner Tips</h3>
               <ul className="list-disc pl-5 text-gray-300 space-y-2">
-                <li>Start with the South Blue Trail if you're completely new to mountain biking</li>
+                <li>Start with the South Blue Trail if you&apos;re completely new to mountain biking</li>
                 <li>Bring plenty of water, especially during warmer months</li>
                 <li>Consider joining a guided beginner ride with the SWAMP Mountain Bike Club</li>
                 <li>Check trail conditions before heading out, especially after rain</li>
@@ -623,7 +623,7 @@ export default function CroomTrailPage() {
       <div className="bg-gray-800">
         <div className="max-w-4xl mx-auto text-center py-8 px-4">
           <h2 className="text-3xl font-bold text-white mb-4">Ready to Ride Croom?</h2>
-          <p className="text-xl text-white opacity-90 mb-8">Grab your bike and helmet and experience some of Florida's best trails.</p>
+          <p className="text-xl text-white opacity-90 mb-8">Grab your bike and helmet and experience some of Florida&apos;s best trails.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/trails" className="inline-block bg-white text-green-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-full transition-colors">
               Explore More Trails
