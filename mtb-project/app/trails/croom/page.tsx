@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import WeatherForecast from '../../components/WeatherForecast';
+import { WEATHER_API_KEY, TRAIL_LOCATIONS } from '../../config';
 
 export default function CroomTrailPage() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -188,21 +190,13 @@ export default function CroomTrailPage() {
                 </div>
               </div>
               
-              {/* Trail Location Map */}
-              <div className="mt-6">
-                <h3 className="text-xl font-bold mb-3 text-white">Trail Location</h3>
-                <div className="rounded-lg overflow-hidden shadow-lg">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14048.609155217813!2d-82.30127323022462!3d28.542212200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e840c22da7b915%3A0xb79b2387345f868a!2sCroom%20Motorcycle%20Area!5e0!3m2!1sen!2sus!4v1717528158099!5m2!1sen!2sus"
-                    width="100%"
-                    height="400"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  ></iframe>
-                </div>
-              </div>
+              {/* Weather Forecast */}
+              <WeatherForecast 
+                location={TRAIL_LOCATIONS.croom.name}
+                latitude={TRAIL_LOCATIONS.croom.latitude}
+                longitude={TRAIL_LOCATIONS.croom.longitude}
+                apiKey={WEATHER_API_KEY}
+              />
             </div>
           </div>
         )}
@@ -572,6 +566,55 @@ export default function CroomTrailPage() {
             fill
             className="object-cover hover:scale-105 transition-transform"
           />
+        </div>
+      </div>
+      
+      {/* Maps & Directions Section */}
+      <div className="max-w-7xl mx-auto px-4 py-8 mt-8">
+        <div className="flex items-center mb-6">
+          <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center mr-4">
+            <span className="text-white text-xl">🗺️</span>
+          </div>
+          <h2 className="text-3xl font-bold text-white">Maps & Directions</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Map */}
+          <div>
+            <h3 className="text-xl font-bold mb-4 text-white">Trail Location</h3>
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14048.609155217813!2d-82.30127323022462!3d28.542212200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e840c22da7b915%3A0xb79b2387345f868a!2sCroom%20Motorcycle%20Area!5e0!3m2!1sen!2sus!4v1717528158099!5m2!1sen!2sus"
+                width="100%"
+                height="400"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </div>
+          
+          {/* Directions */}
+          <div>
+            <h3 className="text-xl font-bold mb-4 text-white">Driving Directions</h3>
+            <div className="bg-gray-800 rounded-lg p-6 shadow-lg">
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-semibold text-gray-300">From Tampa:</h4>
+                  <p className="text-gray-400">Take I-75 North to exit 301 (SR-50). Head east on SR-50 for approximately 12 miles. Turn north onto Croom Rital Road, then left onto Croom Road (Forest Road 6). The main trailhead is Tucker Hill Day Use Area.</p>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-300">From Orlando:</h4>
+                  <p className="text-gray-400">Take I-4 West to exit 58 (CR-54/Polk City). Continue west to US-98, then head north to SR-50. Turn left (west) on SR-50, then north on Croom Rital Road, and left on Croom Road (Forest Road 6).</p>
+                </div>
+                <div className="pt-3 flex justify-center">
+                  <a href="https://maps.google.com/?q=Croom+Mountain+Bike+Trails+Brooksville+Florida" target="_blank" rel="noopener noreferrer" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                    Get Directions in Google Maps
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       </div>

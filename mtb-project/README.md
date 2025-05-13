@@ -1,22 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MTB Project - Central Florida Mountain Biking Trails
 
-## Getting Started
+A website showcasing mountain biking trails in Central Florida.
 
-First, run the development server:
+## Features
+
+- Comprehensive trail information
+- Interactive trail maps
+- Weather forecasts for trail locations
+- Photo galleries
+- Mobile-responsive design
+
+## Setup Instructions
+
+### Prerequisites
+
+- Node.js (version 18+)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+### Configuration
+
+#### Weather API Key
+
+The weather forecast component uses the OpenWeatherMap API. To enable weather data:
+
+1. Sign up for a free API key at [OpenWeatherMap](https://openweathermap.org/api)
+2. Create a `.env.local` file in the project root with:
+
+```
+NEXT_PUBLIC_WEATHER_API_KEY=your_api_key_here
+```
+
+3. Restart the development server
+
+If no API key is provided, the weather component will display fallback data.
+
+### Development
+
+Run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
+
+- `app/` - Next.js app directory
+  - `components/` - Reusable UI components
+  - `trails/` - Trail-specific pages
+  - `config.ts` - Configuration settings
+
+## Adding New Trails
+
+To add a new trail:
+
+1. Create a new directory in `app/trails/[trail-name]`
+2. Create a `page.tsx` file based on existing trail pages
+3. Add the trail's weather location in `app/config.ts`
+4. Add the trail to the navigation menu
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
