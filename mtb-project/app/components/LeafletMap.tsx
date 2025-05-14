@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import dynamic from 'next/dynamic';
 
 interface MapProps {
   latitude: number;
@@ -10,11 +9,16 @@ interface MapProps {
   location: string;
 }
 
-export default function LeafletMap({ latitude, longitude, location }: MapProps) {
-  const mapRef = useRef<L.Map | null>(null);
+// Create a dynamic component that loads Leaflet only on the client side
+const LeafletMapComponent = ({ latitude, longitude, location }: MapProps) => {
+  const mapRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Import Leaflet dynamically within useEffect
+    const L = require('leaflet');
+    require('leaflet/dist/leaflet.css');
+
     if (typeof window !== 'undefined' && containerRef.current && !mapRef.current) {
       // Fix for the missing icon issue
       const icon = L.icon({
@@ -85,4 +89,11 @@ export default function LeafletMap({ latitude, longitude, location }: MapProps) 
       </div>
     </div>
   );
-} 
+};
+
+// Export a dynamic component with SSR disabled
+const LeafletMap = dynamic(() => Promise.resolve(LeafletMapComponent), {
+  ssr: false,
+});
+
+export default LeafletMap; 

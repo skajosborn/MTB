@@ -6,11 +6,19 @@ import Link from 'next/link';
 import WeatherDisplay from '@/app/components/WeatherDisplay';
 import LeafletMap from '@/app/components/LeafletMap';
 import WeatherForecast from '@/app/components/WeatherForecast';
+import TrailMap from '@/app/components/TrailMap';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 const TRAIL_COORDS = {
   latitude: 28.745284,
   longitude: -82.435531,
   location: "Citrus Wildlife Management Area, FL"
+};
+
+const trailData = {
+  name: "Carter Road",
+  lat: -82.435531, // Switched to match TrailMap component's expected order
+  lon: 28.745284 // Switched to match TrailMap component's expected order
 };
 
 export default function CarterRoadTrailPage() {
@@ -32,7 +40,7 @@ export default function CarterRoadTrailPage() {
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Carter Road Trail</h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Carter Road</h1>
             <p className="text-xl md:text-2xl text-gray-200">Experience Florida&apos;s Natural Beauty</p>
           </div>
         </div>
@@ -58,7 +66,18 @@ export default function CarterRoadTrailPage() {
               <div className="text-sm text-gray-400">Managed By</div>
               <div className="font-medium">Florida Trail Association</div>
             </div>
+            <div>
+              
+            </div>
           </div>
+        </div>
+      </div> 
+
+      {/* Trail Map Explorer */}
+      <div className="bg-gray-900 py-12">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <h2 className="text-3xl font-bold text-white mb-6">Explore Trails</h2>
+          <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
         </div>
       </div>
 
@@ -115,7 +134,7 @@ export default function CarterRoadTrailPage() {
                   <h2 className="text-3xl font-bold text-white mb-6">About Carter Road</h2>
                   <div className="prose prose-invert max-w-none">
                     <p className="text-gray-300 text-lg mb-4">
-                      Carter Road Trail is located in the Citrus Wildlife Management Area, offering a unique riding experience through the beautiful Florida swamplands. The trail provides a distinctive blend of scenic wetlands, pine forests, and occasional technical sections.
+                      Carter Road (Loyce E. Harpe Park) is located in the Citrus Wildlife Management Area, offering a unique riding experience through the beautiful Florida swamplands. The trail provides a distinctive blend of scenic wetlands, pine forests, and occasional technical sections.
                     </p>
                     <p className="text-gray-300 text-lg mb-4">
                       Known for its natural beauty, this singletrack trail winds through diverse ecosystems with wooden boardwalks crossing over wetland areas. Riders can expect to see abundant wildlife including birds, turtles, and occasionally alligators from a safe distance.
@@ -124,7 +143,113 @@ export default function CarterRoadTrailPage() {
                       The trail system ranges from easy to intermediate difficulty, making it accessible to a wide range of riders. Some sections can become challenging after heavy rainfall, so checking trail conditions before visiting is recommended.
                     </p>
                   </div>
+                  
+                  <h3 className="text-xl font-bold mt-20 mb-4 text-white">Trail Location</h3>
+              <LeafletMap
+                latitude={TRAIL_COORDS.latitude}
+                longitude={TRAIL_COORDS.longitude}
+                location={TRAIL_COORDS.location}
+              />
+
+                  {/* <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
+                  <div className="relative h-88">
+                    <Image
+                      src="/rocks.jpg" 
+                      alt="Rocky Technical Section"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  </div> */}
                 
+                  {/* Trail Difficulty Section */}
+                  <div className="mt-20 mb-10">
+                    <h3 className="text-2xl font-bold text-white mb-6">Trail Difficulty Levels</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {/* Beginner Trails */}
+                      <div className="relative group">
+                        <div className="bg-green-600 rounded-lg p-4 cursor-pointer transition-all duration-300 hover:bg-green-700">
+                          <h4 className="text-xl font-semibold text-white text-center">Beginner</h4>
+                        </div>
+                        <div className="absolute z-10 hidden group-hover:block w-full bg-gray-800 rounded-lg mt-2 p-4 shadow-lg">
+                          <ul className="space-y-2 text-gray-300">
+                            <li>Pine Needle Loop (1.2 miles)</li>
+                            <li>Cypress Trail (0.8 miles)</li>
+                            <li>Nature Walk (1.5 miles)</li>
+                            <li>Boardwalk Trail (0.5 miles)</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      {/* Intermediate Trails */}
+                      <div className="relative group">
+                        <div className="bg-blue-600 rounded-lg p-4 cursor-pointer transition-all duration-300 hover:bg-blue-700">
+                          <h4 className="text-xl font-semibold text-white text-center">Intermediate</h4>
+                        </div>
+                        <div className="absolute z-10 hidden group-hover:block w-full bg-gray-800 rounded-lg mt-2 p-4 shadow-lg">
+                          <ul className="space-y-2 text-gray-300">
+                            <li>Ridge Runner (2.5 miles)</li>
+                            <li>Swamp Connect (1.8 miles)</li>
+                            <li>Oak Hammock (2.0 miles)</li>
+                            <li>Palmetto Pass (1.7 miles)</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      {/* Advanced Trails */}
+                      <div className="relative group">
+                        <div className="bg-red-600 rounded-lg p-4 cursor-pointer transition-all duration-300 hover:bg-red-700">
+                          <h4 className="text-xl font-semibold text-white text-center">Advanced</h4>
+                        </div>
+                        <div className="absolute z-10 hidden group-hover:block w-full bg-gray-800 rounded-lg mt-2 p-4 shadow-lg">
+                          <ul className="space-y-2 text-gray-300">
+                            <li>Technical Loop (3.0 miles)</li>
+                            <li>Rock Garden (1.2 miles)</li>
+                            <li>Root Run (2.2 miles)</li>
+                            <li>Challenge Trail (2.8 miles)</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Interactive 3D Trail Map */}
+                  {trailData.lat && trailData.lon && (
+                    <div className="mb-10">
+                      <h3 className="text-2xl font-bold text-white mb-6">Interactive 3D Map</h3>
+                      <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                        <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Trail Map */}
+              <div className="relative h-148 mb-20">
+                    <Image
+                      src="/cartermap.jpg" 
+                      alt="Open Prairie Crossing"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+
+                  {/* Video Section */}
+                  <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
+                    <div className="aspect-video w-full">
+                      <iframe
+                        src="https://www.youtube.com/embed/2wKBkxN0PDo?si=lkNnd3q7t4JsOK8u"
+                        width="100%"
+                        height="100%"
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                        className="w-full h-full"
+                      ></iframe>
+                    </div>
+                  </div>
+                  
                   {/* Trail Maintenance & Community */}
                   <div className="mt-10">
                     <div className="flex items-center mb-4">
@@ -139,7 +264,20 @@ export default function CarterRoadTrailPage() {
                   </div>
                 </div>
                 
-                <div>
+                  {/* <h4 className="text-lg font-semibold text-white mb-3">5-Day Forecast</h4> */}
+
+
+                  {/* Weather Details */}
+                  <div className="ml-10">
+                  <WeatherForecast 
+                  location={TRAIL_COORDS.location}
+                  latitude={TRAIL_COORDS.latitude}
+                  longitude={TRAIL_COORDS.longitude}
+                  apiKey={process.env.NEXT_PUBLIC_WEATHERAPI_KEY || ''}
+                />
+                
+
+                <div className="space-y-6 pt-20">
                   {/* Trail Details Card */}
                   <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
                     <div className="bg-gray-700 px-6 py-4">
@@ -173,32 +311,20 @@ export default function CarterRoadTrailPage() {
                         </div>
                       </div>
                     </div>
+                    </div>
+                    <div>
                   </div>
-                </div>
-              </div>
-              
-              {/* Full-width Video Section */}
-              <div className="w-full mb-12">
-                <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-white text-lg">🎬</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-white">Trail Video</h3>
-                </div>
-                <div className="max-w-4xl mx-auto">
-                  <div className="aspect-video w-full rounded-lg overflow-hidden shadow-2xl">
-                    <iframe
-                      src="https://www.youtube.com/embed/2wKBkxN0PDo?si=lkNnd3q7t4JsOK8u"
-                      width="100%"
-                      height="100%"
-                      title="YouTube video player"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                      className="w-full h-full"
-                    ></iframe>
-                  </div>
+
+                  {/* Weather Card */}
+                  {/* <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mt-8">
+                    <div className="bg-gray-700 px-6 py-4">
+                      <h3 className="text-xl font-bold text-white">Current Weather</h3>
+                    </div>
+                    <div className="p-6">
+                      <WeatherDisplay location={TRAIL_COORDS.location} />
+                    </div> */}
+                  {/* </div> */}
                 </div>
               </div>
               
@@ -547,7 +673,24 @@ export default function CarterRoadTrailPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Weather Section */}
-            <WeatherDisplay location={TRAIL_COORDS.location} />
+            <div className="bg-gray-700 rounded-lg p-6 shadow-lg">
+              {/* <h3 className="text-xl font-bold mb-4 text-white">Weather Information</h3> */}
+              {/* Current Weather */}
+              {/* <div className="mb-6">
+                <h4 className="text-lg font-semibold text-white mb-3">Current Conditions</h4>
+                <WeatherDisplay location={TRAIL_COORDS.location} />
+              </div> */}
+              {/* 5-Day Forecast */}
+              <h3 className="text-xl font-bold mb-4 text-white">Trail Map</h3>
+              <div className="relative h-108">
+                    <Image
+                      src="/balmboyettemap.jpg" 
+                      alt="Open Prairie Crossing"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+            </div>
 
             {/* Trail Map Section */}
             <div className="bg-gray-700 rounded-lg p-6 shadow-lg">
@@ -564,7 +707,6 @@ export default function CarterRoadTrailPage() {
                   <p><span className="font-medium">Location:</span> {TRAIL_COORDS.location}</p>
                   <p><span className="font-medium">Coordinates:</span> {TRAIL_COORDS.latitude.toFixed(6)}, {TRAIL_COORDS.longitude.toFixed(6)}</p>
                   <p><span className="font-medium">Parking:</span> Available at main trailhead</p>
-                    Get Directions
                 </div>
               </div>
             </div>

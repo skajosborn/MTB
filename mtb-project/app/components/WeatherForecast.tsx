@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import GoogleMap from './GoogleMap';
 
 
 
@@ -315,15 +314,6 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
           </div>
         </>
       )}
-
-      {/* Replace the OpenStreetMap iframe with GoogleMap component */}
-      <div className="my-6">
-        <GoogleMap
-          latitude={latitude}
-          longitude={longitude}
-          location={location}
-        />
-      </div>
     </div>
   );
 } 

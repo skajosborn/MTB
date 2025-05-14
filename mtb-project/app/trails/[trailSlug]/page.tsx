@@ -16,6 +16,8 @@ type TrailData = {
   image: string;
   mapUrl: string;
   videoUrl?: string;
+  lat?: number;
+  lon?: number;
 }
 
 // Define a type for our trails dictionary
