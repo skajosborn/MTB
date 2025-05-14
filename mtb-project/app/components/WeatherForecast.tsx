@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import GoogleMap from './GoogleMap';
 
 
 
@@ -21,8 +22,15 @@ interface WeatherForecastProps {
 
 // Add this helper function after the interfaces
 const ensureAbsoluteUrl = (url: string) => {
+  if (!url) return '';
   if (url.startsWith('//')) {
     return `https:${url}`;
+  }
+  if (url.startsWith('/')) {
+    return `https://cdn.weatherapi.com${url}`;
+  }
+  if (!url.startsWith('http')) {
+    return `https://cdn.weatherapi.com/weather/64x64/day/${url}`;
   }
   return url;
 };
@@ -70,6 +78,38 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
     return days[date.getDay()];
   };
 
+  // Fallback data
+  const getFallbackData = () => {
+    const now = new Date();
+    setLastUpdated(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    
+    // Set fallback weather data
+    setWeatherData([
+      { day: 'Today', icon: '☀️', high: 82, low: 64 },
+      { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '🌤️', high: 80, low: 62 },
+      { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '🌧️', high: 75, low: 60 },
+      { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '☁️', high: 78, low: 62 },
+      { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '☀️', high: 83, low: 65 }
+    ]);
+
+    // Set fallback hourly data
+    const hours = [];
+    let baseTemp = 75;
+    for (let i = 0; i < 24; i++) {
+      const hour = i.toString().padStart(2, '0') + ':00';
+      // Create a simple temperature curve
+      const temp = baseTemp + Math.sin((i - 6) * Math.PI / 12) * 8;
+      hours.push({
+        time: hour,
+        temp: Math.round(temp),
+        icon: '☀️',
+        text: 'Sunny'
+      });
+    }
+    setHourlyData(hours);
+    setLoading(false);
+  };
+
   useEffect(() => {
     const fetchWeatherData = async () => {
       let timeoutId: NodeJS.Timeout | undefined;
@@ -77,10 +117,11 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
       try {
         setLoading(true);
         
-        // Skip API call if key is placeholder or not provided
-        if (!apiKey || apiKey === 'process.env') {
-          console.log('No valid API key provided, using fallback data');
-          throw new Error('API key not configured');
+        // Skip API call if key is not provided
+        if (!apiKey || apiKey === 'process.env.NEXT_PUBLIC_WEATHERAPI_KEY' || apiKey === '') {
+          console.log('No API key provided, using fallback data');
+          getFallbackData();
+          return;
         }
         
         console.log('Using API key (truncated):', apiKey.substring(0, 5) + '...');
@@ -120,7 +161,7 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
         const processedData: WeatherDay[] = [
           {
             day: 'Today',
-            icon: forecastDays[0].day.condition.icon,
+            icon: `https:${forecastDays[0].day.condition.icon}`,
             high: Math.round(forecastDays[0].day.maxtemp_f),
             low: Math.round(forecastDays[0].day.mintemp_f),
           },
@@ -129,7 +170,7 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
             .filter((day) => day.date !== todayDate && getDayName(day.date) !== todayWeekday)
             .map((day) => ({
               day: getDayName(day.date),
-              icon: day.day.condition.icon,
+              icon: `https:${day.day.condition.icon}`,
               high: Math.round(day.day.maxtemp_f),
               low: Math.round(day.day.mintemp_f),
             }))
@@ -139,7 +180,7 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
         const todayHourly = forecastDays[0]?.hour.map((hour) => ({
           time: hour.time.split(' ')[1], // "HH:MM"
           temp: Math.round(hour.temp_f),
-          icon: hour.condition.icon,
+          icon: `https:${hour.condition.icon}`,
           text: hour.condition.text,
         })) || [];
         setWeatherData(processedData);
@@ -161,7 +202,7 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
         console.error('Error fetching weather data:', error);
         let errorMessage = error.message;
         
-        // Don&apos;t show API key errors to users
+        // Don't show API key errors to users
         if (errorMessage.includes('API key')) {
           errorMessage = 'Weather API not configured correctly';
         }
@@ -223,13 +264,17 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
               {weatherData.map((day, index) => (
                 <div key={index} className="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
                   <div className="flex items-center">
-                    <Image 
-                      src={ensureAbsoluteUrl(day.icon)} 
-                      alt="weather icon" 
-                      width={32} 
-                      height={32} 
-                      className="w-8 h-8 mr-3 inline-block" 
-                    />
+                    {day.icon.includes('cdn.weatherapi.com') ? (
+                      <img 
+                        src={day.icon} 
+                        alt="weather icon" 
+                        className="w-8 h-8 mr-3"
+                        width={32}
+                        height={32}
+                      />
+                    ) : (
+                      <span className="text-2xl mr-3" role="img" aria-label="weather icon">{day.icon}</span>
+                    )}
                     <span className="text-white">{day.day}</span>
                   </div>
                   <div className="text-white">{day.high}° / {day.low}°</div>
@@ -253,13 +298,17 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
             {hourlyData.map((hour, idx) => (
               <div key={idx} className="flex flex-col items-center bg-gray-700 rounded-lg px-2 py-3 min-w-[70px]">
                 <span className="text-xs text-gray-300">{hour.time}</span>
-                <Image 
-                  src={ensureAbsoluteUrl(hour.icon)} 
-                  alt={hour.text} 
-                  width={32} 
-                  height={32} 
-                  className="w-8 h-8 my-1" 
-                />
+                {hour.icon.includes('cdn.weatherapi.com') ? (
+                  <img 
+                    src={hour.icon}
+                    alt={hour.text} 
+                    className="w-8 h-8 my-1"
+                    width={32}
+                    height={32}
+                  />
+                ) : (
+                  <span className="text-2xl my-1" role="img" aria-label={hour.text}>{hour.icon}</span>
+                )}
                 <span className="text-white font-medium">{hour.temp}°</span>
               </div>
             ))}
@@ -267,24 +316,13 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
         </>
       )}
 
-      <div className="my-6 rounded-lg overflow-hidden shadow-lg">
-        <iframe
-          width="100%"
-          height="350"
-          frameBorder="0"
-          scrolling="no"
-          marginHeight={0}
-          marginWidth={0}
-          src="https://www.openstreetmap.org/export/embed.html?bbox=-82.32%2C28.53%2C-82.30%2C28.55&layer=mapnik&marker=28.54%2C-82.31"
-          style={{ border: 0 }}
-          allowFullScreen
-          title="Trail Location Map"
-        ></iframe>
-        <div className="text-xs text-gray-400 text-center mt-1">
-          <a href={`https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}#map=15/${latitude}/${longitude}`} target="_blank" rel="noopener noreferrer">
-            View Larger Map
-          </a>
-        </div>
+      {/* Replace the OpenStreetMap iframe with GoogleMap component */}
+      <div className="my-6">
+        <GoogleMap
+          latitude={latitude}
+          longitude={longitude}
+          location={location}
+        />
       </div>
     </div>
   );

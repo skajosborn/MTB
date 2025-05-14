@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import WeatherForecast from '../../components/WeatherForecast';
+// import WeatherForecast from '../../components/WeatherForecast';
 import { WEATHER_API_KEY, TRAIL_LOCATIONS } from '../../config';
 
 export default function CroomTrailPage() {
@@ -191,12 +191,12 @@ export default function CroomTrailPage() {
               </div>
               
               {/* Weather Forecast */}
-              <WeatherForecast 
+              {/* <WeatherForecast 
                 location={TRAIL_LOCATIONS.croom.name}
                 latitude={TRAIL_LOCATIONS.croom.latitude}
                 longitude={TRAIL_LOCATIONS.croom.longitude}
                 apiKey={WEATHER_API_KEY}
-              />
+              /> */}
             </div>
           </div>
         )}

@@ -1,21 +1,12 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { Navbar } from "./components/navbar";
+import { Inter } from 'next/font/google';
+import { Navbar } from './components/navbar';
+import './globals.css';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ['latin'] });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "CenFlo MTB Trails",
-  description: "Central Florida Mountain Biking Trail Guide",
+export const metadata = {
+  title: 'MTB Project',
+  description: 'Mountain Biking Trails and Community',
 };
 
 export default function RootLayout({
@@ -24,8 +15,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en" className={inter.className}>
+      <head>
+        <script
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
+          defer
+        />
+      </head>
+      <body className="antialiased">
         <Navbar />
         {children}
       </body>
