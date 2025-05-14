@@ -17,8 +17,8 @@ const TRAIL_COORDS = {
 
 const trailData = {
   name: "Carter Road",
-  lat: -82.435531, // Switched to match TrailMap component's expected order
-  lon: 28.745284 // Switched to match TrailMap component's expected order
+  lon: -82.435531,  // longitude
+  lat: 28.745284    // latitude
 };
 
 export default function CarterRoadTrailPage() {
@@ -144,12 +144,12 @@ export default function CarterRoadTrailPage() {
                     </p>
                   </div>
                   
-                  <h3 className="text-xl font-bold mt-20 mb-4 text-white">Trail Location</h3>
+                  {/* <h3 className="text-xl font-bold mt-20 mb-4 text-white">Trail Location</h3>
               <LeafletMap
                 latitude={TRAIL_COORDS.latitude}
                 longitude={TRAIL_COORDS.longitude}
                 location={TRAIL_COORDS.location}
-              />
+              /> */}
 
                   {/* <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
                   <div className="relative h-88">
@@ -694,12 +694,12 @@ export default function CarterRoadTrailPage() {
 
             {/* Trail Map Section */}
             <div className="bg-gray-700 rounded-lg p-6 shadow-lg">
-              <h3 className="text-xl font-bold mb-4 text-white">Trail Location</h3>
+              {/* <h3 className="text-xl font-bold mb-4 text-white">Trail Location</h3>
               <LeafletMap
                 latitude={TRAIL_COORDS.latitude}
                 longitude={TRAIL_COORDS.longitude}
                 location={TRAIL_COORDS.location}
-              />
+              /> */}
               {/* Trail Info */}
               <div className="mt-4 bg-gray-600 rounded-lg p-4">
                 <h4 className="text-lg font-semibold text-white mb-2">Trail Information</h4>

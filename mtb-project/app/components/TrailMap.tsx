@@ -14,20 +14,21 @@ type Props = {
   export default function TrailMap({ lat, lon, name }: Props) {
   const mapContainerRef = useRef(null);
   const [mapStyle, setMapStyle] = useState('mapbox://styles/mapbox/outdoors-v12');
+  const [is3D, setIs3D] = useState(false);
 
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current!,
       style: mapStyle,
-      center: [lat, lon], // Example coords for Balm Boyette
+      center: [lon, lat],
       zoom: 13,
-      pitch: mapStyle.includes('3d') ? 60 : 0,
-      bearing: -17.6,
+      pitch: is3D ? 60 : 0,
+      bearing: is3D ? -17.6 : 0,
       antialias: true,
     });
 
     map.on('load', () => {
-      // DEM source for 3D terrain
+      // Add terrain source
       map.addSource('mapbox-dem', {
         type: 'raster-dem',
         url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
@@ -35,33 +36,71 @@ type Props = {
         maxzoom: 14,
       });
 
-      if (mapStyle.includes('3d')) {
-        map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 });
-        map.addLayer({
-          id: 'hillshade',
-          type: 'hillshade',
+      // Add sky layer
+      map.addLayer({
+        id: 'sky',
+        type: 'sky',
+        paint: {
+          'sky-type': 'atmosphere',
+          'sky-atmosphere-sun': [0.0, 90.0],
+          'sky-atmosphere-sun-intensity': 15,
+        },
+      });
+
+      if (is3D) {
+        map.setTerrain({ 
           source: 'mapbox-dem',
-          layout: {},
-          paint: {},
+          exaggeration: 1.5
+        });
+        
+        map.addLayer({
+          id: 'hillshading',
+          source: 'mapbox-dem',
+          type: 'hillshade',
+          paint: {
+            'hillshade-illumination-anchor': 'viewport',
+            'hillshade-exaggeration': 0.5,
+          },
         });
       }
 
+      // Add marker
       new mapboxgl.Marker()
-      .setLngLat([lon, lat])
-      .setPopup(new mapboxgl.Popup().setText(name))
-      .addTo(map);
+        .setLngLat([lon, lat])
+        .setPopup(new mapboxgl.Popup().setText(name))
+        .addTo(map);
     });
 
     return () => map.remove();
-  }, [mapStyle]);
+  }, [lat, lon, name, mapStyle, is3D]);
+
+  const toggle2D = () => {
+    setMapStyle('mapbox://styles/mapbox/outdoors-v12');
+    setIs3D(false);
+  };
+
+  const toggle3D = () => {
+    setMapStyle('mapbox://styles/mapbox/satellite-v9');
+    setIs3D(true);
+  };
 
   return (
     <div>
       <div className="flex justify-center gap-4 mb-2">
-        <button onClick={() => setMapStyle('mapbox://styles/mapbox/outdoors-v12')}>2D Map</button>
-        <button onClick={() => setMapStyle('mapbox://styles/mapbox/satellite-streets-v12-3d')}>3D Map</button>
+        <button 
+          className={`px-4 py-2 text-white rounded transition-colors ${!is3D ? 'bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}
+          onClick={toggle2D}
+        >
+          2D Map
+        </button>
+        <button 
+          className={`px-4 py-2 text-white rounded transition-colors ${is3D ? 'bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}
+          onClick={toggle3D}
+        >
+          3D Satellite
+        </button>
       </div>
-      <div ref={mapContainerRef} className="w-full h-[500px]" />
+      <div ref={mapContainerRef} className="w-full h-[500px] rounded-lg" />
     </div>
   );
 }
