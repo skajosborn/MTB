@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 interface MapProps {
   latitude: number;
@@ -11,14 +13,19 @@ interface MapProps {
 
 // Create a dynamic component that loads Leaflet only on the client side
 const LeafletMapComponent = ({ latitude, longitude, location }: MapProps) => {
-  const mapRef = useRef<any>(null);
+  const mapRef = useRef<L.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleGetDirections = () => {
+    // Example: open Google Maps directions in a new tab
+    window.open(
+      `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`,
+      '_blank'
+    );
+  };
 
   useEffect(() => {
     // Import Leaflet dynamically within useEffect
-    const L = require('leaflet');
-    require('leaflet/dist/leaflet.css');
-
     if (typeof window !== 'undefined' && containerRef.current && !mapRef.current) {
       // Fix for the missing icon issue
       const icon = L.icon({
@@ -87,6 +94,18 @@ const LeafletMapComponent = ({ latitude, longitude, location }: MapProps) => {
           View Larger Map
         </a>
       </div>
+      <button
+        style={{ zIndex: 1000, position: 'relative' }}
+        onClick={() => alert('Button works!')}
+      >
+        Test Button
+      </button>
+      <button
+        className="px-4 py-2 text-white rounded bg-green-700 hover:bg-green-800"
+        onClick={handleGetDirections}
+      >
+        Get Directions
+      </button>
     </div>
   );
 };

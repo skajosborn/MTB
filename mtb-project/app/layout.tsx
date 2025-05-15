@@ -1,12 +1,22 @@
-import { Inter } from 'next/font/google';
-import { Navbar } from './components/navbar';
-import './globals.css';
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import { Navbar } from "./components/navbar";
+import Script from "next/script";
 
-const inter = Inter({ subsets: ['latin'] });
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 
-export const metadata = {
-  title: 'MTB Project',
-  description: 'Mountain Biking Trails and Community',
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "CenFlo MTB Trails",
+  description: "Central Florida Mountain Biking Trail Guide",
 };
 
 export default function RootLayout({
@@ -15,12 +25,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" />
-        <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+        <Script
+          id="google-maps"
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=marker`}
+          strategy="beforeInteractive"
+        />
       </head>
-      <body className="antialiased">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar />
         {children}
       </body>

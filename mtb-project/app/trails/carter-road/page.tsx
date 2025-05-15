@@ -1,13 +1,30 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import WeatherDisplay from '@/app/components/WeatherDisplay';
-import LeafletMap from '@/app/components/LeafletMap';
+// import Link from 'next/link';
+// import WeatherDisplay from '@/app/components/WeatherDisplay';
+// import LeafletMap from '@/app/components/LeafletMap';
 import WeatherForecast from '@/app/components/WeatherForecast';
 import TrailMap from '@/app/components/TrailMap';
+import TrailDifficulty from '@/app/components/TrailDifficulty';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import dynamic from 'next/dynamic';
+import RadialMenu from '@/app/components/RadialMenu';
+
+const amenities = [
+  { icon: '🅿️', label: 'Free Parking', color: 'text-white' },
+  { icon: '🚻', label: 'Restrooms', color: 'text-white' },
+  { icon: '🪑', label: 'Picnic Tables', color: 'text-white' },
+  { icon: '🚰', label: 'Water Available', color: 'text-white' },
+  { icon: '💰', label: 'Free Entry', color: 'text-white' },
+];
+
+const restrictions = [
+  { icon: '🐕', label: 'No Dogs', color: 'text-white' },
+  { icon: '🌙', label: 'No Night Riding', color: 'text-white' },
+  { icon: '🚫', label: 'No Motorized Vehicles', color: 'text-white' },
+];
 
 const TRAIL_COORDS = {
   latitude: 28.745284,
@@ -21,9 +38,21 @@ const trailData = {
   lat: 28.745284    // latitude
 };
 
+
 export default function CarterRoadTrailPage() {
   const [activeTab, setActiveTab] = useState('overview');
-  
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => { setHasMounted(true); }, []);
+
+  const handleGetDirections = () => {
+    window.open(
+      `https://www.google.com/maps/dir/?api=1&destination=${trailData.lat},${trailData.lon}`,
+      '_blank'
+    );
+  };
+
+  if (!hasMounted) return null;
+
   return (
     <main className="min-h-screen bg-gray-900">
       {/* Hero Section */}
@@ -47,9 +76,9 @@ export default function CarterRoadTrailPage() {
       </section>
 
       {/* Stats Bar */}
-      <div className="bg-gray-800 text-white py-4 w-full">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+      <div className="bg-gray-800 text-white pb-4 pt-4 w-full">
+        <div className="max-w-[90%] mx-auto px-4 md:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 text-center items-center">
             <div>
               <div className="text-sm text-gray-400">Location</div>
               <div className="font-medium">Citrus Wildlife Mgmt Area, FL</div>
@@ -66,175 +95,91 @@ export default function CarterRoadTrailPage() {
               <div className="text-sm text-gray-400">Managed By</div>
               <div className="font-medium">Florida Trail Association</div>
             </div>
-            <div>
-              
+            <div className="mt-1">
+              <RadialMenu />
             </div>
           </div>
         </div>
       </div> 
 
-      {/* Trail Map Explorer */}
-      <div className="bg-gray-900 py-12">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <h2 className="text-3xl font-bold text-white mb-6">Explore Trails</h2>
-          <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
-        </div>
-      </div>
+    
 
       {/* Navigation Tabs */}
-      <div className="bg-gray-900 sticky top-20 z-30 w-full">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="flex overflow-x-auto py-2 space-x-6 text-gray-300 no-scrollbar">
-            <button 
-              onClick={() => setActiveTab('overview')}
-              className={`whitespace-nowrap px-1 py-2 font-medium border-b-2 transition-colors ${
-                activeTab === 'overview' ? 'border-green-500 text-white' : 'border-transparent hover:text-white'
-              }`}
-            >
-              Overview
-            </button>
-            <button 
-              onClick={() => setActiveTab('beginner')}
-              className={`whitespace-nowrap px-1 py-2 font-medium border-b-2 transition-colors ${
-                activeTab === 'beginner' ? 'border-green-500 text-white' : 'border-transparent hover:text-white'
-              }`}
-            >
-              Trail Features
-            </button>
-            <button 
-              onClick={() => setActiveTab('intermediate')}
-              className={`whitespace-nowrap px-1 py-2 font-medium border-b-2 transition-colors ${
-                activeTab === 'intermediate' ? 'border-blue-500 text-white' : 'border-transparent hover:text-white'
-              }`}
-            >
-              Riding Tips
-            </button>
-            <button 
-              onClick={() => setActiveTab('amenities')}
-              className={`whitespace-nowrap px-1 py-2 font-medium border-b-2 transition-colors ${
-                activeTab === 'amenities' ? 'border-gray-300 text-white' : 'border-transparent hover:text-white'
-              }`}
-            >
-              Access & Amenities
-            </button>
+      <div className="bg-gray-900 sticky top-20 z-30 w-full border-b border-gray-700" style={{ overflow: 'visible' }}>
+        <div className="max-w-[90%] mx-auto px-4 md:px-8">
+          <div className="flex items-center py-4">
+            <div className="flex flex-grow space-x-8 text-gray-300 overflow-x-auto no-scrollbar">
+              <button 
+                onClick={() => setActiveTab('overview')}
+                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'overview' 
+                    ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg' 
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                }`}
+              >
+                Overview
+              </button>
+              <button 
+                onClick={() => setActiveTab('beginner')}
+                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'beginner'
+                    ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                }`}
+              >
+                Trail Features
+              </button>
+              <button 
+                onClick={() => setActiveTab('intermediate')}
+                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'intermediate'
+                    ? 'bg-gray-800 text-white border-b-2 border-blue-500 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                }`}
+              >
+                Riding Tips
+              </button>
+              <button 
+                onClick={() => setActiveTab('amenities')}
+                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'amenities'
+                    ? 'bg-gray-800 text-white border-b-2 border-gray-300 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                }`}
+              >
+                Access & Amenities
+              </button>
+            </div>
           </div>
         </div>
       </div>
-
+      
       {/* Main Content */}
       <div className="w-full">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+        
+        <div className="max-w-[90%] mx-auto px-4 md:px-8 py-10">
           {/* Tab content */}
           {activeTab === 'overview' && (
-            <div className="flex flex-col">
-              {/* Two-column layout for About section and Trail Details */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-10">
-                <div className="lg:col-span-2">
-                  {/* About Section */}
-                  <h2 className="text-3xl font-bold text-white mb-6">About Carter Road</h2>
-                  <div className="prose prose-invert max-w-none">
-                    <p className="text-gray-300 text-lg mb-4">
-                      Carter Road (Loyce E. Harpe Park) is located in the Citrus Wildlife Management Area, offering a unique riding experience through the beautiful Florida swamplands. The trail provides a distinctive blend of scenic wetlands, pine forests, and occasional technical sections.
-                    </p>
-                    <p className="text-gray-300 text-lg mb-4">
-                      Known for its natural beauty, this singletrack trail winds through diverse ecosystems with wooden boardwalks crossing over wetland areas. Riders can expect to see abundant wildlife including birds, turtles, and occasionally alligators from a safe distance.
-                    </p>
-                    <p className="text-gray-300 text-lg mb-4">
-                      The trail system ranges from easy to intermediate difficulty, making it accessible to a wide range of riders. Some sections can become challenging after heavy rainfall, so checking trail conditions before visiting is recommended.
-                    </p>
-                  </div>
-                  
-                  {/* <h3 className="text-xl font-bold mt-20 mb-4 text-white">Trail Location</h3>
-              <LeafletMap
-                latitude={TRAIL_COORDS.latitude}
-                longitude={TRAIL_COORDS.longitude}
-                location={TRAIL_COORDS.location}
-              /> */}
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 mb-10">
+              {/* Left Column - Main Content */}
+              <div className="lg:col-span-3">
+                {/* About Section */}
+                <h2 className="text-3xl font-bold text-white mt-10 mb-10">About Carter Road</h2>
+                <div className="prose prose-invert max-w-none">
+                  <p className="text-gray-300 text-lg mb-4">
+                    Carter Road (Loyce E. Harpe Park) is located in the Citrus Wildlife Management Area, offering a unique riding experience through the beautiful Florida swamplands. The trail provides a distinctive blend of scenic wetlands, pine forests, and occasional technical sections.
+                  </p>
+                  <p className="text-gray-300 text-lg mb-4">
+                    Known for its natural beauty, this singletrack trail winds through diverse ecosystems with wooden boardwalks crossing over wetland areas. Riders can expect to see abundant wildlife including birds, turtles, and occasionally alligators from a safe distance.
+                  </p>
+                  <p className="text-gray-300 text-lg mb-4">
+                    The trail system ranges from easy to intermediate difficulty, making it accessible to a wide range of riders. Some sections can become challenging after heavy rainfall, so checking trail conditions before visiting is recommended.
+                  </p>
+                </div>
 
-                  {/* <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
-                  <div className="relative h-88">
-                    <Image
-                      src="/rocks.jpg" 
-                      alt="Rocky Technical Section"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  </div> */}
-                
-                  {/* Trail Difficulty Section */}
-                  <div className="mt-20 mb-10">
-                    <h3 className="text-2xl font-bold text-white mb-6">Trail Difficulty Levels</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {/* Beginner Trails */}
-                      <div className="relative group">
-                        <div className="bg-green-600 rounded-lg p-4 cursor-pointer transition-all duration-300 hover:bg-green-700">
-                          <h4 className="text-xl font-semibold text-white text-center">Beginner</h4>
-                        </div>
-                        <div className="absolute z-10 hidden group-hover:block w-full bg-gray-800 rounded-lg mt-2 p-4 shadow-lg">
-                          <ul className="space-y-2 text-gray-300">
-                            <li>Pine Needle Loop (1.2 miles)</li>
-                            <li>Cypress Trail (0.8 miles)</li>
-                            <li>Nature Walk (1.5 miles)</li>
-                            <li>Boardwalk Trail (0.5 miles)</li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      {/* Intermediate Trails */}
-                      <div className="relative group">
-                        <div className="bg-blue-600 rounded-lg p-4 cursor-pointer transition-all duration-300 hover:bg-blue-700">
-                          <h4 className="text-xl font-semibold text-white text-center">Intermediate</h4>
-                        </div>
-                        <div className="absolute z-10 hidden group-hover:block w-full bg-gray-800 rounded-lg mt-2 p-4 shadow-lg">
-                          <ul className="space-y-2 text-gray-300">
-                            <li>Ridge Runner (2.5 miles)</li>
-                            <li>Swamp Connect (1.8 miles)</li>
-                            <li>Oak Hammock (2.0 miles)</li>
-                            <li>Palmetto Pass (1.7 miles)</li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      {/* Advanced Trails */}
-                      <div className="relative group">
-                        <div className="bg-red-600 rounded-lg p-4 cursor-pointer transition-all duration-300 hover:bg-red-700">
-                          <h4 className="text-xl font-semibold text-white text-center">Advanced</h4>
-                        </div>
-                        <div className="absolute z-10 hidden group-hover:block w-full bg-gray-800 rounded-lg mt-2 p-4 shadow-lg">
-                          <ul className="space-y-2 text-gray-300">
-                            <li>Technical Loop (3.0 miles)</li>
-                            <li>Rock Garden (1.2 miles)</li>
-                            <li>Root Run (2.2 miles)</li>
-                            <li>Challenge Trail (2.8 miles)</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Interactive 3D Trail Map */}
-                  {trailData.lat && trailData.lon && (
-                    <div className="mb-10">
-                      <h3 className="text-2xl font-bold text-white mb-6">Interactive 3D Map</h3>
-                      <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                        <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Trail Map */}
-              <div className="relative h-148 mb-20">
-                    <Image
-                      src="/cartermap.jpg" 
-                      alt="Open Prairie Crossing"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-
-                  {/* Video Section */}
-                  <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
+                {/* Video Section */}
+                <div className="bg-gray-700 px-8 mt-20">
+                  <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl transition-transform hover:scale-105 mt-20 mb-20">
                     <div className="aspect-video w-full">
                       <iframe
                         src="https://www.youtube.com/embed/2wKBkxN0PDo?si=lkNnd3q7t4JsOK8u"
@@ -249,125 +194,165 @@ export default function CarterRoadTrailPage() {
                       ></iframe>
                     </div>
                   </div>
-                  
-                  {/* Trail Maintenance & Community */}
-                  <div className="mt-10">
-                    <div className="flex items-center mb-4">
-                      <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center mr-4">
-                        <span className="text-white text-lg">🛠️</span>
-                      </div>
-                      <h3 className="text-2xl font-bold text-white">Trail Maintenance & Community</h3>
-                    </div>
-                    <div className="bg-gray-800 rounded-lg p-6 shadow-lg">
-                      <p className="text-gray-300">Carter Road Trail is maintained by dedicated volunteers from the Florida Trail Association. Regular maintenance ensures bridges and boardwalks remain safe for passage, and the trail stays clear of debris. Community trail days are held periodically and welcome riders of all experience levels to contribute.</p>
-                    </div>
-                  </div>
                 </div>
-                
-                  {/* <h4 className="text-lg font-semibold text-white mb-3">5-Day Forecast</h4> */}
+              
+                <h2 className="text-3xl font-bold text-white mt-10 mb-10">Location</h2>
+                <div className="text-xl">Address: <strong className="font-bold text-blue-300">Loyce E. Harpe Park</strong> 500 W Carter Road, Mulberry, FL 33860</div>
+                <div className="text-xl pt-4">Driving directions:</div>
 
+                {/* Trail Map (Mapbox with 2D/3D toggle) */}
+                <div className="bg-gray-700 rounded-lg p-6 shadow-lg mt-20">
+                  <div className="flex justify-center gap-4 mb-4">
+                    <button
+                      className="px-4 py-2 text-white rounded bg-green-700 hover:bg-green-800"
+                      onClick={handleGetDirections}
+                    >
+                      Get Directions
+                    </button>
+                  </div>
+                  <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+                </div>
+              </div>
 
-                  {/* Weather Details */}
-                  <div className="ml-10">
-                  <WeatherForecast 
+              {/* Right Column - Weather and Trail Details */}
+              <div className="lg:col-span-1 pt-8 pl-10">
+                {/* Weather Section */}
+                <WeatherForecast 
                   location={TRAIL_COORDS.location}
                   latitude={TRAIL_COORDS.latitude}
                   longitude={TRAIL_COORDS.longitude}
                   apiKey={process.env.NEXT_PUBLIC_WEATHERAPI_KEY || ''}
                 />
-                
 
-                <div className="space-y-6 pt-20">
-                  {/* Trail Details Card */}
-                  <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                    <div className="bg-gray-700 px-6 py-4">
-                      <h3 className="text-xl font-bold text-white">Trail Details</h3>
-                    </div>
-                    <div className="p-6">
-                      <div className="space-y-4">
-                        <div>
-                          <h4 className="font-semibold text-gray-300">Location</h4>
-                          <p className="text-gray-400">Citrus Wildlife Management Area, Inverness, Florida</p>
+                {/* Trail Difficulty Section */}
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mt-10">
+                  <div className="bg-gray-700 px-6 py-4">
+                    <h3 className="text-xl font-bold text-white">Trail Difficulty Breakdown</h3>
+                  </div>
+                  <div className="p-6">
+                    <div className="space-y-4">
+                      {/* Beginner Trails */}
+                      <div>
+                        <div className="bg-green-600 rounded-lg p-4 cursor-pointer transition-all duration-300 hover:bg-green-700">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-xl font-semibold text-white">Beginner Trails</h4>
+                            <span className="text-white text-sm bg-green-700 px-3 py-1 rounded-full">6 Trails</span>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-300">Length</h4>
-                          <p className="text-gray-400">10+ miles of trails</p>
+                        <div className="mt-4 bg-gray-700/50 rounded-lg p-4">
+                          <ul className="space-y-2 text-gray-300">
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                              Pine Needle Loop (1.2 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                              Cypress Trail (0.8 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                              Nature Walk (1.5 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                              Boardwalk Trail (0.5 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                              Fence Line (1.0 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                              Exit Trail (0.7 mi)
+                            </li>
+                          </ul>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-300">Elevation Gain</h4>
-                          <p className="text-gray-400">Minimal, mostly flat terrain</p>
+                      </div>
+
+                      {/* Intermediate Trails */}
+                      <div>
+                        <div className="bg-blue-600 rounded-lg p-4 cursor-pointer transition-all duration-300 hover:bg-blue-700">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-xl font-semibold text-white">Intermediate Trails</h4>
+                            <span className="text-white text-sm bg-blue-700 px-3 py-1 rounded-full">8 Trails</span>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-300">Difficulty</h4>
-                          <p className="text-gray-400">Easy to Intermediate</p>
+                        <div className="mt-4 bg-gray-700/50 rounded-lg p-4">
+                          <ul className="space-y-2 text-gray-300">
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                              Ridge Runner (2.5 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                              Swamp Connect (1.8 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                              Oak Hammock (2.0 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                              Palmetto Pass (1.7 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                              Horseshoe (1.5 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                              Snake Ridge (1.3 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                              Pump Track (0.5 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                              Flip N Steep (1.2 mi)
+                            </li>
+                          </ul>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-300">Best Time to Visit</h4>
-                          <p className="text-gray-400">October through May (dry season)</p>
+                      </div>
+
+                      {/* Advanced Trails */}
+                      <div>
+                        <div className="bg-red-600 rounded-lg p-4 cursor-pointer transition-all duration-300 hover:bg-red-700">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-xl font-semibold text-white">Advanced Trails</h4>
+                            <span className="text-white text-sm bg-red-700 px-3 py-1 rounded-full">6 Trails</span>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-300">Parking</h4>
-                          <p className="text-gray-400">Available at trailhead, free of charge</p>
+                        <div className="mt-4 bg-gray-700/50 rounded-lg p-4">
+                          <ul className="space-y-2 text-gray-300">
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                              Technical Loop (3.0 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                              Rock Garden (1.2 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                              Root Run (2.2 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                              Beast Mode (2.5 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                              Dragon's Revenge (1.8 mi)
+                            </li>
+                            <li className="flex items-center">
+                              <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                              Challenge Trail (2.8 mi)
+                            </li>
+                          </ul>
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div>
-                  </div>
-                  </div>
-
-                  {/* Weather Card */}
-                  {/* <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mt-8">
-                    <div className="bg-gray-700 px-6 py-4">
-                      <h3 className="text-xl font-bold text-white">Current Weather</h3>
-                    </div>
-                    <div className="p-6">
-                      <WeatherDisplay location={TRAIL_COORDS.location} />
-                    </div> */}
-                  {/* </div> */}
-                </div>
-              </div>
-              
-              {/* Photo Gallery Section */}
-              <div className="w-full mb-12">
-                <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-white text-lg">📸</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-white">Photo Gallery</h3>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-                    <Image
-                      src="/bridge1.jpg" 
-                      alt="Wooden Boardwalk"
-                      fill
-                      className="object-cover hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-                    <Image
-                      src="/bridge20.jpg" 
-                      alt="Swampland Section"
-                      fill
-                      className="object-cover hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-                    <Image
-                      src="/woodedtrail.jpg"
-                      alt="Pine Forest Trail"
-                      fill
-                      className="object-cover hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-                    <Image
-                      src="/gator.jpg"
-                      alt="Wildlife on Trail"
-                      fill
-                      className="object-cover hover:scale-105 transition-transform"
-                    />
                   </div>
                 </div>
               </div>
@@ -383,9 +368,10 @@ export default function CarterRoadTrailPage() {
                 <h2 className="text-3xl font-bold text-white">Trail Features</h2>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
-                  <div className="relative h-48">
+              {/* Trail Features */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl transition-transform hover:scale-105">
+                  <div className="relative h-56">
                     <Image
                       src="/bridge1.jpg" 
                       alt="Wooden Boardwalk"
@@ -402,8 +388,8 @@ export default function CarterRoadTrailPage() {
                   </div>
                 </div>
                 
-                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
-                  <div className="relative h-48">
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl transition-transform hover:scale-105">
+                  <div className="relative h-56">
                     <Image
                       src="/bridge20.jpg" 
                       alt="Swampland Section"
@@ -420,8 +406,8 @@ export default function CarterRoadTrailPage() {
                   </div>
                 </div>
                 
-                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
-                  <div className="relative h-48">
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl transition-transform hover:scale-105">
+                  <div className="relative h-56">
                     <Image
                       src="/woodedtrail.jpg" 
                       alt="Pine Forest Segment"
@@ -438,8 +424,8 @@ export default function CarterRoadTrailPage() {
                   </div>
                 </div>
                 
-                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
-                  <div className="relative h-48">
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl transition-transform hover:scale-105">
+                  <div className="relative h-56">
                     <Image
                       src="/rocks.jpg" 
                       alt="Rocky Technical Section"
@@ -456,8 +442,8 @@ export default function CarterRoadTrailPage() {
                   </div>
                 </div>
                 
-                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
-                  <div className="relative h-48">
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl transition-transform hover:scale-105">
+                  <div className="relative h-56">
                     <Image
                       src="/gator.jpg" 
                       alt="Wildlife Viewing Area"
@@ -474,8 +460,8 @@ export default function CarterRoadTrailPage() {
                   </div>
                 </div>
                 
-                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
-                  <div className="relative h-48">
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl transition-transform hover:scale-105">
+                  <div className="relative h-56">
                     <Image
                       src="/lake.jpg" 
                       alt="Open Prairie Crossing"
@@ -665,12 +651,16 @@ export default function CarterRoadTrailPage() {
               </div>
             </div>
           )}
+
+          {activeTab === 'difficulty' && (
+            <TrailDifficulty />
+          )}
         </div>
       </div>
 
       {/* Weather and Map Section */}
       <section className="bg-gray-800 py-12">
-        <div className="container mx-auto px-4">
+        <div className="max-w-[90%] mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Weather Section */}
             <div className="bg-gray-700 rounded-lg p-6 shadow-lg">
@@ -681,7 +671,7 @@ export default function CarterRoadTrailPage() {
                 <WeatherDisplay location={TRAIL_COORDS.location} />
               </div> */}
               {/* 5-Day Forecast */}
-              <h3 className="text-xl font-bold mb-4 text-white">Trail Map</h3>
+              {/* <h3 className="text-xl font-bold mb-4 text-white">Trail Map</h3>
               <div className="relative h-108">
                     <Image
                       src="/balmboyettemap.jpg" 
@@ -689,7 +679,7 @@ export default function CarterRoadTrailPage() {
                       fill
                       className="object-cover"
                     />
-                  </div>
+                  </div> */}
             </div>
 
             {/* Trail Map Section */}

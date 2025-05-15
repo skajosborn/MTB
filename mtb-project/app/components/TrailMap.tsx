@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
+import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
@@ -69,6 +70,14 @@ type Props = {
         .setLngLat([lon, lat])
         .setPopup(new mapboxgl.Popup().setText(name))
         .addTo(map);
+
+      // Add directions control
+      const directions = new MapboxDirections({
+        accessToken: mapboxgl.accessToken,
+        unit: 'metric',
+        profile: 'mapbox/cycling',
+      });
+      map.addControl(directions, 'top-left');
     });
 
     return () => map.remove();
@@ -87,13 +96,13 @@ type Props = {
   return (
     <div>
       <div className="flex justify-center gap-4 mb-2">
-        <button 
+        <button
           className={`px-4 py-2 text-white rounded transition-colors ${!is3D ? 'bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}
           onClick={toggle2D}
         >
           2D Map
         </button>
-        <button 
+        <button
           className={`px-4 py-2 text-white rounded transition-colors ${is3D ? 'bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}
           onClick={toggle3D}
         >
