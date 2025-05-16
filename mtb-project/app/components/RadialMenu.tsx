@@ -79,8 +79,8 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
         setSelected((prev) => (prev - 1 + menuItems.length) % menuItems.length);
       }
     };
-    window.addEventListener('keydown', handleKey as any);
-    return () => window.removeEventListener('keydown', handleKey as any);
+    window.addEventListener('keydown', handleKey as EventListener);
+    return () => window.removeEventListener('keydown', handleKey as EventListener);
   }, [isOpen, menuItems, selected, onClose]);
 
   if (!isOpen) return null;
@@ -113,46 +113,35 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
           className="relative drop-shadow-2xl"
           style={{ cursor: 'default', display: 'block' }}
         >
-          {/* Sectors */}
-          {Array.from({ length: sectorCount }).map((_, i) => {
-            const item = menuItems[i];
-            const startAngle = getAngle(i, sectorCount) + sectorSpace / 2;
-            const endAngle = getAngle(i + 1, sectorCount) - sectorSpace / 2;
+          {/* Circles as menu items */}
+          {menuItems.map((item, i) => {
+            const angle = getAngle(i, sectorCount);
+            const ringRadius = radius * 0.8; // Distance from center to each button
+            const iconRadius = 48; // Radius of each button circle
+            const center = polarToCartesian(radius, radius, ringRadius, angle);
             const isSelected = i === selected;
             return (
-              <path
-                key={i}
-                d={describeSector(radius, radius, radius, innerRadius, startAngle, endAngle)}
-                fill={
-                  item?.color === 'red'
-                    ? (isSelected ? '#ff4d4dcc' : '#ff4d4dcc') // red with transparency
-                    : (isSelected ? '#90ee90cc' : '#90ee90cc') // default green
-                }
-                stroke="#000"
-                strokeWidth={isSelected ? 3 : 1}
-                // No onClick handler
-                // No onMouseEnter handler
-              />
-            );
-          })}
-          {/* Icons and Labels */}
-          {menuItems.map((item, i) => {
-            const angle = getAngle(i + 0.5, sectorCount);
-            const iconPos = polarToCartesian(radius, radius, (radius + innerRadius) / 2, angle);
-            return (
               <g key={item.id} style={{ pointerEvents: 'none' }}>
+                <circle
+                  cx={center.x}
+                  cy={center.y}
+                  r={iconRadius}
+                  fill={item?.color === 'red' ? (isSelected ? '#ff4d4dcc' : '#ff4d4dcc') : (isSelected ? '#90ee90cc' : '#90ee90cc')}
+                  stroke="#000"
+                  strokeWidth={isSelected ? 3 : 1}
+                />
                 {typeof item.icon === 'string' && item.icon.match(/\.(png|jpg|jpeg|gif)$/i) ? (
                   <image
                     href={item.icon}
-                    x={iconPos.x - 24}
-                    y={iconPos.y - 24}
-                    width={58}
-                    height={58}
+                    x={center.x - 24}
+                    y={center.y - 24}
+                    width={48}
+                    height={48}
                   />
                 ) : typeof item.icon === 'string' ? (
                   <text
-                    x={iconPos.x}
-                    y={iconPos.y - 10}
+                    x={center.x}
+                    y={center.y + 10}
                     textAnchor="middle"
                     alignmentBaseline="middle"
                     fontSize={48}
@@ -162,23 +151,10 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
                     {item.icon}
                   </text>
                 ) : item.icon ? (
-                  <g transform={`translate(${iconPos.x - 24},${iconPos.y - 24})`}>
+                  <g transform={`translate(${center.x - 24},${center.y - 24})`}>
                     {item.icon}
                   </g>
                 ) : null}
-                {/*
-                <text
-                  x={iconPos.x}
-                  y={iconPos.y + 36}
-                  textAnchor="middle"
-                  alignmentBaseline="middle"
-                  fontSize={28}
-                  fill="#fff"
-                  style={{ filter: 'drop-shadow(1px 1px 2px #000)' }}
-                >
-                  {item.label}
-                </text>
-                */}
               </g>
             );
           })}
