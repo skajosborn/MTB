@@ -1,9 +1,6 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
-
-
 
 interface WeatherDay {
   day: string;
@@ -18,21 +15,6 @@ interface WeatherForecastProps {
   longitude: number;
   apiKey: string;
 }
-
-// Add this helper function after the interfaces
-const ensureAbsoluteUrl = (url: string) => {
-  if (!url) return '';
-  if (url.startsWith('//')) {
-    return `https:${url}`;
-  }
-  if (url.startsWith('/')) {
-    return `https://cdn.weatherapi.com${url}`;
-  }
-  if (!url.startsWith('http')) {
-    return `https://cdn.weatherapi.com/weather/64x64/day/${url}`;
-  }
-  return url;
-};
 
 // Add proper types for the API response
 interface WeatherAPIResponse {
@@ -77,39 +59,38 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
     return days[date.getDay()];
   };
 
-  // Fallback data
-  const getFallbackData = () => {
-    const now = new Date();
-    setLastUpdated(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-    
-    // Set fallback weather data
-    setWeatherData([
-      { day: 'Today', icon: '☀️', high: 82, low: 64 },
-      { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '🌤️', high: 80, low: 62 },
-      { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '🌧️', high: 75, low: 60 },
-      { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '☁️', high: 78, low: 62 },
-      { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '☀️', high: 83, low: 65 }
-    ]);
-
-    // Set fallback hourly data
-    const hours = [];
-    let baseTemp = 75;
-    for (let i = 0; i < 24; i++) {
-      const hour = i.toString().padStart(2, '0') + ':00';
-      // Create a simple temperature curve
-      const temp = baseTemp + Math.sin((i - 6) * Math.PI / 12) * 8;
-      hours.push({
-        time: hour,
-        temp: Math.round(temp),
-        icon: '☀️',
-        text: 'Sunny'
-      });
-    }
-    setHourlyData(hours);
-    setLoading(false);
-  };
-
   useEffect(() => {
+    const getFallbackData = () => {
+      const now = new Date();
+      setLastUpdated(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      
+      // Set fallback weather data
+      setWeatherData([
+        { day: 'Today', icon: '☀️', high: 82, low: 64 },
+        { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '🌤️', high: 80, low: 62 },
+        { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '🌧️', high: 75, low: 60 },
+        { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '☁️', high: 78, low: 62 },
+        { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '☀️', high: 83, low: 65 }
+      ]);
+
+      // Set fallback hourly data
+      const hours = [];
+      const baseTemp = 75;
+      for (let i = 0; i < 24; i++) {
+        const hour = i.toString().padStart(2, '0') + ':00';
+        // Create a simple temperature curve
+        const temp = baseTemp + Math.sin((i - 6) * Math.PI / 12) * 8;
+        hours.push({
+          time: hour,
+          temp: Math.round(temp),
+          icon: '☀️',
+          text: 'Sunny'
+        });
+      }
+      setHourlyData(hours);
+      setLoading(false);
+    };
+
     const fetchWeatherData = async () => {
       let timeoutId: NodeJS.Timeout | undefined;
 
@@ -264,12 +245,11 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
                 <div key={index} className="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
                   <div className="flex items-center">
                     {day.icon.includes('cdn.weatherapi.com') ? (
-                      <img 
-                        src={day.icon} 
-                        alt="weather icon" 
-                        className="w-8 h-8 mr-3"
-                        width={32}
-                        height={32}
+                      <div 
+                        className="w-8 h-8 mr-3 bg-contain bg-no-repeat bg-center"
+                        style={{ backgroundImage: `url(${day.icon})` }}
+                        role="img"
+                        aria-label="weather icon"
                       />
                     ) : (
                       <span className="text-2xl mr-3" role="img" aria-label="weather icon">{day.icon}</span>
@@ -298,12 +278,11 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
               <div key={idx} className="flex flex-col items-center bg-gray-700 rounded-lg px-2 py-3 min-w-[70px]">
                 <span className="text-xs text-gray-300">{hour.time}</span>
                 {hour.icon.includes('cdn.weatherapi.com') ? (
-                  <img 
-                    src={hour.icon}
-                    alt={hour.text} 
-                    className="w-8 h-8 my-1"
-                    width={32}
-                    height={32}
+                  <div 
+                    className="w-8 h-8 my-1 bg-contain bg-no-repeat bg-center"
+                    style={{ backgroundImage: `url(${hour.icon})` }}
+                    role="img"
+                    aria-label={hour.text}
                   />
                 ) : (
                   <span className="text-2xl my-1" role="img" aria-label={hour.text}>{hour.icon}</span>

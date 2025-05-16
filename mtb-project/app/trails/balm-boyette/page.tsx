@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 // import WeatherForecast from '../../components/WeatherForecast';
-import { WEATHER_API_KEY, TRAIL_LOCATIONS } from '../../config';
+// import { WEATHER_API_KEY, TRAIL_LOCATIONS } from '../../config';
 
 export default function BalmBoyetteTrailPage() {
   const [activeTab, setActiveTab] = useState('overview');

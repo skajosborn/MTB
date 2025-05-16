@@ -73,7 +73,7 @@ type Props = {
 
       // Add directions control
       const directions = new MapboxDirections({
-        accessToken: mapboxgl.accessToken,
+        accessToken: mapboxgl.accessToken || '',
         unit: 'metric',
         profile: 'mapbox/cycling',
       });
@@ -95,9 +95,9 @@ type Props = {
 
   return (
     <div>
-      <div className="flex justify-center gap-4 mb-2">
+      <div className="flex justify-center gap-4 mb-6">
         <button
-          className={`px-4 py-2 text-white rounded transition-colors ${!is3D ? 'bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}
+          className={`px-4 py-2 text-white rounded transition-colors ${!is3D ? 'bg-blue-500' : 'bg-blue-600 hover:bg-blue-700'}`}
           onClick={toggle2D}
         >
           2D Map
@@ -107,6 +107,12 @@ type Props = {
           onClick={toggle3D}
         >
           3D Satellite
+        </button>
+        <button
+          className="px-4 py-2 text-white rounded bg-green-700 hover:bg-green-800"
+          onClick={() => typeof window !== 'undefined' && window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`, '_blank')}
+        >
+          Get Directions
         </button>
       </div>
       <div ref={mapContainerRef} className="w-full h-[500px] rounded-lg" />

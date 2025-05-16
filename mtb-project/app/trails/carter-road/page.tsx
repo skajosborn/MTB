@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 // import Link from 'next/link';
 // import WeatherDisplay from '@/app/components/WeatherDisplay';
@@ -9,22 +9,22 @@ import WeatherForecast from '@/app/components/WeatherForecast';
 import TrailMap from '@/app/components/TrailMap';
 import TrailDifficulty from '@/app/components/TrailDifficulty';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import dynamic from 'next/dynamic';
-import RadialMenu from '@/app/components/RadialMenu';
+// import dynamic from 'next/dynamic';
+import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
 
-const amenities = [
-  { icon: '🅿️', label: 'Free Parking', color: 'text-white' },
-  { icon: '🚻', label: 'Restrooms', color: 'text-white' },
-  { icon: '🪑', label: 'Picnic Tables', color: 'text-white' },
-  { icon: '🚰', label: 'Water Available', color: 'text-white' },
-  { icon: '💰', label: 'Free Entry', color: 'text-white' },
-];
+// const amenities = [
+//   { icon: '🅿️', label: 'Free Parking', color: 'text-white' },
+//   { icon: '🚻', label: 'Restrooms', color: 'text-white' },
+//   { icon: '🪑', label: 'Picnic Tables', color: 'text-white' },
+//   { icon: '🚰', label: 'Water Available', color: 'text-white' },
+//   { icon: '💰', label: 'Free Entry', color: 'text-white' },
+// ];
 
-const restrictions = [
-  { icon: '🐕', label: 'No Dogs', color: 'text-white' },
-  { icon: '🌙', label: 'No Night Riding', color: 'text-white' },
-  { icon: '🚫', label: 'No Motorized Vehicles', color: 'text-white' },
-];
+// const restrictions = [
+//   { icon: '🐕', label: 'No Dogs', color: 'text-white' },
+//   { icon: '🌙', label: 'No Night Riding', color: 'text-white' },
+//   { icon: '🚫', label: 'No Motorized Vehicles', color: 'text-white' },
+// ];
 
 const TRAIL_COORDS = {
   latitude: 28.745284,
@@ -38,11 +38,64 @@ const trailData = {
   lat: 28.745284    // latitude
 };
 
+const CampingTentIcon = (
+  <svg viewBox="0 0 512 512" fill="currentColor">
+    <path d="M361.155 91.245l-18 .193.42 38.98c-45.773 13.285-108.533 19.738-166.474 23.573 35.097 96.284 99.357 173.77 157.845 257.13 20.718-19.655 51.11-31.983 83.46-36.01-20.8-18.109-36.634-27.966-58.833-70.438 31.27 37.085 52.579 48.467 77.623 62.006 3.263-13.094 8.938-24.638 18.721-32.674 8.667-7.12 20.026-10.654 33.53-10.344-46.874-59.763-101.67-117.054-127.83-189.435l-.462-42.98zM163.25 102.92l-17.998.244s.25 18.34.56 36.97c.156 9.316.325 18.703.489 25.929.06 2.636.117 4.58.174 6.542-34.378 83.733-69.154 160.993-123.92 233.442 33.635-1.387 66.326-1.203 98.552-.041 22.263-62.617 23.346-134.855 35.627-202.006 11.417 68.562 10.566 139.445 33.483 205.83 42.962 3.082 85.69 7.198 129.35 10.926-55.67-79.151-118.213-155.037-155.118-249.365-.05-1.782-.1-3.396-.152-5.737-.162-7.156-.333-16.523-.488-25.82-.31-18.594-.559-36.914-.559-36.914z"/>
+  </svg>
+);
+
+const RestroomIcon = (
+  <svg viewBox="0 0 24 24" width={48} height={48} fill="black">
+    {/* Woman */}
+    <circle cx="7" cy="7" r="2"/>
+    <rect x="6" y="9" width="2" height="5" rx="1"/>
+    <rect x="5" y="14" width="4" height="6" rx="2"/>
+    {/* Man */}
+    <circle cx="17" cy="7" r="2"/>
+    <rect x="16" y="9" width="2" height="7" rx="1"/>
+    <rect x="15" y="16" width="4" height="4" rx="2"/>
+  </svg>
+);
 
 export default function CarterRoadTrailPage() {
   const [activeTab, setActiveTab] = useState('overview');
   const [hasMounted, setHasMounted] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuPosition, setMenuPosition] = useState<{ x: number; y: number } | null>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  const menuItems: RadialMenuItem[] = [
+    { id: 'bike', label: 'Bike', icon: '/icons/bike.png' },
+    { id: 'motorbike', label: 'Motorized', icon: '/icons/motor2.jpg' },
+    { id: 'nohelmet', label: 'Nohelmet', icon: '/icons/nohelm2.png' },
+    { id: 'dog', label: 'Dog', icon: '/icons/dog.png' },
+    // { id: 'weapon', label: 'Weapon...', icon: '🎯' },
+    // { id: 'more', label: 'More...', icon: '⋯' },
+    // { id: 'settings', label: 'Settings', icon: '⚙️' },
+    { id: 'map', label: 'Map', icon: '/icons/map.png' },
+    { id: 'parking', label: 'Parking', icon: '/icons/parking-icon.png' },
+    { id: 'water', label: 'Water', icon: '/icons/water.png' },
+    { id: 'restroom', label: 'Restroom', icon: '/icons/restroom.png' },
+    { id: 'picnic', label: 'Picnic', icon: '/icons/picnic.png' },
+  ];
+
   useEffect(() => { setHasMounted(true); }, []);
+
+  const handleMenuOpen = () => {
+    const rect = menuButtonRef.current?.getBoundingClientRect();
+    if (rect) {
+      setMenuPosition({
+        x: rect.left + rect.width / 2 + window.scrollX,
+        y: rect.top + rect.height / 2 + window.scrollY,
+      });
+      setMenuOpen(true);
+    }
+  };
+
+  const handleMenuClose = () => {
+    setMenuOpen(false);
+    setMenuPosition(null);
+  };
 
   const handleGetDirections = () => {
     window.open(
@@ -78,7 +131,7 @@ export default function CarterRoadTrailPage() {
       {/* Stats Bar */}
       <div className="bg-gray-800 text-white pb-4 pt-4 w-full">
         <div className="max-w-[90%] mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 text-center items-center">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center items-center">
             <div>
               <div className="text-sm text-gray-400">Location</div>
               <div className="font-medium">Citrus Wildlife Mgmt Area, FL</div>
@@ -95,8 +148,17 @@ export default function CarterRoadTrailPage() {
               <div className="text-sm text-gray-400">Managed By</div>
               <div className="font-medium">Florida Trail Association</div>
             </div>
-            <div className="mt-1">
-              <RadialMenu />
+            <div className="mt-6">
+              <button ref={menuButtonRef} onClick={handleMenuOpen}>Open Menu</button>
+              {menuOpen && menuPosition && (
+                <RadialMenu
+                  isOpen={menuOpen}
+                  onClose={handleMenuClose}
+                  menuItems={menuItems}
+                  position={menuPosition}
+                  overlay={false}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -202,14 +264,6 @@ export default function CarterRoadTrailPage() {
 
                 {/* Trail Map (Mapbox with 2D/3D toggle) */}
                 <div className="bg-gray-700 rounded-lg p-6 shadow-lg mt-20">
-                  <div className="flex justify-center gap-4 mb-4">
-                    <button
-                      className="px-4 py-2 text-white rounded bg-green-700 hover:bg-green-800"
-                      onClick={handleGetDirections}
-                    >
-                      Get Directions
-                    </button>
-                  </div>
                   <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
                 </div>
               </div>

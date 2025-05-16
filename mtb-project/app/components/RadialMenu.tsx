@@ -1,82 +1,211 @@
-import { useState } from 'react';
+import React, { useRef, useEffect, useState, KeyboardEvent } from 'react';
 
-const amenities = [
-  { icon: '🅿️', label: 'Free Parking', color: 'text-white' },
-  { icon: '🚻', label: 'Restrooms', color: 'text-white' },
-  { icon: '🪑', label: 'Picnic Tables', color: 'text-white' },
-  { icon: '🚰', label: 'Water Available', color: 'text-white' },
-  { icon: '💰', label: 'Free Entry', color: 'text-white' },
-];
+export interface RadialMenuItem {
+  id: string;
+  label: string;
+  icon?: React.ReactNode; // Emoji or SVG
+  onClick?: () => void;
+}
 
-const restrictions = [
-  { icon: '🐕', label: 'No Dogs', color: 'text-white' },
-  { icon: '🌙', label: 'No Night Riding', color: 'text-white' },
-  { icon: '🚫', label: 'No Motorized Vehicles', color: 'text-white' },
-];
+interface RadialMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+  menuItems: RadialMenuItem[];
+  size?: number;
+  position: { x: number; y: number };
+  overlay?: boolean; // Optional: show a dim background overlay
+}
 
-function DropdownRadialMenu({ items, label, color, iconAbove }: { items: typeof amenities, label: string, color: string, iconAbove: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
-  const radius = 120; // Slightly larger circle to accommodate bigger elements
-  const angleStep = (2 * Math.PI) / items.length;
+const DEFAULT_SIZE = 600; // Much larger
+const MIN_SECTORS = 6;
+
+const getAngle = (idx: number, total: number) => {
+  // Start at top, clockwise
+  return ((360 / total) * idx) - 90;
+};
+
+const polarToCartesian = (centerX: number, centerY: number, radius: number, angleInDegrees: number) => {
+  const angleInRadians = (angleInDegrees) * Math.PI / 180.0;
+  return {
+    x: centerX + (radius * Math.cos(angleInRadians)),
+    y: centerY + (radius * Math.sin(angleInRadians)),
+  };
+};
+
+const describeSector = (
+  cx: number,
+  cy: number,
+  outerR: number,
+  innerR: number,
+  startAngle: number,
+  endAngle: number
+) => {
+  // SVG arc for a donut sector
+  const startOuter = polarToCartesian(cx, cy, outerR, endAngle);
+  const endOuter = polarToCartesian(cx, cy, outerR, startAngle);
+  const startInner = polarToCartesian(cx, cy, innerR, startAngle);
+  const endInner = polarToCartesian(cx, cy, innerR, endAngle);
+  const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
+  return [
+    `M ${startOuter.x} ${startOuter.y}`,
+    `A ${outerR} ${outerR} 0 ${largeArcFlag} 0 ${endOuter.x} ${endOuter.y}`,
+    `L ${startInner.x} ${startInner.y}`,
+    `A ${innerR} ${innerR} 0 ${largeArcFlag} 1 ${endInner.x} ${endInner.y}`,
+    'Z',
+  ].join(' ');
+};
+
+const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, size = DEFAULT_SIZE, position, overlay = true }) => {
+  const [selected, setSelected] = useState(0);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const sectorCount = Math.max(menuItems?.length ?? 0, MIN_SECTORS);
+  const radius = size / 2;
+  const innerRadius = radius * 0.45;
+  const sectorSpace = 12; // Much more space between sectors (degrees)
+
+  useEffect(() => {
+    if (isOpen) setSelected(0);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent | KeyboardEventInit) => {
+      if (e.key === 'Escape') {
+        onClose();
+      } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        setSelected((prev) => (prev + 1) % menuItems.length);
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        setSelected((prev) => (prev - 1 + menuItems.length) % menuItems.length);
+      }
+    };
+    window.addEventListener('keydown', handleKey as any);
+    return () => window.removeEventListener('keydown', handleKey as any);
+  }, [isOpen, menuItems, selected, onClose]);
+
+  if (!isOpen) return null;
+
+  // Calculate menu position so it's centered at position.x, position.y
+  const menuStyle: React.CSSProperties = {
+    position: 'absolute',
+    left: position.x - size / 2,
+    top: position.y - size / 2,
+    zIndex: 1001,
+    pointerEvents: 'auto',
+  };
 
   return (
-    <div
-      className="relative flex flex-col items-center mx-2"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      style={{ minWidth: 100 }}
-    >
-      {/* Icon above button */}
-      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-3xl text-white drop-shadow-lg select-none pointer-events-none">
-        {iconAbove}
-      </span>
-      <button
-        className={`px-5 py-3 text-xl font-medium rounded bg-transparent ${color} transition-colors duration-200 hover:bg-gray-800/20`}
-        type="button"
-      >
-        {label}
-      </button>
-      {/* Dropdown full-circle radial icons just above the button */}
-      <div className="absolute left-1/2 bottom-full" style={{ pointerEvents: open ? 'auto' : 'none', width: radius * 2 + 60, height: radius * 2 + 60, marginBottom: 0, transform: 'translateX(-50%)' }}>
-        {items.map((item, idx) => {
-          const angle = idx * angleStep - Math.PI / 2; // Start at top
-          const x = Math.cos(angle) * radius + radius + 30;
-          const y = Math.sin(angle) * radius;
-          return (
-            <div
-              key={item.label}
-              className={`flex flex-col items-center ${item.color} text-center transition-opacity duration-300`}
-              style={{
-                position: 'absolute',
-                left: `${x}px`,
-                top: `${y}px`,
-                opacity: open ? 1 : 0,
-                transition: 'opacity 0.3s',
-                minWidth: 80,
-                zIndex: 5,
-              }}
+    <>
+      {overlay && (
+        <div
+          className="fixed inset-0 z-[1000] bg-black/40"
+          style={{ backdropFilter: 'blur(2px)' }}
+          onClick={onClose}
+        />
+      )}
+      <div style={menuStyle} onClick={e => e.stopPropagation()}>
+        <svg
+          ref={svgRef}
+          width={size}
+          height={size}
+          viewBox={`0 0 ${size} ${size}`}
+          className="relative drop-shadow-2xl"
+          style={{ cursor: 'default', display: 'block' }}
+        >
+          {/* Sectors */}
+          {Array.from({ length: sectorCount }).map((_, i) => {
+            const item = menuItems[i];
+            const startAngle = getAngle(i, sectorCount) + sectorSpace / 2;
+            const endAngle = getAngle(i + 1, sectorCount) - sectorSpace / 2;
+            const isSelected = i === selected;
+            return (
+              <path
+                key={i}
+                d={describeSector(radius, radius, radius, innerRadius, startAngle, endAngle)}
+                // fill={isSelected ? '#00000080' : '#00000080'}
+                fill={isSelected ? '#90ee90cc' : '#90ee90cc'}
+                stroke="#000"
+                strokeWidth={isSelected ? 3 : 1}
+                // No onClick handler
+                // No onMouseEnter handler
+              />
+            );
+          })}
+          {/* Icons and Labels */}
+          {menuItems.map((item, i) => {
+            const angle = getAngle(i + 0.5, sectorCount);
+            const iconPos = polarToCartesian(radius, radius, (radius + innerRadius) / 2, angle);
+            return (
+              <g key={item.id} style={{ pointerEvents: 'none' }}>
+                {typeof item.icon === 'string' && item.icon.match(/\.(png|jpg|jpeg|gif)$/i) ? (
+                  <image
+                    href={item.icon}
+                    x={iconPos.x - 24}
+                    y={iconPos.y - 24}
+                    width={48}
+                    height={48}
+                  />
+                ) : typeof item.icon === 'string' ? (
+                  <text
+                    x={iconPos.x}
+                    y={iconPos.y - 10}
+                    textAnchor="middle"
+                    alignmentBaseline="middle"
+                    fontSize={48}
+                    fill="#fff"
+                    style={{ filter: 'drop-shadow(1px 1px 2px #000)' }}
+                  >
+                    {item.icon}
+                  </text>
+                ) : item.icon ? (
+                  <g transform={`translate(${iconPos.x - 24},${iconPos.y - 24})`}>
+                    {item.icon}
+                  </g>
+                ) : null}
+                {/*
+                <text
+                  x={iconPos.x}
+                  y={iconPos.y + 36}
+                  textAnchor="middle"
+                  alignmentBaseline="middle"
+                  fontSize={28}
+                  fill="#fff"
+                  style={{ filter: 'drop-shadow(1px 1px 2px #000)' }}
+                >
+                  {item.label}
+                </text>
+                */}
+              </g>
+            );
+          })}
+          {/* Center Button */}
+          <g
+            onClick={onClose}
+            style={{ cursor: 'pointer' }}
+          >
+            <circle
+              cx={radius}
+              cy={radius}
+              r={innerRadius - 8}
+              fill="#000000cc"
+              stroke="#fff"
+              strokeWidth={2}
+            />
+            <text
+              x={radius}
+              y={radius + 12}
+              textAnchor="middle"
+              alignmentBaseline="middle"
+              fontSize={56}
+              fill="#fff"
+              style={{ filter: 'drop-shadow(1px 1px 2px #000)' }}
             >
-              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-blue-200 bg-opacity-80 mb-2 shadow-lg">
-                <span className="text-3xl">{item.icon}</span>
-              </div>
-              <div className="bg-blue-200 bg-opacity-80 px-3 py-2 rounded-full shadow-lg">
-                <span className="text-sm text-black font-medium whitespace-nowrap">{item.label}</span>
-              </div>
-            </div>
-          );
-        })}
+              ×
+            </text>
+          </g>
+        </svg>
       </div>
-    </div>
+    </>
   );
-}
-
-function RadialMenu() {
-  return (
-    <div className="flex items-center space-x-4 pt-4 my-2">
-      <DropdownRadialMenu items={amenities} label="Amenities" color="text-white" iconAbove={<span>✅</span>} />
-      <DropdownRadialMenu items={restrictions} label="Restrictions" color="text-white" iconAbove={<span>🚫</span>} />
-    </div>
-  );
-}
+};
 
 export default RadialMenu;
