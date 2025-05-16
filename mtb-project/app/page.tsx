@@ -1,6 +1,11 @@
+'use client'
+
 import Image from "next/image";
 import { BackgroundCarousel } from "./components/BackgroundCarousel";
 import Link from "next/link";
+import RadialMenu, { RadialMenuItem } from "@/app/components/RadialMenu";
+import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 // Featured trails data
 const featuredTrails = [
@@ -33,11 +38,45 @@ const featuredTrails = [
   }
 ];
 
+const trails = [
+  { id: "croom", label: "Croom" },
+  { id: "carter-road", label: "Carter Road" },
+  { id: "alafia", label: "Alafia" },
+  // ...add more trails
+];
+
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuPosition, setMenuPosition] = useState<{ x: number; y: number } | null>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
+
+  const menuItems: RadialMenuItem[] = trails.map(trail => ({
+    id: trail.id,
+    label: trail.label,
+    onClick: () => router.push(`/trails/${trail.id}`),
+  }));
+
+  const handleMenuOpen = () => {
+    const rect = menuButtonRef.current?.getBoundingClientRect();
+    if (rect) {
+      setMenuPosition({
+        x: rect.left + rect.width / 2 + window.scrollX,
+        y: rect.bottom + window.scrollY + 20, // 20px below the button
+      });
+      setMenuOpen(true);
+    }
+  };
+
+  const handleMenuClose = () => {
+    setMenuOpen(false);
+    setMenuPosition(null);
+  };
+
   return (
-    <main className="min-h-screen pt-20">
+    <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-screen -mt-20 flex items-center justify-center">
+      <section className="relative max-w-7xl mx-auto h-186 mt-24 mb-4 rounded-xl overflow-hidden shadow-2xl flex items-center justify-center">
         <BackgroundCarousel />
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">Central FLorida</h1>
