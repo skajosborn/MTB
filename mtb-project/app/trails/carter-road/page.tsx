@@ -270,6 +270,31 @@ export default function CarterRoadTrailPage() {
                 <div className="bg-gray-700 rounded-lg p-6 shadow-lg mt-20">
                   <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
                 </div>
+
+                {/* Photo Gallery Section */}
+                <div className="mt-12">
+                  <h2 className="text-2xl font-bold text-white mb-6">Photo Gallery</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
+                      <Image src="/bridge1.jpg" alt="Wooden Boardwalk" width={600} height={400} className="object-cover w-full h-48" />
+                    </div>
+                    <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
+                      <Image src="/bridge20.jpg" alt="Swampland Section" width={600} height={400} className="object-cover w-full h-48" />
+                    </div>
+                    <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
+                      <Image src="/woodedtrail.jpg" alt="Pine Forest Segment" width={600} height={400} className="object-cover w-full h-48" />
+                    </div>
+                    <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
+                      <Image src="/rocks.jpg" alt="Rocky Technical Section" width={600} height={400} className="object-cover w-full h-48" />
+                    </div>
+                    <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
+                      <Image src="/gator.jpg" alt="Wildlife Viewing Area" width={600} height={400} className="object-cover w-full h-48" />
+                    </div>
+                    <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
+                      <Image src="/lake.jpg" alt="Open Prairie Crossing" width={600} height={400} className="object-cover w-full h-48" />
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Right Column - Weather and Trail Details */}
