@@ -181,7 +181,7 @@ export function Navbar() {
               </button>
 
               {/* Profile dropdown */}
-              <div className="relative ml-3">
+              <div className="relative ml-8">
                 <div>
                   <button 
                     type="button" 

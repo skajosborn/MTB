@@ -5,6 +5,7 @@ export interface RadialMenuItem {
   label: string;
   icon?: React.ReactNode; // Emoji or SVG
   onClick?: () => void;
+  color?: string;
 }
 
 interface RadialMenuProps {
@@ -91,6 +92,7 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
     top: position.y - size / 2,
     zIndex: 1001,
     pointerEvents: 'auto',
+    transform: 'translateY(-80px)', // Move the menu up by 80px
   };
 
   return (
@@ -121,8 +123,11 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
               <path
                 key={i}
                 d={describeSector(radius, radius, radius, innerRadius, startAngle, endAngle)}
-                // fill={isSelected ? '#00000080' : '#00000080'}
-                fill={isSelected ? '#90ee90cc' : '#90ee90cc'}
+                fill={
+                  item?.color === 'red'
+                    ? (isSelected ? '#ff4d4dcc' : '#ff4d4dcc') // red with transparency
+                    : (isSelected ? '#90ee90cc' : '#90ee90cc') // default green
+                }
                 stroke="#000"
                 strokeWidth={isSelected ? 3 : 1}
                 // No onClick handler

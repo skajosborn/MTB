@@ -66,9 +66,9 @@ export default function CarterRoadTrailPage() {
 
   const menuItems: RadialMenuItem[] = [
     { id: 'bike', label: 'Bike', icon: '/icons/bike.png' },
-    { id: 'motorbike', label: 'Motorized', icon: '/icons/motor2.jpg' },
-    { id: 'nohelmet', label: 'Nohelmet', icon: '/icons/nohelm2.png' },
-    { id: 'dog', label: 'Dog', icon: '/icons/dog.png' },
+    { id: 'motorbike', label: 'Motorized', icon: '/icons/motor2.jpg', color: 'red' },
+    { id: 'nohelmet', label: 'Nohelmet', icon: '/icons/nohelm2.png', color: 'red' },
+    { id: 'dog', label: 'Dog', icon: '/icons/dog.png', color: 'red' },
     // { id: 'weapon', label: 'Weapon...', icon: '🎯' },
     // { id: 'more', label: 'More...', icon: '⋯' },
     // { id: 'settings', label: 'Settings', icon: '⚙️' },
@@ -144,12 +144,8 @@ export default function CarterRoadTrailPage() {
               <div className="text-sm text-gray-400">Elevation Gain</div>
               <div className="font-medium">Minimal</div>
             </div>
-            <div>
-              <div className="text-sm text-gray-400">Managed By</div>
-              <div className="font-medium">Florida Trail Association</div>
-            </div>
             <div className="mt-6">
-              <button ref={menuButtonRef} onClick={handleMenuOpen}>Open Menu</button>
+              <button ref={menuButtonRef} onClick={handleMenuOpen}>Amenities & Restrictions</button>
               {menuOpen && menuPosition && (
                 <RadialMenu
                   isOpen={menuOpen}
@@ -159,6 +155,10 @@ export default function CarterRoadTrailPage() {
                   overlay={false}
                 />
               )}
+            </div>
+            <div>
+              <div className="text-sm text-gray-400">Managed By</div>
+              <div className="font-medium">Florida Trail Association</div>
             </div>
           </div>
         </div>
