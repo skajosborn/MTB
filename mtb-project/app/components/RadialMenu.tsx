@@ -146,8 +146,8 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
                     href={item.icon}
                     x={iconPos.x - 24}
                     y={iconPos.y - 24}
-                    width={48}
-                    height={48}
+                    width={58}
+                    height={58}
                   />
                 ) : typeof item.icon === 'string' ? (
                   <text
@@ -187,15 +187,15 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
             onClick={onClose}
             style={{ cursor: 'pointer' }}
           >
-            <circle
+            {/* <circle
               cx={radius}
               cy={radius}
               r={innerRadius - 8}
-              fill="#000000cc"
-              stroke="#fff"
+              fill="#00000022"
+              stroke="#000"
               strokeWidth={2}
-            />
-            <text
+            /> */}
+            {/* <text
               x={radius}
               y={radius + 12}
               textAnchor="middle"
@@ -205,7 +205,7 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
               style={{ filter: 'drop-shadow(1px 1px 2px #000)' }}
             >
               ×
-            </text>
+            </text> */}
           </g>
         </svg>
       </div>

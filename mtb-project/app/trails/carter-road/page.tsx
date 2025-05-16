@@ -73,7 +73,7 @@ export default function CarterRoadTrailPage() {
     // { id: 'more', label: 'More...', icon: '⋯' },
     // { id: 'settings', label: 'Settings', icon: '⚙️' },
     { id: 'map', label: 'Map', icon: '/icons/map.png' },
-    { id: 'parking', label: 'Parking', icon: '/icons/parking-icon.png' },
+    { id: 'parking', label: 'Parking', icon: '/icons/parking2.png' },
     { id: 'water', label: 'Water', icon: '/icons/water.png' },
     { id: 'restroom', label: 'Restroom', icon: '/icons/restroom.png' },
     { id: 'picnic', label: 'Picnic', icon: '/icons/picnic.png' },
@@ -107,7 +107,7 @@ export default function CarterRoadTrailPage() {
   if (!hasMounted) return null;
 
   return (
-    <main className="min-h-screen bg-gray-900">
+    <main className="min-h-screen bg-gray-900 pt-8">
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] w-full">
         <div className="absolute inset-0">
@@ -144,8 +144,12 @@ export default function CarterRoadTrailPage() {
               <div className="text-sm text-gray-400">Elevation Gain</div>
               <div className="font-medium">Minimal</div>
             </div>
-            <div className="mt-6">
-              <button ref={menuButtonRef} onClick={handleMenuOpen}>Amenities & Restrictions</button>
+            <div
+                 onMouseEnter={handleMenuOpen}
+                 onMouseLeave={handleMenuClose}
+            >
+              <div className="text-sm text-gray-400 pb-2">Access</div>
+              <button ref={menuButtonRef} className="pb-2 cursor-pointer">Amenities & Restrictions</button>
               {menuOpen && menuPosition && (
                 <RadialMenu
                   isOpen={menuOpen}
@@ -177,7 +181,7 @@ export default function CarterRoadTrailPage() {
                   activeTab === 'overview' 
                     ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg' 
                     : 'hover:bg-gray-800/50 hover:text-white'
-                }`}
+                } cursor-pointer`}
               >
                 Overview
               </button>
@@ -187,7 +191,7 @@ export default function CarterRoadTrailPage() {
                   activeTab === 'beginner'
                     ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg'
                     : 'hover:bg-gray-800/50 hover:text-white'
-                }`}
+                } cursor-pointer`}
               >
                 Trail Features
               </button>
@@ -197,7 +201,7 @@ export default function CarterRoadTrailPage() {
                   activeTab === 'intermediate'
                     ? 'bg-gray-800 text-white border-b-2 border-blue-500 shadow-lg'
                     : 'hover:bg-gray-800/50 hover:text-white'
-                }`}
+                } cursor-pointer`}
               >
                 Riding Tips
               </button>
@@ -207,7 +211,7 @@ export default function CarterRoadTrailPage() {
                   activeTab === 'amenities'
                     ? 'bg-gray-800 text-white border-b-2 border-gray-300 shadow-lg'
                     : 'hover:bg-gray-800/50 hover:text-white'
-                }`}
+                } cursor-pointer`}
               >
                 Access & Amenities
               </button>
@@ -240,8 +244,8 @@ export default function CarterRoadTrailPage() {
                 </div>
 
                 {/* Video Section */}
-                <div className="bg-gray-700 px-8 mt-20">
-                  <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl transition-transform hover:scale-105 mt-20 mb-20">
+                <div className="bg-gray-700 px-8 mt-20 rounded-lg">
+                  <div className="bg-gray-800 overflow-hidden shadow-xl transition-transform hover:scale-105 mt-20 mb-20">
                     <div className="aspect-video w-full">
                       <iframe
                         src="https://www.youtube.com/embed/2wKBkxN0PDo?si=lkNnd3q7t4JsOK8u"
@@ -279,7 +283,7 @@ export default function CarterRoadTrailPage() {
                 />
 
                 {/* Trail Difficulty Section */}
-                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mt-10">
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mt-18">
                   <div className="bg-gray-700 px-6 py-4">
                     <h3 className="text-xl font-bold text-white">Trail Difficulty Breakdown</h3>
                   </div>
@@ -725,15 +729,15 @@ export default function CarterRoadTrailPage() {
                 <WeatherDisplay location={TRAIL_COORDS.location} />
               </div> */}
               {/* 5-Day Forecast */}
-              {/* <h3 className="text-xl font-bold mb-4 text-white">Trail Map</h3>
-              <div className="relative h-108">
+              <h3 className="text-xl font-bold mb-4 text-white">Trail Map</h3>
+              <div className="relative h-138">
                     <Image
                       src="/balmboyettemap.jpg" 
                       alt="Open Prairie Crossing"
                       fill
                       className="object-cover"
                     />
-                  </div> */}
+                  </div>
             </div>
 
             {/* Trail Map Section */}
