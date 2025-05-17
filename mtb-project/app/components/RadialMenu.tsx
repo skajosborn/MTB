@@ -33,36 +33,36 @@ const polarToCartesian = (centerX: number, centerY: number, radius: number, angl
   };
 };
 
-const describeSector = (
-  cx: number,
-  cy: number,
-  outerR: number,
-  innerR: number,
-  startAngle: number,
-  endAngle: number
-) => {
-  // SVG arc for a donut sector
-  const startOuter = polarToCartesian(cx, cy, outerR, endAngle);
-  const endOuter = polarToCartesian(cx, cy, outerR, startAngle);
-  const startInner = polarToCartesian(cx, cy, innerR, startAngle);
-  const endInner = polarToCartesian(cx, cy, innerR, endAngle);
-  const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
-  return [
-    `M ${startOuter.x} ${startOuter.y}`,
-    `A ${outerR} ${outerR} 0 ${largeArcFlag} 0 ${endOuter.x} ${endOuter.y}`,
-    `L ${startInner.x} ${startInner.y}`,
-    `A ${innerR} ${innerR} 0 ${largeArcFlag} 1 ${endInner.x} ${endInner.y}`,
-    'Z',
-  ].join(' ');
-};
+// const describeSector = (
+//   cx: number,
+//   cy: number,
+//   outerR: number,
+//   innerR: number,
+//   startAngle: number,
+//   endAngle: number
+// ) => {
+//   // SVG arc for a donut sector
+//   const startOuter = polarToCartesian(cx, cy, outerR, endAngle);
+//   const endOuter = polarToCartesian(cx, cy, outerR, startAngle);
+//   const startInner = polarToCartesian(cx, cy, innerR, startAngle);
+//   const endInner = polarToCartesian(cx, cy, innerR, endAngle);
+//   const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
+//   return [
+//     `M ${startOuter.x} ${startOuter.y}`,
+//     `A ${outerR} ${outerR} 0 ${largeArcFlag} 0 ${endOuter.x} ${endOuter.y}`,
+//     `L ${startInner.x} ${startInner.y}`,
+//     `A ${innerR} ${innerR} 0 ${largeArcFlag} 1 ${endInner.x} ${endInner.y}`,
+//     'Z',
+//   ].join(' ');
+// };
 
 const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, size = DEFAULT_SIZE, position, overlay = true }) => {
   const [selected, setSelected] = useState(0);
   const svgRef = useRef<SVGSVGElement>(null);
   const sectorCount = Math.max(menuItems?.length ?? 0, MIN_SECTORS);
   const radius = size / 2;
-  const innerRadius = radius * 0.45;
-  const sectorSpace = 12; // Much more space between sectors (degrees)
+  // const innerRadius = radius * 0.45;
+  // const sectorSpace = 12; // Much more space between sectors (degrees)
 
   useEffect(() => {
     if (isOpen) setSelected(0);

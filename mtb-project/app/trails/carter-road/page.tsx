@@ -6,10 +6,11 @@ import WeatherForecast from '@/app/components/WeatherForecast';
 import TrailMap from '@/app/components/TrailMap';
 import TrailDifficulty from '@/app/components/TrailDifficulty';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import Link from 'next/link';
 import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
 // import NavigationTabs from '@/app/components/NavigationTabs';
-import TrailFeatures, { TrailFeature } from '@/app/components/TrailFeatures';
-import TrailAmenities, { TrailAmenity } from '@/app/components/TrailAmenities';
+import { TrailFeature } from '@/app/components/TrailFeatures';
+import { TrailAmenity } from '@/app/components/TrailAmenities';
 import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
 
 const TRAIL_COORDS = {
@@ -162,14 +163,6 @@ export default function CarterRoadTrailPage() {
     setMenuPosition(null);
   };
 
-  // const handleGetDirections = () => {
-  //   window.open(
-  //     `https://www.google.com/maps/dir/?api=1&destination=${trailData.lat},${trailData.lon}`,
-  //     '_blank'
-  //   );
-  // };
-
-  // if (!hasMounted) return null;
 
   return (
     <main className="min-h-screen bg-gray-900 pt-8">
@@ -323,22 +316,81 @@ export default function CarterRoadTrailPage() {
                   </div>
                 </div>
               
-                <h2 className="text-3xl font-bold text-white mt-10 mb-10">Location</h2>
-                <div className="text-xl">Address: <strong className="font-bold text-blue-300">Loyce E. Harpe Park</strong> 500 W Carter Road, Mulberry, FL 33860</div>
-                <div className="text-xl pt-4">Driving directions:</div>
+                <h2 className="text-3xl font-bold text-white mt-10 mb-10">Maps & Directions</h2>
+                
+                   {/* Maps & Directions Section */}
+                   <div className="text-xl">Address: <strong className="font-bold text-blue-300">Loyce E. Harpe Park</strong> 500 W Carter Road, Mulberry, FL 33860</div>
+                <section className="bg-gray-800 mt-4">
+                  <div className="max-w-7xl mx-auto px-4">
+                  
+                    <div className="flex items-center mb-6">
+           
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Map */}
+            <div>
+              <h3 className="text-xl font-bold mb-4 text-white">Trail Map</h3>
+              <div className="rounded-lg mb-6 overflow-hidden shadow-lg">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14048.609155217813!2d-82.30127323022462!3d28.542212200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e840c22da7b915%3A0xb79b2387345f868a!2sCroom%20Motorcycle%20Area!5e0!3m2!1sen!2sus!4v1717528158099!5m2!1sen!2sus"
+                  width="100%"
+                  height="400"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+            
+            {/* Directions */}
+            <div>
+              <h3 className="text-xl font-bold mb-4 pl-6 text-white">Driving Directions</h3>
+              <div className="bg-gray-800 rounded-lg p-6 shadow-lg">
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-semibold text-gray-300">From Tampa:</h4>
+                    <p className="text-gray-400">Take I-75 North to exit 301 (SR-50). Head east on SR-50 for approximately 12 miles. Turn north onto Croom Rital Road, then left onto Croom Road (Forest Road 6). The main trailhead is Tucker Hill Day Use Area.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-300">From Orlando:</h4>
+                    <p className="text-gray-400">Take I-4 West to exit 58 (CR-54/Polk City). Continue west to US-98, then head north to SR-50. Turn left (west) on SR-50, then north on Croom Rital Road, and left on Croom Road (Forest Road 6).</p>
+                  </div>
+                  <div className="pt-3 flex justify-center">
+                    <a href="https://maps.google.com/?q=Croom+Mountain+Bike+Trails+Brooksville+Florida" target="_blank" rel="noopener noreferrer" className="inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                      Get Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-                {/* Trail Map (Mapbox with 2D/3D toggle) */}
-                <div className="bg-gray-700 rounded-lg p-6 shadow-lg mt-20">
-                  <div style={{ width: "100%", height: "100%" }}>
-                    <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+       {/* Trail Map (Mapbox with 2D/3D toggle) */}
+       <div className="bg-gray-700 rounded-lg p-6 shadow-lg mt-20">
+            <div style={{ width: "100%", height: "100%" }}>
+                <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
                   </div>
                 </div>
 
+
                 {/* Photo Gallery Section */}
                 <TrailPhotoGallery photos={photos} />
-              </div>
 
-              {/* Right Column - Weather and Trail Details */}
+                {/* Carter Road Map Image */}
+                <h3 className="text-3xl font-bold text-white mt-10 mb-10">Trail Map</h3>
+                <div className="relative h-96 max-w-contain mx-auto">
+                  <Image
+                    src="/balmboyettemap.jpg"
+                    alt="Open Prairie Crossing"
+                    fill
+                    className="object-contain rounded-lg"
+                  />
+                </div>
+              </div>
+              
               <div className="lg:col-span-1 pt-8 pl-10">
                 {/* Weather Section */}
                 <WeatherForecast 
@@ -362,121 +414,25 @@ export default function CarterRoadTrailPage() {
               </div>
             </div>
           )}
-          
-          {activeTab === 'features' && (
-            <TrailFeatures features={features} />
-          )}
-          
-          {activeTab === 'tips' && (
-            <div>
-              <div className="flex items-center mb-8">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-5">
-                  <span className="text-white text-xl font-bold">💡</span>
-                </div>
-                <h2 className="text-3xl font-bold text-white">Riding Tips</h2>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-white mb-3">Best Practices</h3>
-                    <ul className="list-disc pl-5 text-gray-300 space-y-2">
-                      <li>Always check trail conditions before riding, especially after rain</li>
-                      <li>Bring plenty of water, as Florida humidity can lead to rapid dehydration</li>
-                      <li>Wear insect repellent during warmer months</li>
-                      <li>Use wider tires (2.2&quot;+) for better stability on boardwalks</li>
-                      <li>Be cautious on boardwalks when wet, as they can become slippery</li>
-                      <li>Respect wildlife and maintain a safe distance if encountered</li>
-                    </ul>
-                  </div>
-                </div>
-                
-                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-white mb-3">Weather Considerations</h3>
-                    <p className="text-gray-300 mb-4">Carter Road Trail can be affected significantly by weather conditions:</p>
-                    <ul className="list-disc pl-5 text-gray-300 space-y-2">
-                      <li>During rainy season (June-September), parts of the trail may be underwater</li>
-                      <li>Summer months bring high temperatures and humidity - ride early morning or evening</li>
-                      <li>Winter and spring offer the best riding conditions with moderate temperatures</li>
-                      <li>After heavy rain, boardwalks can take 1-2 days to dry completely</li>
-                      <li>Trail conditions are typically posted on the Florida Trail Association website</li>
-                    </ul>
-                  </div>
-                </div>
-                
-                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-white mb-3">Technical Sections</h3>
-                    <p className="text-gray-300 mb-4">Tips for handling the more challenging parts of the trail:</p>
-                    <ul className="list-disc pl-5 text-gray-300 space-y-2">
-                      <li>Maintain momentum through sandy sections to avoid getting bogged down</li>
-                      <li>For rocky areas, stand up slightly on your pedals to let the bike move beneath you</li>
-                      <li>When crossing narrow boardwalks, look ahead rather than down at your front wheel</li>
-                      <li>Use a slightly lower tire pressure than usual to improve traction</li>
-                      <li>First-timers should ride conservatively until familiar with trail features</li>
-                    </ul>
-                  </div>
-                </div>
-                
-                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-white mb-3">Recommended Gear</h3>
-                    <ul className="list-disc pl-5 text-gray-300 space-y-2">
-                      <li>Hardtail or short-travel full suspension bike works well</li>
-                      <li>Wider tires (2.2-2.6&quot;) provide stability on various surfaces</li>
-                      <li>Hydration pack with at least 2 liters of water</li>
-                      <li>Basic tool kit including spare tube and patch kit</li>
-                      <li>Sunscreen and insect repellent</li>
-                      <li>Moisture-wicking clothing</li>
-                      <li>Camera for wildlife photography opportunities</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {activeTab === 'amenities' && (
-            <TrailAmenities amenities={amenities} />
-          )}
         </div>
       </div>
 
-      {/* Weather and Map Section */}
-      <section className="bg-gray-800 py-12">
-        <div className="max-w-[90%] mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-            {/* Weather Section */}
-            <div className="bg-gray-700 rounded-lg p-6 shadow-lg">
-              {/* 5-Day Forecast */}
-              <h3 className="text-xl font-bold mb-4 text-white">Trail Map</h3>
-              <div className="relative h-138">
-                <Image
-                  src="/balmboyettemap.jpg" 
-                  alt="Open Prairie Crossing"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div>
-
-            {/* Trail Map Section */}
-            <div className="bg-gray-700 rounded-lg p-6 shadow-lg">
-              {/* Trail Info */}
-              <div className="mt-4 bg-gray-600 rounded-lg p-4">
-                <h4 className="text-lg font-semibold text-white mb-2">Trail Information</h4>
-                <div className="space-y-2 text-gray-300">
-                  <p><span className="font-medium">Location:</span> {TRAIL_COORDS.location}</p>
-                  <p><span className="font-medium">Coordinates:</span> {TRAIL_COORDS.latitude.toFixed(6)}, {TRAIL_COORDS.longitude.toFixed(6)}</p>
-                  <p><span className="font-medium">Parking:</span> Available at main trailhead</p>
-                </div>
-              </div>
-            </div>
+      
+      {/* Call to Action */}
+      <div className="bg-gray-800">
+        <div className="max-w-4xl mx-auto text-center py-8 px-4">
+          <h2 className="text-3xl font-bold text-white mb-4">Ready to Ride Carter Road?</h2>
+          <p className="text-xl text-white opacity-90 mb-8">Grab your bike and helmet and experience some of Florida&apos;s best trails.</p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href="/trails" className="inline-block bg-white text-green-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-full transition-colors">
+              Explore More Trails
+            </Link>
+            <a href="https://www.swfwmd.state.fl.us/" target="_blank" rel="noopener noreferrer" className="inline-block bg-transparent text-white border-2 border-white hover:bg-white hover:text-green-600 font-bold py-3 px-8 rounded-full transition-colors">
+              Park Website
+            </a>
           </div>
         </div>
-      </section>
+      </div>
     </main>
   );
 }

@@ -6,14 +6,6 @@ import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-direct
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
-type Trail = {
-  id: string;
-  name: string;
-  lat: number;
-  lon: number;
-  // ...other props
-};
-
 type Props = {
     lat: number;
     lon: number;
@@ -103,7 +95,7 @@ type Props = {
 
   return (
     <div>
-      <div className="flex justify-center gap-4 mb-6">
+      <div className="flex justify-center gap-4 mb-6 cursor-pointer">
         <button
           className={`px-4 py-2 text-white rounded transition-colors ${!is3D ? 'bg-blue-500' : 'bg-blue-600 hover:bg-blue-700'}`}
           onClick={toggle2D}
@@ -116,12 +108,12 @@ type Props = {
         >
           3D Satellite
         </button>
-        <button
+        {/* <button
           className="px-4 py-2 text-white rounded bg-green-700 hover:bg-green-800"
           onClick={() => typeof window !== 'undefined' && window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`, '_blank')}
         >
           Get Directions
-        </button>
+        </button> */}
       </div>
       <div ref={mapContainerRef} className="w-full h-[500px] rounded-lg" />
     </div>

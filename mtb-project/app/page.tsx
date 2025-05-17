@@ -48,8 +48,8 @@ const trails = [
 ];
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [menuPosition, setMenuPosition] = useState<{ x: number; y: number } | null>(null);
+  const [ setMenuOpen] = useState(false);
+  const [ setMenuPosition] = useState<{ x: number; y: number } | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
 
@@ -59,21 +59,21 @@ export default function Home() {
   //   onClick: () => router.push(`/trails/${trail.id}`),
   // }));
 
-  const handleMenuOpen = () => {
-    const rect = menuButtonRef.current?.getBoundingClientRect();
-    if (rect) {
-      setMenuPosition({
-        x: rect.left + rect.width / 2 + window.scrollX,
-        y: rect.bottom + window.scrollY + 20, // 20px below the button
-      });
-      setMenuOpen(true);
-    }
-  };
+  // const handleMenuOpen = () => {
+  //   const rect = menuButtonRef.current?.getBoundingClientRect();
+  //   if (rect) {
+  //     setMenuPosition({
+  //       x: rect.left + rect.width / 2 + window.scrollX,
+  //       y: rect.bottom + window.scrollY + 20, // 20px below the button
+  //     });
+  //     setMenuOpen(true);
+  //   }
+  // };
 
-  const handleMenuClose = () => {
-    setMenuOpen(false);
-    setMenuPosition(null);
-  };
+  // const handleMenuClose = () => {
+  //   setMenuOpen(false);
+  //   setMenuPosition(null);
+  // };
 
   return (
     <main className="min-h-screen">
