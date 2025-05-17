@@ -17,7 +17,7 @@ interface RadialMenuProps {
   overlay?: boolean; // Optional: show a dim background overlay
 }
 
-const DEFAULT_SIZE = 600; // Much larger
+const DEFAULT_SIZE = 800; // Increase SVG size
 const MIN_SECTORS = 6;
 
 const getAngle = (idx: number, total: number) => {
@@ -99,7 +99,7 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
     <>
       {overlay && (
         <div
-          className="fixed inset-0 z-[1000] bg-black/40"
+          className="fixed inset-0 z-[1000] bg-black/0"
           style={{ backdropFilter: 'blur(2px)' }}
           onClick={onClose}
         />
@@ -116,12 +116,20 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
           {/* Circles as menu items */}
           {menuItems.map((item, i) => {
             const angle = getAngle(i, sectorCount);
-            const ringRadius = radius * 0.8; // Distance from center to each button
+            const ringRadius = radius * 0.72; // Spread items out, but not to the very edge
             const iconRadius = 48; // Radius of each button circle
             const center = polarToCartesian(radius, radius, ringRadius, angle);
             const isSelected = i === selected;
+            // Calculate label background size
+            const labelY = center.y + iconRadius + 28;
+            const labelWidth = Math.max(160, item.label.length * 16); // Bigger width
+            const labelHeight = 44; // Bigger height
             return (
-              <g key={item.id} style={{ pointerEvents: 'none' }}>
+              <g
+                key={item.id}
+                style={{ cursor: item.onClick ? 'pointer' : 'default', pointerEvents: 'auto' }}
+                onClick={item.onClick}
+              >
                 <circle
                   cx={center.x}
                   cy={center.y}
@@ -133,8 +141,8 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
                 {typeof item.icon === 'string' && item.icon.match(/\.(png|jpg|jpeg|gif)$/i) ? (
                   <image
                     href={item.icon}
-                    x={center.x - 24}
-                    y={center.y - 24}
+                    x={center.x - 244}
+                    y={center.y - 144}
                     width={48}
                     height={48}
                   />
@@ -155,6 +163,28 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
                     {item.icon}
                   </g>
                 ) : null}
+                {/* Label background rectangle */}
+                <rect
+                  x={center.x - labelWidth / 2}
+                  y={labelY - labelHeight / 2}
+                  width={labelWidth}
+                  height={labelHeight}
+                  rx={8}
+                  fill="#000"
+                  opacity={0.85}
+                />
+                {/* Add label on top of background */}
+                <text
+                  x={center.x}
+                  y={labelY + 6}
+                  textAnchor="middle"
+                  alignmentBaseline="middle"
+                  fontSize={22}
+                  fill="#fff"
+                  style={{ filter: 'drop-shadow(1px 1px 2px #000)' }}
+                >
+                  {item.label}
+                </text>
               </g>
             );
           })}

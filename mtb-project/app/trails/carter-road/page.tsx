@@ -268,7 +268,9 @@ export default function CarterRoadTrailPage() {
 
                 {/* Trail Map (Mapbox with 2D/3D toggle) */}
                 <div className="bg-gray-700 rounded-lg p-6 shadow-lg mt-20">
-                  <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+                  <div style={{ width: "100%", height: "100%" }}>
+                    <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+                  </div>
                 </div>
 
                 {/* Photo Gallery Section */}

@@ -6,6 +6,14 @@ import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-direct
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
+type Trail = {
+  id: string;
+  name: string;
+  lat: number;
+  lon: number;
+  // ...other props
+};
+
 type Props = {
     lat: number;
     lon: number;
