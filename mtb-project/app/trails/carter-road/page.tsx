@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import WeatherForecast from '@/app/components/WeatherForecast';
 import TrailMap from '@/app/components/TrailMap';
@@ -9,10 +9,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Link from 'next/link';
 import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
 // import NavigationTabs from '@/app/components/NavigationTabs';
-import { TrailFeature } from '@/app/components/TrailFeatures';
-import { TrailAmenity } from '@/app/components/TrailAmenities';
 import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
-import { useRouter } from 'next/navigation';
+import TrailFeatures from '@/app/components/TrailFeatures';
+import TrailAmenities from '@/app/components/TrailAmenities';
 
 const TRAIL_COORDS = {
   latitude: 28.745284,
@@ -183,11 +182,9 @@ const photos: TrailPhoto[] = [
 
 export default function CarterRoadTrailPage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'features' | 'tips' | 'amenities'>('overview');
-  const [hasMounted, setHasMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPosition, setMenuPosition] = useState<{ x: number; y: number } | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const router = useRouter();
 
   const menuItems: RadialMenuItem[] = [
     { id: 'bike', label: 'Bike', icon: '/icons/bike.png' },
@@ -200,8 +197,6 @@ export default function CarterRoadTrailPage() {
     { id: 'restroom', label: 'Restroom', icon: '/icons/restroom.png' },
     { id: 'picnic', label: 'Picnic', icon: '/icons/picnic.png' },
   ];
-
-  useEffect(() => { setHasMounted(true); }, []);
 
   const handleMenuOpen = () => {
     const rect = menuButtonRef.current?.getBoundingClientRect();
@@ -472,30 +467,7 @@ export default function CarterRoadTrailPage() {
           )}
 
           {activeTab === 'features' && (
-            <div>
-              <h2 className="text-3xl font-bold text-white mt-10 mb-10">Trail Features</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {features.map((feature, idx) => (
-                  <div key={idx} className="bg-gray-800 rounded-lg overflow-hidden shadow-xl transition-transform hover:scale-105">
-                    <div className="relative h-56">
-                      <Image
-                        src={feature.image}
-                        alt={feature.alt}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
-                      <p className="text-gray-300">{feature.description}</p>
-                      <div className="mt-4 flex items-center text-sm text-gray-400">
-                        <span>Feature Type: {feature.type}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <TrailFeatures features={features} />
           )}
 
           {activeTab === 'amenities' && (
@@ -535,20 +507,10 @@ export default function CarterRoadTrailPage() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-white mb-4">Available Amenities</h3>
-                    <div className="grid grid-cols-2 gap-4">
-                      {amenities.map((amenity, idx) => (
-                        <div key={idx} className="flex items-center">
-                          <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center mr-3">
-                            <span>{amenity.icon}</span>
-                          </div>
-                          <span className="text-gray-300">{amenity.label}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-8">
+                <div>
+                  <TrailAmenities amenities={amenities} />
+                  <div className="mt-8 bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                    <div className="p-6">
                       <h3 className="text-xl font-semibold text-white mb-4">Nearby Services</h3>
                       <p className="text-gray-300 mb-4">The closest amenities are located in Inverness, approximately 15 minutes by car:</p>
                       <ul className="list-disc pl-5 text-gray-300 space-y-2">
