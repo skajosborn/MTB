@@ -32,46 +32,100 @@ const trailData = {
 //   { label: 'Access & Amenities', value: 'amenities' },
 // ];
 
-const features: TrailFeature[] = [
+const features = [
   {
     image: '/bridge1.jpg',
+    alt: 'Wooden Boardwalk',
     title: 'Wooden Boardwalks',
     description: 'Elevated wooden structures that cross over wetland areas, offering unique views of the surrounding landscape and wildlife.',
     type: 'Infrastructure',
   },
   {
     image: '/bridge20.jpg',
+    alt: 'Swampland Section',
     title: 'Swampland Sections',
     description: 'Beautiful sections that wind through cypress swamps, providing a striking backdrop for riders with reflective water surfaces.',
     type: 'Natural Terrain',
   },
   {
     image: '/woodedtrail.jpg',
+    alt: 'Pine Forest Segment',
     title: 'Pine Forest Segments',
     description: 'Fast-flowing segments through pine forests with a bed of pine needles creating a smooth, cushioned riding surface.',
     type: 'Natural Terrain',
   },
   {
     image: '/rocks.jpg',
+    alt: 'Rocky Technical Section',
     title: 'Rocky Technical Sections',
     description: 'Several short but challenging sections with limestone outcroppings that provide technical riding opportunities.',
     type: 'Technical Challenge',
   },
   {
     image: '/gator.jpg',
+    alt: 'Wildlife Viewing Area',
     title: 'Wildlife Viewing Areas',
     description: 'Designated spots along the trail that offer excellent opportunities to observe native Florida wildlife in their natural habitat.',
     type: 'Points of Interest',
   },
   {
     image: '/lake.jpg',
+    alt: 'Open Prairie Crossing',
     title: 'Open Prairie Crossings',
     description: 'Occasional sections that cross open prairies, offering a change of scenery and expansive views of the Florida landscape.',
     type: 'Natural Terrain',
   },
 ];
 
-const amenities: TrailAmenity[] = [
+const ridingTips = [
+  {
+    category: 'Best Practices',
+    tips: [
+      'Always check trail conditions before riding, especially after rain',
+      'Bring plenty of water, as Florida humidity can lead to rapid dehydration',
+      'Wear insect repellent during warmer months',
+      'Use wider tires (2.2"+) for better stability on boardwalks',
+      'Be cautious on boardwalks when wet, as they can become slippery',
+      'Respect wildlife and maintain a safe distance if encountered',
+    ],
+  },
+  {
+    category: 'Weather Considerations',
+    description: 'Carter Road Trail can be affected significantly by weather conditions:',
+    tips: [
+      'During rainy season (June-September), parts of the trail may be underwater',
+      'Summer months bring high temperatures and humidity - ride early morning or evening',
+      'Winter and spring offer the best riding conditions with moderate temperatures',
+      'After heavy rain, boardwalks can take 1-2 days to dry completely',
+      'Trail conditions are typically posted on the Florida Trail Association website',
+    ],
+  },
+  {
+    category: 'Technical Sections',
+    description: 'Tips for handling the more challenging parts of the trail:',
+    tips: [
+      'Maintain momentum through sandy sections to avoid getting bogged down',
+      'For rocky areas, stand up slightly on your pedals to let the bike move beneath you',
+      'When crossing narrow boardwalks, look ahead rather than down at your front wheel',
+      'Use a slightly lower tire pressure than usual to improve traction',
+      'First-timers should ride conservatively until familiar with trail features',
+    ],
+  },
+  {
+    category: 'Recommended Gear',
+    tips: [
+      'Hardtail or short-travel full suspension bike works well',
+      'Wider tires (2.2-2.6") provide stability on various surfaces',
+      'Hydration pack with at least 2 liters of water',
+      'Basic tool kit including spare tube and patch kit',
+      'Sunscreen and insect repellent',
+      'Moisture-wicking clothing',
+      'Camera for wildlife photography opportunities',
+    ],
+  },
+];
+
+const amenities = [
   { icon: '🚻', label: 'Basic Restrooms' },
   { icon: '🅿️', label: 'Free Parking' },
   { icon: '📋', label: 'Information Board' },
@@ -411,6 +465,125 @@ export default function CarterRoadTrailPage() {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'features' && (
+            <div>
+              <h2 className="text-3xl font-bold text-white mt-10 mb-10">Trail Features</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {features.map((feature, idx) => (
+                  <div key={idx} className="bg-gray-800 rounded-lg overflow-hidden shadow-xl transition-transform hover:scale-105">
+                    <div className="relative h-56">
+                      <Image
+                        src={feature.image}
+                        alt={feature.alt}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
+                      <p className="text-gray-300">{feature.description}</p>
+                      <div className="mt-4 flex items-center text-sm text-gray-400">
+                        <span>Feature Type: {feature.type}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'amenities' && (
+            <div>
+              <div className="flex items-center mb-8">
+                <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center mr-5">
+                  <span className="text-white text-xl font-bold">📍</span>
+                </div>
+                <h2 className="text-3xl font-bold text-white">Trail Access & Amenities</h2>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                  <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-white mb-4">Trailhead Access</h3>
+                      <p className="text-gray-300 mb-4">The main trailhead is located off of S. Carter Road in the Citrus Wildlife Management Area. There is ample parking available and no entry fee is required.</p>
+                      <h3 className="text-xl font-semibold text-white mb-4 mt-6">Trail Markings</h3>
+                      <p className="text-gray-300 mb-4">The trail is marked with blue blazes throughout the route. Major intersections have signage indicating direction and distance.</p>
+                      <div className="flex flex-wrap gap-4 mt-2">
+                        <div className="flex items-center bg-blue-900 bg-opacity-40 rounded-full px-4 py-2">
+                          <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                          <span className="text-blue-300">Blue Blazes - Main Trail</span>
+                        </div>
+                        <div className="flex items-center bg-yellow-900 bg-opacity-40 rounded-full px-4 py-2">
+                          <div className="w-4 h-4 bg-yellow-500 rounded-full mr-2"></div>
+                          <span className="text-yellow-300">Yellow Blazes - Side Loops</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mt-6">
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-white mb-4">Operating Hours</h3>
+                      <p className="text-gray-300 mb-4">The trail is open from sunrise to sunset, 365 days a year. Night riding is not permitted in the Wildlife Management Area.</p>
+                      <h3 className="text-xl font-semibold text-white mb-4 mt-6">Fees</h3>
+                      <p className="text-gray-300">There is no fee to access the trail. Donations to the Florida Trail Association are appreciated to help with trail maintenance.</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-white mb-4">Available Amenities</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      {amenities.map((amenity, idx) => (
+                        <div key={idx} className="flex items-center">
+                          <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center mr-3">
+                            <span>{amenity.icon}</span>
+                          </div>
+                          <span className="text-gray-300">{amenity.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-8">
+                      <h3 className="text-xl font-semibold text-white mb-4">Nearby Services</h3>
+                      <p className="text-gray-300 mb-4">The closest amenities are located in Inverness, approximately 15 minutes by car:</p>
+                      <ul className="list-disc pl-5 text-gray-300 space-y-2">
+                        <li>Gas stations</li>
+                        <li>Restaurants and grocery stores</li>
+                        <li>Bike shops for repairs and supplies</li>
+                        <li>Medical facilities</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'tips' && (
+            <div>
+              <div className="flex items-center mb-8">
+                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-5">
+                  <span className="text-white text-xl font-bold">💡</span>
+                </div>
+                <h2 className="text-3xl font-bold text-white">Riding Tips</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {ridingTips.map((section, idx) => (
+                  <div key={idx} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-white mb-3">{section.category}</h3>
+                      {section.description && <p className="text-gray-300 mb-4">{section.description}</p>}
+                      <ul className="list-disc pl-5 text-gray-300 space-y-2">
+                        {section.tips.map((tip, tipIdx) => (
+                          <li key={tipIdx}>{tip}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
