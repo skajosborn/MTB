@@ -3,78 +3,76 @@
 type Trail = {
   name: string;
   length: string;
+  level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
 };
 
-type DifficultyLevel = {
-  title: string;
-  description: string;
-  color: string;
-  hoverColor: string;
+type TrailDifficultyProps = {
   trails: Trail[];
-  explanation: string;
 };
 
-const difficultyLevels: DifficultyLevel[] = [
-  {
-    title: 'Beginner',
+const DIFFICULTY_META = {
+  Beginner: {
     description: 'Perfect for new riders',
     color: 'bg-green-600',
-    hoverColor: 'hover:bg-green-700',
-    trails: [
-      { name: 'Pine Needle Loop', length: '1.2 miles' },
-      { name: 'Cypress Trail', length: '0.8 miles' },
-      { name: 'Nature Walk', length: '1.5 miles' },
-      { name: 'Boardwalk Trail', length: '0.5 miles' },
-    ],
-    explanation: 'Wide, well-maintained paths with minimal obstacles. Perfect for learning basic mountain biking skills.'
+    text: 'text-green-600',
+    border: 'border-green-500',
+    explanation: 'Wide, well-maintained paths with minimal obstacles. Perfect for learning basic mountain biking skills.',
   },
-  {
-    title: 'Intermediate',
+  Intermediate: {
     description: 'For experienced riders',
     color: 'bg-blue-600',
-    hoverColor: 'hover:bg-blue-700',
-    trails: [
-      { name: 'Ridge Runner', length: '2.5 miles' },
-      { name: 'Swamp Connect', length: '1.8 miles' },
-      { name: 'Oak Hammock', length: '2.0 miles' },
-      { name: 'Palmetto Pass', length: '1.7 miles' },
-    ],
-    explanation: 'Narrower paths with moderate obstacles, some technical features, and occasional steep sections.'
+    text: 'text-blue-600',
+    border: 'border-blue-500',
+    explanation: 'Narrower paths with moderate obstacles, some technical features, and occasional steep sections.',
   },
-  {
-    title: 'Advanced',
-    description: 'For expert riders',
+  Advanced: {
+    description: 'For advanced riders',
     color: 'bg-red-600',
-    hoverColor: 'hover:bg-red-700',
-    trails: [
-      { name: 'Technical Loop', length: '3.0 miles' },
-      { name: 'Rock Garden', length: '1.2 miles' },
-      { name: 'Root Run', length: '2.2 miles' },
-      { name: 'Challenge Trail', length: '2.8 miles' },
-    ],
-    explanation: 'Challenging trails with technical features, steep grades, and complex obstacles requiring advanced skills.'
+    text: 'text-red-600',
+    border: 'border-red-500',
+    explanation: 'Challenging trails with technical features, steep grades, and complex obstacles requiring advanced skills.',
   },
-];
+  Expert: {
+    description: 'For expert riders',
+    color: 'bg-orange-500',
+    text: 'text-orange-500',
+    border: 'border-orange-500',
+    explanation: 'Highly technical trail, steep grades, complex and intricate obstacles requiring expert skills, steep jumps.'
+  }
+};
 
-export default function TrailDifficulty() {
+function groupByDifficulty(trails: Trail[]) {
+  const levels: Array<'Beginner' | 'Intermediate' | 'Advanced' | 'Expert'> = ['Beginner', 'Intermediate', 'Advanced', 'Expert'];
+  return levels.map(level => ({
+    title: level,
+    description: DIFFICULTY_META[level].description,
+    color: DIFFICULTY_META[level].color,
+    text: DIFFICULTY_META[level].text,
+    border: DIFFICULTY_META[level].border,
+    explanation: DIFFICULTY_META[level].explanation,
+    trails: trails.filter(t => t.level === level),
+  }));
+}
+
+export default function TrailDifficulty({ trails }: TrailDifficultyProps) {
+  if (!trails || trails.length === 0) return null;
+  const levels = groupByDifficulty(trails);
   return (
-    <div className="flex space-x-2">
-      {difficultyLevels.map((level, index) => (
-        <div key={index} className="relative group">
-          <div className={`${level.color} rounded px-3 py-2 cursor-pointer transition-all duration-300 ${level.hoverColor}`}>
-            <span className="text-white font-medium">{level.title}</span>
+    <div className="flex flex-col space-y-6">
+      {levels.map((level, index) => (
+        <div key={index} className={`rounded-lg p-4 border-l-8 ${level.border} bg-gray-700 shadow-md`}>
+          <div className="flex flex-col mb-2">
+            <span className={`px-3 py-1 rounded text-white font-semibold text-lg ${level.color} mr-3 inline-block w-fit`}>{level.title}</span>
+            <span className="text-gray-200 text-base mt-2">{level.description}</span>
           </div>
-          <div className="absolute z-50 hidden group-hover:block w-64 bg-gray-800 rounded-lg mt-2 p-4 shadow-lg right-0">
-            <h5 className="text-white font-semibold mb-3">Available Trails:</h5>
-            <ul className="space-y-3 text-gray-300">
-              {level.trails.map((trail, trailIndex) => (
-                <li key={trailIndex} className="flex items-center">
-                  <span className={`w-2 h-2 ${level.color} rounded-full mr-2`}></span>
-                  {trail.name} ({trail.length})
-                </li>
-              ))}
-            </ul>
-          </div>
+          <div className="text-gray-400 text-sm mb-2">{level.explanation}</div>
+          <ul className="list-disc pl-6 text-gray-100">
+            {level.trails.map((trail, trailIndex) => (
+              <li key={trailIndex} className="mb-1">
+                <span className={`font-medium ${level.text}`}>{trail.name}</span> <span className="text-gray-400">({trail.length})</span>
+              </li>
+            ))}
+          </ul>
         </div>
       ))}
     </div>
