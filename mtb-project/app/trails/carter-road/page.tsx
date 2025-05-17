@@ -7,7 +7,7 @@ import TrailMap from '@/app/components/TrailMap';
 import TrailDifficulty from '@/app/components/TrailDifficulty';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
-import NavigationTabs from '@/app/components/NavigationTabs';
+// import NavigationTabs from '@/app/components/NavigationTabs';
 import TrailFeatures, { TrailFeature } from '@/app/components/TrailFeatures';
 import TrailAmenities, { TrailAmenity } from '@/app/components/TrailAmenities';
 import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
@@ -24,12 +24,12 @@ const trailData = {
   lat: 28.745284    // latitude
 };
 
-const tabs = [
-  { label: 'Overview', value: 'overview' },
-  { label: 'Trail Features', value: 'features' },
-  { label: 'Riding Tips', value: 'tips' },
-  { label: 'Access & Amenities', value: 'amenities' },
-];
+// const tabs = [
+//   { label: 'Overview', value: 'overview' },
+//   { label: 'Trail Features', value: 'features' },
+//   { label: 'Riding Tips', value: 'tips' },
+//   { label: 'Access & Amenities', value: 'amenities' },
+// ];
 
 const features: TrailFeature[] = [
   {
@@ -162,14 +162,14 @@ export default function CarterRoadTrailPage() {
     setMenuPosition(null);
   };
 
-  const handleGetDirections = () => {
-    window.open(
-      `https://www.google.com/maps/dir/?api=1&destination=${trailData.lat},${trailData.lon}`,
-      '_blank'
-    );
-  };
+  // const handleGetDirections = () => {
+  //   window.open(
+  //     `https://www.google.com/maps/dir/?api=1&destination=${trailData.lat},${trailData.lon}`,
+  //     '_blank'
+  //   );
+  // };
 
-  if (!hasMounted) return null;
+  // if (!hasMounted) return null;
 
   return (
     <main className="min-h-screen bg-gray-900 pt-8">

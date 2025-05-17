@@ -69,7 +69,7 @@ export default function TrailDifficulty({ trails }: TrailDifficultyProps) {
           <ul className="list-disc pl-6 text-gray-100">
             {level.trails.map((trail, trailIndex) => (
               <li key={trailIndex} className="mb-1">
-                <span className={`font-medium ${level.text}`}>{trail.name}</span> <span className="text-gray-400">({trail.length})</span>
+                <span className="font-medium text-white">{trail.name}</span> <span className="text-gray-400">({trail.length})</span>
               </li>
             ))}
           </ul>
