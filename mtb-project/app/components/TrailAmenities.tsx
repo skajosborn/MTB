@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 export type TrailAmenity = {
   icon: React.ReactNode | string; // Can be an emoji, SVG, or image path
@@ -20,7 +21,7 @@ export default function TrailAmenities({ amenities, title = "Available Amenities
           <div key={idx} className="flex items-center bg-gray-800 rounded-lg p-4 shadow">
             <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center mr-4 text-2xl">
               {typeof amenity.icon === 'string' && amenity.icon.startsWith('/') ? (
-                <img src={amenity.icon} alt={amenity.label} className="w-6 h-6" />
+                <Image src={amenity.icon} alt={amenity.label} width={24} height={24} />
               ) : (
                 amenity.icon
               )}

@@ -12,6 +12,7 @@ import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
 import { TrailFeature } from '@/app/components/TrailFeatures';
 import { TrailAmenity } from '@/app/components/TrailAmenities';
 import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
+import { useRouter } from 'next/navigation';
 
 const TRAIL_COORDS = {
   latitude: 28.745284,
@@ -186,6 +187,7 @@ export default function CarterRoadTrailPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPosition, setMenuPosition] = useState<{ x: number; y: number } | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
 
   const menuItems: RadialMenuItem[] = [
     { id: 'bike', label: 'Bike', icon: '/icons/bike.png' },

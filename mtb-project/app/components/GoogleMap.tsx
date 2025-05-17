@@ -19,9 +19,6 @@ export default function GoogleMap({ latitude, longitude }: GoogleMapProps) {
   };
 
   // const MENU_SIZE = 600; // or whatever your RadialMenu size is
-  const setMenuPosition = (rect: DOMRect) => {
-    // Implementation of setMenuPosition function
-  };
 
   return (
     <div className="rounded-lg overflow-hidden shadow-lg">
