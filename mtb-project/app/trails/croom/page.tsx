@@ -205,7 +205,7 @@ export default function CroomTrailPage() {
               <h2 className="text-3xl font-bold text-white mb-6">About Croom</h2>
               <div className="prose prose-invert max-w-none">
                 <p className="text-gray-300 text-lg mb-4">
-                  Nesetled in the heart of the Withlacoochee State Forest, Croom's mountain biking network delivers one of Florida's most rugged and exhilerating off-road experiences. With more than 50 miles of singletrack, this trail system offers an intense cardio workout wrapped in scenic wilderness-perfect for riders chasing adventure and variety. </p>
+                  Nesetled in the heart of the Withlacoochee State Forest, Croom&#39;s mountain biking network delivers one of Florida&#39;s most rugged and exhilerating off-road experiences. With more than 50 miles of singletrack, this trail system offers an intense cardio workout wrapped in scenic wilderness-perfect for riders chasing adventure and variety. </p>
                   <p> Croom offers over 50 miles of diverse singletrack trails and is famous for its suprisingly steep climbs and extended trail runs-rare finds in Florida. Many trails wind through abandoned phosphate quarries, turning the landscape into a natural playground of punchy ascents, sharp drops, and rocky features that demand attention and reward skill. </p>
                   <p>While intermediate riders will find plenty of challenges to improve their game, the trail system offers something for every level-from beginner-friendly flow trails to advanced technical routes packed with obstacles.</p>
                 <p className="text-gray-300 text-lg mb-4">
