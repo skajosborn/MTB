@@ -72,7 +72,7 @@ export default function CroomTrailPage() {
   };
 
   return (
-    <main className="min-h-screen pt-20">
+    <main className="min-h-screen pt-15">
       {/* Hero Header Section */}
       <div className="relative min-h-[50vh] flex flex-col items-center justify-center text-center py-16 px-4 pt-20">
         <div className="absolute inset-0 z-0">
@@ -96,12 +96,12 @@ export default function CroomTrailPage() {
       </div>
 
       {/* Stats Bar */}
-      <div className="bg-gray-800 text-white pb-4 pt-4 w-full">
+      <div className="bg-gray-800 text-white pb-1 w-full">
         <div className="max-w-[90%] mx-auto px-4 md:px-8">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center items-center">
             <div>
               <div className="text-sm text-gray-400">Location</div>
-              <div className="font-medium">Withlacoochee State Forest, FL</div>
+              <div className="font-medium">Withlacoochee State Forest</div>
             </div>
             <div>
               <div className="text-sm text-gray-400">Total Length</div>
@@ -129,20 +129,20 @@ export default function CroomTrailPage() {
             </div>
             <div>
               <div className="text-sm text-gray-400">Managed By</div>
-              <div className="font-medium">SWAMP Mountain Bike Club</div>
+              <div className="font-medium">SWAMP MTB Club</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="bg-gray-900 sticky top-20 z-30 w-full border-b border-gray-700">
+      <div className="bg-gray-900 w-full border-b border-gray-700">
         <div className="max-w-[90%] mx-auto px-4 md:px-8">
-          <div className="flex items-center py-4">
+          <div className="flex items-center py-2">
             <div className="flex flex-grow space-x-8 text-gray-300 overflow-x-auto no-scrollbar">
               <button 
                 onClick={() => setActiveTab('overview')}
-                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
                   activeTab === 'overview' 
                     ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg' 
                     : 'hover:bg-gray-800/50 hover:text-white'
@@ -152,7 +152,7 @@ export default function CroomTrailPage() {
               </button>
               <button 
                 onClick={() => setActiveTab('beginner')}
-                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
                   activeTab === 'beginner'
                     ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg'
                     : 'hover:bg-gray-800/50 hover:text-white'
@@ -162,7 +162,7 @@ export default function CroomTrailPage() {
               </button>
               <button 
                 onClick={() => setActiveTab('intermediate')}
-                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
                   activeTab === 'intermediate'
                     ? 'bg-gray-800 text-white border-b-2 border-blue-500 shadow-lg'
                     : 'hover:bg-gray-800/50 hover:text-white'
@@ -172,7 +172,7 @@ export default function CroomTrailPage() {
               </button>
               <button 
                 onClick={() => setActiveTab('advanced')}
-                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
                   activeTab === 'advanced'
                     ? 'bg-gray-800 text-white border-b-2 border-orange-500 shadow-lg'
                     : 'hover:bg-gray-800/50 hover:text-white'
@@ -182,7 +182,7 @@ export default function CroomTrailPage() {
               </button>
               <button 
                 onClick={() => setActiveTab('amenities')}
-                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
                   activeTab === 'amenities'
                     ? 'bg-gray-800 text-white border-b-2 border-gray-300 shadow-lg'
                     : 'hover:bg-gray-800/50 hover:text-white'
@@ -205,7 +205,7 @@ export default function CroomTrailPage() {
               <h2 className="text-3xl font-bold text-white mb-6">About Croom</h2>
               <div className="prose prose-invert max-w-none">
                 <p className="text-gray-300 text-lg mb-4">
-                  Nesetled in the heart of the Withlacoochee State Forest, Croom&#39;s mountain biking network delivers one of Florida&#39;s most rugged and exhilerating off-road experiences. With more than 50 miles of singletrack, this trail system offers an intense cardio workout wrapped in scenic wilderness-perfect for riders chasing adventure and variety. </p>
+                  Nesetled in the heart of the Withlacoochee State Forest, Croom`&#39'`s mountain biking network delivers one of `Florida&#39'`s most rugged and exhilerating off-road experiences. With more than 50 miles of singletrack, this trail system offers an intense cardio workout wrapped in scenic wilderness-perfect for riders chasing adventure and variety. </p>
                   <p> Croom offers over 50 miles of diverse singletrack trails and is famous for its suprisingly steep climbs and extended trail runs-rare finds in Florida. Many trails wind through abandoned phosphate quarries, turning the landscape into a natural playground of punchy ascents, sharp drops, and rocky features that demand attention and reward skill. </p>
                   <p>While intermediate riders will find plenty of challenges to improve their game, the trail system offers something for every level-from beginner-friendly flow trails to advanced technical routes packed with obstacles.</p>
                 <p className="text-gray-300 text-lg mb-4">
@@ -542,14 +542,14 @@ export default function CroomTrailPage() {
       </div>
 
       {/* Maps & Directions Section */}
-      <div className="max-w-7xl mx-auto px-4 py-8 mt-8">
+      <div className="max-w-7xl mx-auto px-4 py-8  mt-8">
         <div className="flex items-center mb-6">
           <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center mr-4">
             <span className="text-white text-xl">🗺️</span>
           </div>
           <h2 className="text-3xl font-bold text-white">Maps & Directions</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-4 px-8 rounded-xl bg-gray-800">
           {/* Map */}
           <div>
             <h3 className="text-xl font-bold mb-4 text-white">Trail Location</h3>
