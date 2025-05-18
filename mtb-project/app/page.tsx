@@ -51,7 +51,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative max-w-7xl mx-auto h-186 mt-20 rounded-xl overflow-hidden shadow-2xl flex items-center justify-center">
+      <section className="relative max-w-7xl mx-auto h-186 mt-10 overflow-hidden shadow-2xl flex items-center justify-center">
         <BackgroundCarousel />
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">Central FLorida</h1>
