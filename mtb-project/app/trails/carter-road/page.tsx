@@ -278,13 +278,13 @@ export default function CarterRoadTrailPage() {
       </div> 
 
       {/* Navigation Tabs */}
-      <div className="bg-gray-900 sticky top-20 z-30 w-full border-b border-gray-700" style={{ overflow: 'visible' }}>
+      <div className="bg-gray-900 w-full border-b border-gray-700" style={{ overflow: 'visible' }}>
         <div className="max-w-[90%] mx-auto px-4 md:px-8">
-          <div className="flex items-center py-4">
+          <div className="flex items-center py-2">
             <div className="flex flex-grow space-x-8 text-gray-300 overflow-x-auto no-scrollbar">
               <button 
                 onClick={() => setActiveTab('overview')}
-                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
                   activeTab === 'overview' 
                     ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg' 
                     : 'hover:bg-gray-800/50 hover:text-white'
@@ -294,7 +294,7 @@ export default function CarterRoadTrailPage() {
               </button>
               <button 
                 onClick={() => setActiveTab('features')}
-                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
                   activeTab === 'features'
                     ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg'
                     : 'hover:bg-gray-800/50 hover:text-white'
@@ -304,7 +304,7 @@ export default function CarterRoadTrailPage() {
               </button>
               <button 
                 onClick={() => setActiveTab('tips')}
-                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
                   activeTab === 'tips'
                     ? 'bg-gray-800 text-white border-b-2 border-blue-500 shadow-lg'
                     : 'hover:bg-gray-800/50 hover:text-white'
@@ -314,7 +314,7 @@ export default function CarterRoadTrailPage() {
               </button>
               <button 
                 onClick={() => setActiveTab('amenities')}
-                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
                   activeTab === 'amenities'
                     ? 'bg-gray-800 text-white border-b-2 border-gray-300 shadow-lg'
                     : 'hover:bg-gray-800/50 hover:text-white'

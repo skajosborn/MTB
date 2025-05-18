@@ -67,17 +67,17 @@ export default function Home() {
       </section>
 
       {/* Maps */}
-      <section className="relative max-w-7xl mx-auto mt-20 bg-gray-800 rounded-xl overflow-hidden shadow-2xl flex items-center justify-center h-[500px] md:h-[600px]">
-        <div className="w-full h-full">
+      <section className="relative max-w-7xl mx-auto mt-20 bg-gray-800 overflow-hidden shadow-2xl flex items-center justify-center h-[500px] md:h-[600px]">
+        <div className="w-full h-full px-8">
           <MultiTrailMap trails={trails} />
         </div>
       </section>
       {/* Featured Video Section */}
-      <section className="py-16 px-4 bg-gray-800 text-white">
+      <section className="py-8 px-4 mt-8 bg-gray-800 text-white">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-8">Experience the Thrill</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="relative aspect-video w-full mx-auto shadow-2xl rounded-lg overflow-hidden">
+            <div className="relative aspect-video w-full mx-auto shadow-2xl overflow-hidden">
               <iframe 
                 width="100%" 
                 height="100%" 
