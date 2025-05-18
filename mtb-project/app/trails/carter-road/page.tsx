@@ -380,7 +380,7 @@ export default function CarterRoadTrailPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Map */}
             <div>
-              <h3 className="text-xl font-bold mb-4 text-white">Trail Map</h3>
+             
               <div className="rounded-lg mb-6 overflow-hidden shadow-lg">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14048.609155217813!2d-82.30127323022462!3d28.542212200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e840c22da7b915%3A0xb79b2387345f868a!2sCroom%20Motorcycle%20Area!5e0!3m2!1sen!2sus!4v1717528158099!5m2!1sen!2sus"

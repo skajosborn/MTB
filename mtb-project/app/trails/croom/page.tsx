@@ -2,13 +2,75 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-// import WeatherForecast from '../../components/WeatherForecast';
-// import { WEATHER_API_KEY, TRAIL_LOCATIONS } from '../../config';
+import { useState, useRef } from 'react';
+import WeatherForecast from '@/app/components/WeatherForecast';
+import TrailMap from '@/app/components/TrailMap';
+import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
+import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+const TRAIL_COORDS = {
+  latitude: 28.542212,
+  longitude: -82.301273,
+  location: "Withlacoochee State Forest, FL"
+};
+
+const trailData = {
+  name: "Croom",
+  lon: -82.301273,  // longitude
+  lat: 28.542212    // latitude
+};
+
+const photos: TrailPhoto[] = [
+  { src: '/feature1.jpg', alt: 'Trail through pine forest' },
+  { src: '/bridge2.jpg', alt: 'Technical rock garden section' },
+  { src: '/good.jpg', alt: 'Scenic overlook of trails' },
+  { src: '/good2.jpg', alt: 'Scenic overlook of trails' },
+  { src: '/good3.jpg', alt: 'Scenic overlook of trails' },
+  { src: '/lake1.jpg', alt: 'Scenic overlook of trails' },
+  { src: '/hill4.jpg', alt: 'Scenic overlook of trails' },
+  { src: '/rocks2.jpg', alt: 'Scenic overlook of trails' },
+  { src: '/river.jpg', alt: 'Scenic overlook of trails' },
+  { src: '/feature3.jpg', alt: 'Scenic overlook of trails' },
+  { src: '/rocks.jpg', alt: 'Scenic overlook of trails' },
+  { src: '/longbridge.jpg', alt: 'Scenic overlook of trails' },
+  { src: '/feature4.jpg', alt: 'Scenic overlook of trails' },
+];
 
 export default function CroomTrailPage() {
   const [activeTab, setActiveTab] = useState('overview');
-  
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuPosition, setMenuPosition] = useState<{ x: number; y: number } | null>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  const menuItems: RadialMenuItem[] = [
+    { id: 'bike', label: 'Bike', icon: '/icons/bike.png' },
+    { id: 'motorbike', label: 'Motorized', icon: '/icons/motor2.jpg', color: 'red' },
+    { id: 'nohelmet', label: 'Nohelmet', icon: '/icons/nohelm2.png', color: 'red' },
+    { id: 'dog', label: 'Dog', icon: '/icons/dog.png', color: 'red' },
+    { id: 'map', label: 'Map', icon: '/icons/map.png' },
+    { id: 'parking', label: 'Parking', icon: '/icons/parking2.png' },
+    { id: 'water', label: 'Water', icon: '/icons/water.png' },
+    { id: 'restroom', label: 'Restroom', icon: '/icons/restroom.png' },
+    { id: 'picnic', label: 'Picnic', icon: '/icons/picnic.png' },
+  ];
+
+  const handleMenuOpen = () => {
+    const rect = menuButtonRef.current?.getBoundingClientRect();
+    if (rect) {
+      setMenuPosition({
+        x: rect.left + rect.width / 2 + window.scrollX,
+        y: rect.top + rect.height / 2 + window.scrollY,
+      });
+      setMenuOpen(true);
+    }
+  };
+
+  const handleMenuClose = () => {
+    setMenuOpen(false);
+    setMenuPosition(null);
+  };
+
   return (
     <main className="min-h-screen pt-20">
       {/* Hero Header Section */}
@@ -33,130 +95,150 @@ export default function CroomTrailPage() {
         </div>
       </div>
 
-      {/* Quick Stats Bar */}
-      <div className="bg-gray-800 text-white py-4">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div>
-            <div className="text-sm text-gray-400">Location</div>
-            <div className="font-medium">Withlacoochee State Forest, FL</div>
-          </div>
-          <div>
-            <div className="text-sm text-gray-400">Total Length</div>
-            <div className="font-medium">50+ miles</div>
-          </div>
-          <div>
-            <div className="text-sm text-gray-400">Elevation Gain</div>
-            <div className="font-medium">600+ feet</div>
-          </div>
-          <div>
-            <div className="text-sm text-gray-400">Managed By</div>
-            <div className="font-medium">SWAMP Mountain Bike Club</div>
+      {/* Stats Bar */}
+      <div className="bg-gray-800 text-white pb-4 pt-4 w-full">
+        <div className="max-w-[90%] mx-auto px-4 md:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center items-center">
+            <div>
+              <div className="text-sm text-gray-400">Location</div>
+              <div className="font-medium">Withlacoochee State Forest, FL</div>
+            </div>
+            <div>
+              <div className="text-sm text-gray-400">Total Length</div>
+              <div className="font-medium">50+ miles</div>
+            </div>
+            <div>
+              <div className="text-sm text-gray-400">Elevation Gain</div>
+              <div className="font-medium">600+ feet</div>
+            </div>
+            <div
+              onMouseEnter={handleMenuOpen}
+              onMouseLeave={handleMenuClose}
+            >
+              <div className="text-sm text-gray-400 pb-2">Access</div>
+              <button ref={menuButtonRef} className="pb-2 cursor-pointer">Amenities & Restrictions</button>
+              {menuOpen && menuPosition && (
+                <RadialMenu
+                  isOpen={menuOpen}
+                  onClose={handleMenuClose}
+                  menuItems={menuItems}
+                  position={menuPosition}
+                  overlay={false}
+                />
+              )}
+            </div>
+            <div>
+              <div className="text-sm text-gray-400">Managed By</div>
+              <div className="font-medium">SWAMP Mountain Bike Club</div>
+            </div>
           </div>
         </div>
       </div>
-      
+
       {/* Navigation Tabs */}
-      <div className="bg-gray-900 sticky top-20 z-30">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="flex overflow-x-auto py-2 space-x-6 text-gray-300 no-scrollbar">
-            <button 
-              onClick={() => setActiveTab('overview')}
-              className={`whitespace-nowrap px-1 py-2 font-medium border-b-2 transition-colors ${
-                activeTab === 'overview' ? 'border-green-500 text-white' : 'border-transparent hover:text-white'
-              }`}
-            >
-              Overview
-            </button>
-            <button 
-              onClick={() => setActiveTab('beginner')}
-              className={`whitespace-nowrap px-1 py-2 font-medium border-b-2 transition-colors ${
-                activeTab === 'beginner' ? 'border-green-500 text-white' : 'border-transparent hover:text-white'
-              }`}
-            >
-              Beginner Trails
-            </button>
-            <button 
-              onClick={() => setActiveTab('intermediate')}
-              className={`whitespace-nowrap px-1 py-2 font-medium border-b-2 transition-colors ${
-                activeTab === 'intermediate' ? 'border-blue-500 text-white' : 'border-transparent hover:text-white'
-              }`}
-            >
-              Intermediate Trails
-            </button>
-            <button 
-              onClick={() => setActiveTab('advanced')}
-              className={`whitespace-nowrap px-1 py-2 font-medium border-b-2 transition-colors ${
-                activeTab === 'advanced' ? 'border-orange-500 text-white' : 'border-transparent hover:text-white'
-              }`}
-            >
-              Advanced Trails
-            </button>
-            <button 
-              onClick={() => setActiveTab('amenities')}
-              className={`whitespace-nowrap px-1 py-2 font-medium border-b-2 transition-colors ${
-                activeTab === 'amenities' ? 'border-gray-300 text-white' : 'border-transparent hover:text-white'
-              }`}
-            >
-              Access & Amenities
-            </button>
+      <div className="bg-gray-900 sticky top-20 z-30 w-full border-b border-gray-700">
+        <div className="max-w-[90%] mx-auto px-4 md:px-8">
+          <div className="flex items-center py-4">
+            <div className="flex flex-grow space-x-8 text-gray-300 overflow-x-auto no-scrollbar">
+              <button 
+                onClick={() => setActiveTab('overview')}
+                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'overview' 
+                    ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg' 
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                } cursor-pointer`}
+              >
+                Overview
+              </button>
+              <button 
+                onClick={() => setActiveTab('beginner')}
+                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'beginner'
+                    ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                } cursor-pointer`}
+              >
+                Beginner Trails
+              </button>
+              <button 
+                onClick={() => setActiveTab('intermediate')}
+                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'intermediate'
+                    ? 'bg-gray-800 text-white border-b-2 border-blue-500 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                } cursor-pointer`}
+              >
+                Intermediate Trails
+              </button>
+              <button 
+                onClick={() => setActiveTab('advanced')}
+                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'advanced'
+                    ? 'bg-gray-800 text-white border-b-2 border-orange-500 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                } cursor-pointer`}
+              >
+                Advanced Trails
+              </button>
+              <button 
+                onClick={() => setActiveTab('amenities')}
+                className={`whitespace-nowrap px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'amenities'
+                    ? 'bg-gray-800 text-white border-b-2 border-gray-300 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                } cursor-pointer`}
+              >
+                Access & Amenities
+              </button>
+            </div>
           </div>
         </div>
       </div>
-      
-      
-      
+
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 mt-10">
         {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            {/* LEFT COLUMN: About, Map, Gallery */}
             <div className="lg:col-span-2">
               <h2 className="text-3xl font-bold text-white mb-6">About Croom</h2>
               <div className="prose prose-invert max-w-none">
                 <p className="text-gray-300 text-lg mb-4">
-                  Croom Mountain Bike Trail Park, nestled within Florida&apos;s Withlacoochee State Forest, offers over 50 miles of diverse singletrack trails. Managed by the SWAMP Mountain Bike Club, the park features a variety of terrains, including rolling hills, pine flatwoods, and challenging sections with steep climbs and technical features.
-                </p>
-                <p className="text-gray-300 text-lg mb-4">
-                  The trail system is designed to cater to riders of all skill levels, from beginners to seasoned experts. Located in the Withlacoochee State Forest, Croom features unique landscape with small hills and varied topography unusual for Florida.
-                </p>
+                  Nesetled in the heart of the Withlacoochee State Forest, Croom's mountain biking network delivers one of Florida's most rugged and exhilerating off-road experiences. With more than 50 miles of singletrack, this trail system offers an intense cardio workout wrapped in scenic wilderness-perfect for riders chasing adventure and variety. </p>
+                  <p> Croom offers over 50 miles of diverse singletrack trails and is famous for its suprisingly steep climbs and extended trail runs-rare finds in Florida. Many trails wind through abandoned phosphate quarries, turning the landscape into a natural playground of punchy ascents, sharp drops, and rocky features that demand attention and reward skill. </p>
+                  <p>While intermediate riders will find plenty of challenges to improve their game, the trail system offers something for every level-from beginner-friendly flow trails to advanced technical routes packed with obstacles.</p>
                 <p className="text-gray-300 text-lg mb-4">
                   With color-coded trail markings and strategically placed bailout points, riders can easily navigate the extensive network while enjoying the natural beauty of central Florida.
                 </p>
               </div>
-              
-              {/* Trail Maintenance & Community */}
-              <div className="mt-20">
-                <div className="flex items-center mb-4">
-                  {/* <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-white text-lg">🛠️</span>
-                  </div> */}
-                  <h3 className="text-2xl font-bold text-white">Trail Maintenance & Community</h3>
-                </div>
-                <div className="rounded-lg shadow-lg">
-                  <p className="text-gray-300">The <a href="https://www.swampmtbclub.com/trails" className="text-green-500 hover:text-green-300 font-bold">SWAMP</a> Mountain Bike Club actively maintains the trail system, ensuring trails are safe and enjoyable. They also host events and group rides, fostering a vibrant mountain biking community.</p>
+
+              {/* Trail Map (Mapbox with 2D/3D toggle) */}
+              <div className="bg-gray-700 rounded-lg p-6 mb-6 shadow-lg mt-10">
+                <div className="w-full h-[400px] relative overflow-hidden rounded-lg">
+                  <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
                 </div>
               </div>
-               {/* Featured Video */}
-            <div className="max-w-4xl mx-auto px-4 mt-20 mb-8 relative z-10">
-                <div className="aspect-video w-full rounded-lg overflow-hidden shadow-2xl">
-                <iframe
-                    src="https://www.youtube.com/embed/Scn0QcNs_mM?si=AqL_B7441WRrYDYF"
-                    width="100%"
-                    height="100%"
-                    title="YouTube video player"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                    className="w-full h-full"
-                ></iframe>
-                </div>
+
+              {/* Photo Gallery */}
+              <div className="mt-10">
+                <TrailPhotoGallery photos={photos} />
+              </div>
             </div>
-        </div>
-            
+
+            {/* RIGHT COLUMN: Weather, Trail Details, Trail Maintenance */}
             <div>
+              {/* Weather Forecast */}
+              <div className="mb-6">
+                <WeatherForecast 
+                  location={TRAIL_COORDS.location}
+                  latitude={TRAIL_COORDS.latitude}
+                  longitude={TRAIL_COORDS.longitude}
+                  apiKey={process.env.NEXT_PUBLIC_WEATHER_API_KEY || ''}
+                />
+              </div>
               {/* Trail Details Card */}
-              <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mb-18 mt-">
+              <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mb-6">
                 <div className="bg-gray-700 px-6 py-4">
                   <h3 className="text-xl font-bold text-white">Trail Details</h3>
                 </div>
@@ -189,18 +271,19 @@ export default function CroomTrailPage() {
                   </div>
                 </div>
               </div>
-              
-              {/* Weather Forecast */}
-              {/* <WeatherForecast 
-                location={TRAIL_LOCATIONS.croom.name}
-                latitude={TRAIL_LOCATIONS.croom.latitude}
-                longitude={TRAIL_LOCATIONS.croom.longitude}
-                apiKey={WEATHER_API_KEY}
-              /> */}
+              {/* Trail Maintenance & Community */}
+              <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                <div className="px-6 py-4">
+                  <h3 className="text-xl font-bold text-white">Trail Maintenance & Community</h3>
+                </div>
+                <div className="p-6">
+                  <p className="text-gray-300">The <a href="https://www.swampmtbclub.com/trails" className="text-green-500 hover:text-green-300 font-bold">SWAMP</a> Mountain Bike Club actively maintains the trail system, ensuring trails are safe and enjoyable. They also host events and group rides, fostering a vibrant mountain biking community.</p>
+                </div>
+              </div>
             </div>
           </div>
         )}
-        
+
         {/* Beginner Trails Tab */}
         {activeTab === 'beginner' && (
           <div>
@@ -458,117 +541,6 @@ export default function CroomTrailPage() {
         )}
       </div>
 
-      {/* Photo Gallery */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <h2 className="text-3xl font-bold text-white mb-8">Photo Gallery</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            
-          <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-            <Image
-              src="/feature1.jpg"
-              alt="Trail through pine forest" 
-              fill
-              className="object-cover hover:scale-105 transition-transform"
-            />
-          </div>
-          <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-          <Image
-            src="/bridge2.jpg" 
-            alt="Technical rock garden section"
-            fill
-            className="object-cover hover:scale-105 transition-transform"
-          />
-        </div>
-        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-          <Image
-            src="/good.jpg"
-            alt="Scenic overlook of trails"
-            fill
-            className="object-cover hover:scale-105 transition-transform"
-          />
-        </div>
-        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-          <Image
-            src="/good2.jpg"
-            alt="Scenic overlook of trails"
-            fill
-            className="object-cover hover:scale-105 transition-transform"
-          />
-        </div>
-        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-          <Image
-            src="/good3.jpg"
-            alt="Scenic overlook of trails"
-            fill
-            className="object-cover hover:scale-105 transition-transform"
-          />
-        </div>
-        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-          <Image
-            src="/lake1.jpg"
-            alt="Scenic overlook of trails"
-            fill
-            className="object-cover hover:scale-105 transition-transform"
-          />
-        </div>
-        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-          <Image
-            src="/hill4.jpg"
-            alt="Scenic overlook of trails"
-            fill
-            className="object-cover hover:scale-105 transition-transform"
-          />
-        </div>
-        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-          <Image
-            src="/rocks2.jpg"
-            alt="Scenic overlook of trails"
-            fill
-            className="object-cover hover:scale-105 transition-transform"
-          />
-        </div>
-        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-          <Image
-            src="/river.jpg"
-            alt="Scenic overlook of trails"
-            fill
-            className="object-cover hover:scale-105 transition-transform"
-          />
-        </div>
-        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-          <Image
-            src="/feature3.jpg"
-            alt="Scenic overlook of trails"
-            fill
-            className="object-cover hover:scale-105 transition-transform"
-          />
-        </div>
-        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-          <Image
-            src="/rocks.jpg"
-            alt="Scenic overlook of trails"
-            fill
-            className="object-cover hover:scale-105 transition-transform"
-          />
-        </div>
-        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-          <Image
-            src="/longbridge.jpg"
-            alt="Scenic overlook of trails"
-            fill
-            className="object-cover hover:scale-105 transition-transform"
-          />
-        </div>
-        <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-          <Image
-            src="/feature4.jpg"
-            alt="Scenic overlook of trails"
-            fill
-            className="object-cover hover:scale-105 transition-transform"
-          />
-        </div>
-      </div>
-      
       {/* Maps & Directions Section */}
       <div className="max-w-7xl mx-auto px-4 py-8 mt-8">
         <div className="flex items-center mb-6">
@@ -617,8 +589,7 @@ export default function CroomTrailPage() {
           </div>
         </div>
       </div>
-      </div>
-      
+
       {/* Call to Action */}
       <div className="bg-gray-800">
         <div className="max-w-4xl mx-auto text-center py-8 px-4">
@@ -628,7 +599,7 @@ export default function CroomTrailPage() {
             <Link href="/trails" className="inline-block bg-white text-green-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-full transition-colors">
               Explore More Trails
             </Link>
-            <a href="https://www.swampclub.org/" target="_blank" rel="noopener noreferrer" className="inline-block bg-transparent text-white border-2 border-white hover:bg-white hover:text-green-600 font-bold py-3 px-8 rounded-full transition-colors">
+            <a href="https://www.swampmtbclub.com/trails" target="_blank" rel="noopener noreferrer" className="inline-block bg-transparent text-white border-2 border-white hover:bg-white hover:text-green-600 font-bold py-3 px-8 rounded-full transition-colors">
               SWAMP Club Website
             </a>
           </div>
