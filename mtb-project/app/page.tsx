@@ -55,7 +55,7 @@ export default function Home() {
         <BackgroundCarousel />
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">Central FLorida</h1>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">MTB Trails</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">MTB Trails</h1>
           <p className="text-xl md:text-2xl mb-8">Discover the best mountain biking experiences</p>
           <Link 
             href="/trails"
