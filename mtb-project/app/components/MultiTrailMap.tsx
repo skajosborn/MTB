@@ -154,8 +154,8 @@ export default function MultiTrailMap({ trails }: Props) {
   };
 
   return (
-    <div>
-      <div className="flex justify-center gap-4 mb-6 mt-6">
+    <div className="bg-gray-700 rounded-lg p-6 shadow-lg mt-20 max-w-4xl mx-auto">
+      <div className="flex justify-center gap-4 mb-6">
         <button
           className={`px-4 py-2 text-white rounded transition-colors ${!is3D ? 'bg-blue-500' : 'bg-blue-600 hover:bg-blue-700'}`}
           onClick={toggle2D}

@@ -49,7 +49,7 @@ const trails = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <div className="max-w-4xl mx-auto px-4">
       {/* Hero Section */}
       <section className="relative max-w-7xl mx-auto h-186 mt-10 bg-gray-800 px-4 overflow-hidden shadow-2xl flex items-center justify-center">
         <BackgroundCarousel />
@@ -67,8 +67,8 @@ export default function Home() {
       </section>
 
       {/* Maps */}
-      <section className="relative max-w-7xl mx-auto mt-20 bg-gray-800 overflow-hidden shadow-2xl flex items-center justify-center h-[500px] md:h-[600px]">
-        <div className="w-full h-full px-8">
+      <section className="relative max-w-7xl mx-10 mt-10 mb-10 overflow-hidden shadow-2xl flex items-center justify-center">
+        <div className="w-full px-8 mb-20">
           <MultiTrailMap trails={trails} />
         </div>
       </section>
@@ -159,6 +159,6 @@ export default function Home() {
           </Link>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
