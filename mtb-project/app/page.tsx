@@ -3,10 +3,12 @@
 import Image from "next/image";
 import { BackgroundCarousel } from "./components/BackgroundCarousel";
 import Link from "next/link";
+import NavigationTabs from "./components/NavigationTabs";
 // import RadialMenu, { RadialMenuItem } from "@/app/components/RadialMenu";
 // import { useState, useRef } from "react";
 // import { useRouter } from "next/navigation";
 import  MultiTrailMap from "./components/MultiTrailMap";
+import { useState } from "react";
 
 // Featured trails data
 const featuredTrails = [
@@ -48,6 +50,8 @@ const trails = [
 ];
 
 export default function Home() {
+  const [activeTab, setActiveTab] = useState('overview');
+
   return (
     <main className="min-h-screen bg-gray-900">
       <div className="max-w-screen-2xl mx-auto  mt-15">
@@ -66,6 +70,98 @@ export default function Home() {
             </Link>
           </div>
         </section>
+
+        {/* Intro Paragraph */}
+        <div className="max-w-4xl mx-auto px-4 py-12 text-center">
+          <p className="text-gray-300 text-lg md:text-xl leading-relaxed">
+            Welcome to Central Florida&apos;s premier mountain biking destination. From the rolling hills of Croom to the technical features of Alafia, our region offers diverse trails for every skill level. Whether you&apos;re seeking beginner-friendly flow trails or challenging technical routes, discover your next adventure in the heart of Florida&apos;s mountain biking scene.
+          </p>
+        </div>
+
+  {/* Stats Bar */}
+  <div className="bg-gray-800 text-white pb-1 w-full">
+        <div className="max-w-[90%] mx-auto px-4 md:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center items-center">
+            <div>
+              <div className="text-sm text-gray-400">Region</div>
+              <div className="font-medium">Central Florida</div>
+            </div>
+            <div>
+              <div className="text-sm text-gray-400">Total Trails</div>
+              <div className="font-medium">10+</div>
+            </div>
+            <div>
+              <div className="text-sm text-gray-400">Total Mileage</div>
+              <div className="font-medium">100+ Miles</div>
+            </div>
+            <div>
+              <div className="text-sm text-gray-400">Elevation Range</div>
+              <div className="font-medium">0-600+ Feet</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation Tabs */}
+      <div className="bg-gray-900 w-full border-b border-gray-700">
+        <div className="max-w-[90%] mx-auto px-4 md:px-8">
+          <div className="flex items-center py-2">
+            <div className="flex flex-grow space-x-8 text-gray-300 overflow-x-auto no-scrollbar">
+              <Link href="/trail-features" passHref legacyBehavior>
+                <button 
+                  className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
+                    activeTab === 'overview' 
+                      ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg' 
+                      : 'hover:bg-gray-800/50 hover:text-white'
+                  } cursor-pointer`}
+                >
+                  Trail Features
+                </button>
+              </Link>
+              <button 
+                onClick={() => setActiveTab('beginner')}
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'beginner'
+                    ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                } cursor-pointer`}
+              >
+                Beginner Trails
+              </button>
+              <button 
+                onClick={() => setActiveTab('intermediate')}
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'intermediate'
+                    ? 'bg-gray-800 text-white border-b-2 border-blue-500 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                } cursor-pointer`}
+              >
+                Intermediate Trails
+              </button>
+              <button 
+                onClick={() => setActiveTab('advanced')}
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'advanced'
+                    ? 'bg-gray-800 text-white border-b-2 border-orange-500 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                } cursor-pointer`}
+              >
+                Advanced Trails
+              </button>
+              <button 
+                onClick={() => setActiveTab('amenities')}
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'amenities'
+                    ? 'bg-gray-800 text-white border-b-2 border-gray-300 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                } cursor-pointer`}
+              >
+                Access & Amenities
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
         {/* Maps */}
         <section className="relative w-full mt-10 mb-10 overflow-hidden shadow-2xl flex items-center justify-center">

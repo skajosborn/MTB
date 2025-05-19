@@ -154,22 +154,24 @@ export default function MultiTrailMap({ trails }: Props) {
   };
 
   return (
-    <div className="bg-gray-700 rounded-lg p-6 shadow-lg mt-20 max-w-4xl mx-auto">
-      <div className="flex justify-center gap-4 mb-6">
-        <button
-          className={`px-4 py-2 text-white rounded transition-colors ${!is3D ? 'bg-blue-500' : 'bg-blue-600 hover:bg-blue-700'}`}
-          onClick={toggle2D}
-        >
-          2D Map
-        </button>
-        <button
-          className={`px-4 py-2 text-white rounded transition-colors ${is3D ? 'bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}
-          onClick={toggle3D}
-        >
-          3D Satellite
-        </button>
+    <div className="bg-gray-700 rounded-lg p-4 shadow-lg mt-20 max-w-4xl mx-auto flex flex-col justify-center min-h-[600px]">
+      <div className="flex flex-col items-center justify-center h-full">
+        <div className="flex justify-center gap-4 mb-6">
+          <button
+            className={`px-4 py-1 text-white rounded transition-colors ${!is3D ? 'bg-blue-500' : 'bg-blue-600 hover:bg-blue-700'}`}
+            onClick={toggle2D}
+          >
+            2D Map
+          </button>
+          <button
+            className={`px-4 py-1 text-white rounded transition-colors ${is3D ? 'bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}
+            onClick={toggle3D}
+          >
+            3D Satellite
+          </button>
+        </div>
+        <div ref={mapContainerRef} className="w-full h-[500px] rounded-lg" />
       </div>
-      <div ref={mapContainerRef} className="w-full h-[500px] rounded-lg" />
     </div>
   );
 }
