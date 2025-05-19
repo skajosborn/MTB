@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { BackgroundCarousel } from "./components/BackgroundCarousel";
 import Link from "next/link";
-import NavigationTabs from "./components/NavigationTabs";
 // import RadialMenu, { RadialMenuItem } from "@/app/components/RadialMenu";
 // import { useState, useRef } from "react";
 // import { useRouter } from "next/navigation";
