@@ -70,13 +70,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Intro Paragraph */}
-        <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-          <p className="text-gray-300 text-lg md:text-xl leading-relaxed">
-            Welcome to Central Florida&apos;s premier mountain biking destination. From the rolling hills of Croom to the technical features of Alafia, our region offers diverse trails for every skill level. Whether you&apos;re seeking beginner-friendly flow trails or challenging technical routes, discover your next adventure in the heart of Florida&apos;s mountain biking scene.
-          </p>
-        </div>
-
   {/* Stats Bar */}
   <div className="bg-gray-800 text-white pb-1 w-full">
         <div className="max-w-[90%] mx-auto px-4 md:px-8">
@@ -161,6 +154,14 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+        {/* Intro Paragraph */}
+        <div className="max-w-4xl mx-auto px-4 py-12 text-center">
+          <p className="text-gray-300 text-lg md:text-xl leading-relaxed">
+            Welcome to Central Florida&apos;s premier mountain biking destination. From the rolling hills of Croom to the technical features of Alafia, our region offers diverse trails for every skill level. Whether you&apos;re seeking beginner-friendly flow trails or challenging technical routes, discover your next adventure in the heart of Florida&apos;s mountain biking scene.
+          </p>
+        </div>
+
 
         {/* Maps */}
         <section className="relative w-full mt-10 mb-10 overflow-hidden shadow-2xl flex items-center justify-center">
