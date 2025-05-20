@@ -211,12 +211,14 @@ export default function Home() {
               {featuredTrails.map((trail) => (
                 <div key={trail.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                   <div className="relative h-60">
-                    <Image
-                      src={trail.image}
-                      alt={trail.name}
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-300"
-                    />
+                    {trail.image && (
+                      <Image
+                        src={trail.image}
+                        alt={trail.name}
+                        fill
+                        className="object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    )}
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl text-gray-900 font-bold mb-2">{trail.name}</h3>
