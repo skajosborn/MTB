@@ -173,18 +173,32 @@ export default function Home() {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-8">Experience the Thrill</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {featuredTrails.map((trail) => (
-                <div key={trail.id} className="relative aspect-video w-full mx-auto shadow-2xl overflow-hidden">
-                  {trail.image ? (
-                    <Image
-                      src={trail.image}
-                      alt={trail.name}
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : null}
-                </div>
-              ))}
+              <div className="relative aspect-video w-full mx-auto shadow-2xl overflow-hidden">
+                <iframe 
+                  width="100%" 
+                  height="100%" 
+                  src="https://www.youtube.com/embed/ojMvLUjlmKQ?si=ci0GCMZqyme0Jbdz" 
+                  title="YouTube video player" 
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  referrerPolicy="strict-origin-when-cross-origin" 
+                  allowFullScreen
+                  className="absolute inset-0"
+                ></iframe>
+              </div>
+              <div className="relative aspect-video w-full mx-auto shadow-2xl rounded-lg overflow-hidden">
+                <iframe 
+                  width="100%" 
+                  height="100%" 
+                  src="https://www.youtube.com/embed/QLtqDpgK6dg?si=7VPkkd1RH6ifElsR" 
+                  title="YouTube video player" 
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  referrerPolicy="strict-origin-when-cross-origin" 
+                  allowFullScreen
+                  className="absolute inset-0"
+                ></iframe>
+              </div>
             </div>
           </div>
         </section>

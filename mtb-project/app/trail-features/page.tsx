@@ -48,9 +48,14 @@ export default function TrailFeaturesPage() {
                     allowFullScreen
                     className="absolute inset-0 w-full h-full"
                   ></iframe>
-                ) : (
-                  <Image src={feature.img} alt={feature.alt} fill className="object-cover" />
-                )}
+                ) : feature.img ? (
+                  <Image
+                    src={feature.img}
+                    alt={feature.alt}
+                    fill
+                    className="object-cover"
+                  />
+                ) : null}
               </div>
               <h2 className="text-2xl font-semibold mb-2">{feature.title}</h2>
               <p className="text-lg text-gray-300">{feature.desc}</p>
