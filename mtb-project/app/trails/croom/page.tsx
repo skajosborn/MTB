@@ -8,6 +8,14 @@ import TrailMap from '@/app/components/TrailMap';
 import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
 import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import TrailFeatures from '@/app/components/TrailFeatures';
+
+type Features = {
+  image: string;
+  title: string;
+  description: string;
+  type: string;
+};
 
 const TRAIL_COORDS = {
   latitude: 28.542212,
@@ -36,6 +44,46 @@ const photos: TrailPhoto[] = [
   { src: '/longbridge.jpg', alt: 'Scenic overlook of trails' },
   { src: '/feature4.jpg', alt: 'Scenic overlook of trails' },
 ];
+
+const features: Features[] = [
+  {
+    image: '/feature1.jpg',
+    title: 'Pine Forest Singletrack',
+    description: 'Flowing trails through tall pine forests, offering fast and scenic riding with a classic Florida feel.',
+    type: 'Natural Terrain',
+  },
+  {
+    image: '/rocks2.jpg',
+    title: 'Rock Gardens',
+    description: 'Technical rock garden sections that challenge bike handling skills and provide a taste of rugged terrain.',
+    type: 'Technical Challenge',
+  },
+  {
+    image: '/hill4.jpg',
+    title: 'Steep Climbs',
+    description: 'Surprisingly steep climbs and punchy ascents, rare for Florida, that test endurance and power.',
+    type: 'Elevation',
+  },
+  {
+    image: '/river.jpg',
+    title: 'River Crossings',
+    description: 'Scenic crossings and views along the Withlacoochee River, adding variety and beauty to the ride.',
+    type: 'Scenic Feature',
+  },
+  {
+    image: '/feature3.jpg',
+    title: 'Quarry Sections',
+    description: 'Trails wind through abandoned phosphate quarries, creating a natural playground of drops and features.',
+    type: 'Unique Terrain',
+  },
+  {
+    image: '/longbridge.jpg',
+    title: 'Long Wooden Bridges',
+    description: 'Bridges and boardwalks over low-lying areas, providing both technical interest and access.',
+    type: 'Infrastructure',
+  },
+];
+
 
 export default function CroomTrailPage() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -197,94 +245,107 @@ export default function CroomTrailPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 mt-10">
-        {/* Overview Tab */}
         {activeTab === 'overview' && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            {/* LEFT COLUMN: About, Map, Gallery */}
-            <div className="lg:col-span-2">
-              <h2 className="text-3xl font-bold text-white mb-6">About Croom</h2>
-              <div className="prose prose-invert max-w-none">
-                <p className="text-gray-300 text-lg mb-4">
-                  Nesetled in the heart of the Withlacoochee State Forest, Croom&apos;s mountain biking network delivers one of Florida&apos;s most rugged and exhilerating off-road experiences. With more than 50 miles of singletrack, this trail system offers an intense cardio workout wrapped in scenic wilderness-perfect for riders chasing adventure and variety. </p>
-                  <p> Croom offers over 50 miles of diverse singletrack trails and is famous for its suprisingly steep climbs and extended trail runs-rare finds in Florida. Many trails wind through abandoned phosphate quarries, turning the landscape into a natural playground of punchy ascents, sharp drops, and rocky features that demand attention and reward skill. </p>
-                  <p>While intermediate riders will find plenty of challenges to improve their game, the trail system offers something for every level-from beginner-friendly flow trails to advanced technical routes packed with obstacles.</p>
-                <p className="text-gray-300 text-lg mb-4">
-                  With color-coded trail markings and strategically placed bailout points, riders can easily navigate the extensive network while enjoying the natural beauty of central Florida.
-                </p>
-              </div>
-
-              {/* Trail Map (Mapbox with 2D/3D toggle) */}
-              <div className="bg-gray-700 rounded-lg p-6 mb-6 shadow-lg mt-10">
-                <div className="w-full h-[400px] relative overflow-hidden rounded-lg">
-                  <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+          <div className="max-w-7xl mx-auto flex flex-col gap-6">
+            {/* Experience Croom Video and Weather Side by Side */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* LEFT COLUMN: Video, About, Map, Gallery */}
+              <div className="lg:col-span-2 flex flex-col gap-8">
+                <h2 className="text-3xl font-bold text-white">The Experience</h2>
+                <iframe 
+                  width="100%" 
+                  height="400" 
+                  src="https://www.youtube.com/embed/nfGt3Ai24mc?si=1RslhoJF2XL6tKIJ" 
+                  title="YouTube video player" 
+                  frameBorder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  referrerPolicy="strict-origin-when-cross-origin" 
+                  allowFullScreen
+                  className="rounded-lg"
+                ></iframe>
+                <h2 className="text-3xl font-bold text-white mt-6">About Croom</h2>
+                <div className="prose prose-invert max-w-none">
+                  <p className="text-gray-300 text-lg mb-4">
+                    Nesetled in the heart of the Withlacoochee State Forest, Croom&apos;s mountain biking network delivers one of Florida&apos;s most rugged and exhilerating off-road experiences. With more than 50 miles of singletrack, this trail system offers an intense cardio workout wrapped in scenic wilderness-perfect for riders chasing adventure and variety. </p>
+                    <p> Croom offers over 50 miles of diverse singletrack trails and is famous for its suprisingly steep climbs and extended trail runs-rare finds in Florida. Many trails wind through abandoned phosphate quarries, turning the landscape into a natural playground of punchy ascents, sharp drops, and rocky features that demand attention and reward skill. </p>
+                    <p>While intermediate riders will find plenty of challenges to improve their game, the trail system offers something for every level-from beginner-friendly flow trails to advanced technical routes packed with obstacles.</p>
+                  <p className="text-gray-300 text-lg mb-4">
+                    With color-coded trail markings and strategically placed bailout points, riders can easily navigate the extensive network while enjoying the natural beauty of central Florida.
+                  </p>
                 </div>
-              </div>
 
-              {/* Photo Gallery */}
-              <div className="mt-10">
-                <TrailPhotoGallery photos={photos} />
-              </div>
+                {/* Trail Features Section */}
+            <div className="max-w-5xl mx-auto w-full bg-green-950 px-10 pb-10">
+              <h2 className="text-2xl font-bold text-white mt-10 mb-10">Trail Features</h2>
+              <TrailFeatures features={features} />
             </div>
 
-            {/* RIGHT COLUMN: Weather, Trail Details, Trail Maintenance */}
-            <div>
-              {/* Weather Forecast */}
-              <div className="mb-6">
+                {/* Trail Map (Mapbox with 2D/3D toggle) */}
+                <div className="bg-gray-700 rounded-lg p-6 mb-6 shadow-lg mt-10">
+                  <div className="w-full h-[400px] relative overflow-hidden rounded-lg">
+                    <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+                  </div>
+                </div>
+                {/* Photo Gallery */}
+                <div className="mt-10">
+                  <TrailPhotoGallery photos={photos} />
+                </div>
+              </div>
+              {/* RIGHT COLUMN: Weather, Trail Details, Trail Maintenance */}
+              <div className="lg:col-span-1 flex flex-col gap-8">
                 <WeatherForecast 
                   location={TRAIL_COORDS.location}
                   latitude={TRAIL_COORDS.latitude}
                   longitude={TRAIL_COORDS.longitude}
                   apiKey={process.env.NEXT_PUBLIC_WEATHER_API_KEY || ''}
                 />
-              </div>
-              {/* Trail Details Card */}
-              <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mb-6">
-                <div className="bg-gray-700 px-6 py-4">
-                  <h3 className="text-xl font-bold text-white">Trail Details</h3>
-                </div>
-                <div className="p-6">
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="font-semibold text-gray-300">Location</h4>
-                      <p className="text-gray-400">Withlacoochee State Forest, Brooksville, Florida</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-300">Length</h4>
-                      <p className="text-gray-400">50+ miles of trails</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-300">Elevation Gain</h4>
-                      <p className="text-gray-400">600+ feet</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-300">Difficulty</h4>
-                      <p className="text-gray-400">Beginner to Advanced</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-300">Best Time to Visit</h4>
-                      <p className="text-gray-400">October through April (cooler months)</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-300">Parking</h4>
-                      <p className="text-gray-400">Tucker Hill Day Use Area, nominal fee required</p>
+                {/* Trail Details Card */}
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mb-6">
+                  <div className="bg-gray-700 px-6 py-4">
+                    <h3 className="text-xl font-bold text-white">Trail Details</h3>
+                  </div>
+                  <div className="p-6">
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="font-semibold text-gray-300">Location</h4>
+                        <p className="text-gray-400">Withlacoochee State Forest, Brooksville, Florida</p>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-300">Length</h4>
+                        <p className="text-gray-400">50+ miles of trails</p>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-300">Elevation Gain</h4>
+                        <p className="text-gray-400">600+ feet</p>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-300">Difficulty</h4>
+                        <p className="text-gray-400">Beginner to Advanced</p>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-300">Best Time to Visit</h4>
+                        <p className="text-gray-400">October through April (cooler months)</p>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-300">Parking</h4>
+                        <p className="text-gray-400">Tucker Hill Day Use Area, nominal fee required</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              {/* Trail Maintenance & Community */}
-              <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                <div className="px-6 py-4">
-                  <h3 className="text-xl font-bold text-white">Trail Maintenance & Community</h3>
-                </div>
-                <div className="p-6">
-                  <p className="text-gray-300">The <a href="https://www.swampmtbclub.com/trails" className="text-green-500 hover:text-green-300 font-bold">SWAMP</a> Mountain Bike Club actively maintains the trail system, ensuring trails are safe and enjoyable. They also host events and group rides, fostering a vibrant mountain biking community.</p>
+                {/* Trail Maintenance & Community */}
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                  <div className="px-6 py-4">
+                    <h3 className="text-xl font-bold text-white">Trail Maintenance & Community</h3>
+                  </div>
+                  <div className="p-6">
+                    <p className="text-gray-300">The <a href="https://www.swampmtbclub.com/trails" className="text-green-500 hover:text-green-300 font-bold">SWAMP</a> Mountain Bike Club actively maintains the trail system, ensuring trails are safe and enjoyable. They also host events and group rides, fostering a vibrant mountain biking community.</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         )}
-
-        {/* Beginner Trails Tab */}
         {activeTab === 'beginner' && (
           <div>
             <div className="flex items-center mb-8">
@@ -340,13 +401,11 @@ export default function CroomTrailPage() {
             </div>
           </div>
         )}
-        
-        {/* Intermediate Trails Tab */}
         {activeTab === 'intermediate' && (
           <div>
             <div className="flex items-center mb-8">
               <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-5">
-                <span className="text-white text-xl font-bold">🟡</span>
+                <span className="text-white text-xl font-bold">🔵</span>
               </div>
               <h2 className="text-3xl font-bold text-white">Intermediate Trails</h2>
             </div>
@@ -387,8 +446,6 @@ export default function CroomTrailPage() {
             </div>
           </div>
         )}
-        
-        {/* Advanced Trails Tab */}
         {activeTab === 'advanced' && (
           <div>
             <div className="flex items-center mb-8">
@@ -444,8 +501,6 @@ export default function CroomTrailPage() {
             </div>
           </div>
         )}
-        
-        {/* Access & Amenities Tab */}
         {activeTab === 'amenities' && (
           <div>
             <div className="flex items-center mb-8">
@@ -542,7 +597,7 @@ export default function CroomTrailPage() {
       </div>
 
       {/* Maps & Directions Section */}
-      <div className="max-w-7xl mx-auto px-4 py-8  mt-8">
+      <div className="max-w-7xl mx-auto px-4 py-8 mt-8">
         <div className="flex items-center mb-6">
           <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center mr-4">
             <span className="text-white text-xl">🗺️</span>
