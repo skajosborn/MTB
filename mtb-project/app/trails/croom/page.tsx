@@ -236,7 +236,7 @@ export default function CroomTrailPage() {
                     : 'hover:bg-gray-800/50 hover:text-white'
                 } cursor-pointer`}
               >
-                Access & Amenities
+                Things to Know
               </button>
             </div>
           </div>
@@ -526,8 +526,8 @@ export default function CroomTrailPage() {
                         <span className="text-green-300">Blue Trails - Beginner</span>
                       </div>
                       <div className="flex items-center bg-blue-900 bg-opacity-40 rounded-full px-4 py-2">
-                        <div className="w-4 h-4 bg-yellow-500 rounded-full mr-2"></div>
-                        <span className="text-blue-300">Yellow Trails - Intermediate</span>
+                        <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                        <span className="text-blue-300">Blue Trails - Intermediate</span>
                       </div>
                       <div className="flex items-center bg-orange-900 bg-opacity-40 rounded-full px-4 py-2">
                         <div className="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
