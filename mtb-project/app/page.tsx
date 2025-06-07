@@ -141,6 +141,90 @@ const trailTips = [
   }
 ];
 
+// Rules and guidelines data
+const rulesAndGuidelines = [
+  {
+    title: 'Trail Access & Permits',
+    icon: '🎫',
+    rules: [
+      'Most state parks require a daily entrance fee or annual pass',
+      'Some trails in wildlife management areas require a hunting/fishing license or management area permit',
+      'Respect trail hours - most trails are open from sunrise to sunset unless otherwise posted',
+      'Check for trail closures during hunting seasons or prescribed burns'
+    ]
+  },
+  {
+    title: 'Trail Use Rules',
+    icon: '🚵',
+    rules: [
+      'Stay on designated trails - no cutting switchbacks or creating new trails',
+      'Ride in control and at safe speeds, especially around corners and other users',
+      'Yield to hikers, equestrians, and uphill riders',
+      'Announce your presence when approaching other trail users from behind'
+    ]
+  },
+  {
+    title: 'Environmental Protection',
+    icon: '🌿',
+    rules: [
+      'Do not ride on wet or muddy trails - wait for them to dry',
+      'Pack out all trash, including energy bar wrappers and water bottles',
+      'Do not disturb wildlife or plant life',
+      'Stay out of sensitive areas and respect trail markers'
+    ]
+  },
+  {
+    title: 'Group Riding Guidelines',
+    icon: '👥',
+    rules: [
+      'Keep group sizes manageable (recommended max 6-8 riders)',
+      'Wait at trail intersections for all group members',
+      'Communicate trail conditions and obstacles to other riders',
+      'Respect other trail users by not blocking the trail when stopped'
+    ]
+  },
+  {
+    title: 'Trail Maintenance',
+    icon: '🛠️',
+    rules: [
+      'Report trail damage or hazards to local trail organizations',
+      'Participate in trail work days when possible',
+      'Do not modify trail features or create new obstacles',
+      'Respect trail work and maintenance closures'
+    ]
+  },
+  {
+    title: 'Emergency & Safety',
+    icon: '🚨',
+    rules: [
+      'Carry a basic first aid kit and know how to use it',
+      'Have emergency contact information readily available',
+      'Know the location of the nearest emergency services',
+      'Report any accidents or incidents to trail management'
+    ]
+  },
+  {
+    title: 'Trail Etiquette',
+    icon: '🤝',
+    rules: [
+      'Be friendly and courteous to all trail users',
+      'Keep noise levels down, especially in residential areas',
+      'Respect private property and stay on public trails',
+      'Follow posted signs and trail markers'
+    ]
+  },
+  {
+    title: 'Equipment & Preparation',
+    icon: '🚲',
+    rules: [
+      'Ensure your bike is in good working condition before each ride',
+      'Wear appropriate safety gear (helmet, gloves, eye protection)',
+      'Carry necessary tools and supplies for basic repairs',
+      'Check weather conditions and trail status before riding'
+    ]
+  }
+];
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -282,7 +366,7 @@ export default function Home() {
             <h2 className="text-4xl font-bold text-white text-center mb-4">Central Florida Trail Tips</h2>
             <p className="text-gray-300 text-center mb-12 max-w-3xl mx-auto">
               Essential knowledge for riding Central Florida&apos;s trails. From weather conditions to local etiquette, 
-              these tips will help you make the most of your mountain biking experience in the region.
+              these tips will help you make the most of your mountain biking experience.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {trailTips.map((category, idx) => (
@@ -301,6 +385,46 @@ export default function Home() {
                   </ul>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {activeTab === 'intermediate' && (
+        <section className="py-16 w-full">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-4xl font-bold text-white text-center mb-4">Trail Rules & Guidelines</h2>
+            <p className="text-gray-300 text-center mb-12 max-w-3xl mx-auto">
+              Following these rules and guidelines helps maintain trail access, protects the environment, 
+              and ensures a positive experience for all trail users. These guidelines are essential for 
+              preserving our trails for future generations.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {rulesAndGuidelines.map((category, idx) => (
+                <div key={idx} className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="flex items-center mb-4">
+                    <span className="text-3xl mr-3">{category.icon}</span>
+                    <h3 className="text-xl font-bold text-white">{category.title}</h3>
+                  </div>
+                  <ul className="space-y-3">
+                    {category.rules.map((rule, ruleIdx) => (
+                      <li key={ruleIdx} className="text-gray-300 flex items-start">
+                        <span className="text-blue-500 mr-2">•</span>
+                        <span>{rule}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <div className="mt-12 bg-gray-800/50 rounded-lg p-6 max-w-3xl mx-auto">
+              <h3 className="text-xl font-bold text-white mb-4 text-center">Remember</h3>
+              <p className="text-gray-300 text-center">
+                These rules and guidelines are in place to protect both riders and the trails. 
+                By following them, you help maintain trail access and ensure a positive experience 
+                for everyone. When in doubt, always err on the side of caution and respect for 
+                the trail and other users.
+              </p>
             </div>
           </div>
         </section>
