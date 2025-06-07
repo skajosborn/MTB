@@ -116,8 +116,8 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
           {/* Circles as menu items */}
           {menuItems.map((item, i) => {
             const angle = getAngle(i, sectorCount);
-            const ringRadius = radius * 0.72; // Spread items out, but not to the very edge
-            const iconRadius = 48; // Radius of each button circle
+            const ringRadius = radius * 0.85; // spread out more
+            const iconRadius = 28; // smaller circles
             const center = polarToCartesian(radius, radius, ringRadius, angle);
             const isSelected = i === selected;
             return (
@@ -137,10 +137,10 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
                 {typeof item.icon === 'string' && item.icon.match(/\.(png|jpg|jpeg|gif)$/i) ? (
                   <image
                     href={item.icon}
-                    x={center.x - 24}
-                    y={center.y - 24}
-                    width={48}
-                    height={48}
+                    x={center.x - 14}
+                    y={center.y - 14}
+                    width={28}
+                    height={28}
                   />
                 ) : typeof item.icon === 'string' ? (
                   <text
@@ -148,7 +148,7 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ isOpen, onClose, menuItems, siz
                     y={center.y + 10}
                     textAnchor="middle"
                     alignmentBaseline="middle"
-                    fontSize={48}
+                    fontSize={28}
                     fill="#fff"
                     style={{ filter: 'drop-shadow(1px 1px 2px #000)' }}
                   >
