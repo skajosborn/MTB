@@ -8,6 +8,7 @@ import Link from "next/link";
 // import { useRouter } from "next/navigation";
 import  MultiTrailMap from "./components/MultiTrailMap";
 import { useState } from "react";
+import TrailFeatures from "./components/TrailFeatures";
 
 // Featured trails data
 const featuredTrails = [
@@ -46,6 +47,34 @@ const trails = [
   { id: "alafia", name: "Alafia", lat: 28.0, lon: -82.1 },
   { id: "santos-vortex", name: "Santos/Vortex", lat: 29.102, lon: -82.137 },
   // ...add more trails
+];
+
+// Trail features data
+const trailFeatures = [
+  {
+    image: '/rocks.jpg',
+    title: 'Diverse Terrain',
+    description: 'Central Florida boasts a variety of landscapes, from the flat plains and rolling hills of North Central Florida to the unique terrain of old phosphate mines like Alafia River State Park.',
+    type: 'Natural Features'
+  },
+  {
+    image: '/trail10.jpg',
+    title: 'Thriving Trail Systems',
+    description: 'Several regions offer well-maintained and diverse trail systems, including the renowned Santos Trailhead near Ocala and the Alafia River State Park.',
+    type: 'Trail Network'
+  },
+  {
+    image: '/trail-1.jpg',
+    title: 'Challenging and Scenic Trails',
+    description: 'Trails range from beginner-friendly singletracks to more advanced, technical routes, catering to riders of all skill levels.',
+    type: 'Trail Variety'
+  },
+  {
+    image: '/trail3.jpg',
+    title: 'Unique Experience',
+    description: 'Unlike areas with dramatic elevation changes, Central Florida\'s mountain biking is characterized by its unique blend of natural beauty and the creative use of terrain, including the remnants of phosphate mining.',
+    type: 'Local Character'
+  }
 ];
 
 export default function Home() {
@@ -155,110 +184,124 @@ export default function Home() {
         </div>
       </div>
 
-        {/* Intro Paragraph */}
-        <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-          <p className="text-gray-300 text-lg md:text-xl leading-relaxed">
-            Welcome to Central Florida&apos;s premier mountain biking destination. From the rolling hills of Croom to the technical features of Alafia, our region offers diverse trails for every skill level. Whether you&apos;re seeking beginner-friendly flow trails or challenging technical routes, discover your next adventure in the heart of Florida&apos;s mountain biking scene.
-          </p>
+      {/* Content based on active tab */}
+      {activeTab === 'overview' && (
+        <>
+          {/* Intro Paragraph */}
+          <div className="max-w-4xl mx-auto px-4 py-12 pt-20 mb-10 text-center">
+            <h1 className="text-4xl font-bold mb-16">The Rundown</h1>
+            <p className="text-gray-300 bg-gray-800 rounded-lg p-6 text-lg md:text-xl leading-relaxed">
+              Welcome to Central Florida&apos;s premier mountain biking destination. From the rolling hills of Croom to the technical features of Alafia, our region offers diverse trails for every skill level. Whether you&apos;re seeking beginner-friendly flow trails or challenging technical routes, discover your next adventure in the heart of Florida&apos;s mountain biking scene.
+            </p>
+          </div>
+
+          {/* Trail Features Section */}
+          <section className="py-16 w-full bg-gray-800/50">
+            <div className="max-w-7xl mx-auto px-4">
+              <h2 className="text-4xl font-bold text-white text-center mb-12">Trail Features</h2>
+              <TrailFeatures features={trailFeatures} />
+            </div>
+          </section>
+
+          {/* Maps */}
+          <section className="relative w-full mb-10 overflow-hidden shadow-2xl flex items-center justify-center">
+            <div className="w-full">
+              <MultiTrailMap trails={trails} />
+            </div>
+          </section>
+        </>
+      )}
+
+      {/* Featured Video Section */}
+      <section className="py-8 w-full mt-8 bg-gray-800 text-white">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-8">Experience the Thrill</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="relative aspect-video w-full mx-auto shadow-2xl overflow-hidden">
+              <iframe 
+                width="100%" 
+                height="100%" 
+                src="https://www.youtube.com/embed/ojMvLUjlmKQ?si=ci0GCMZqyme0Jbdz" 
+                title="YouTube video player" 
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin" 
+                allowFullScreen
+                className="absolute inset-0"
+              ></iframe>
+            </div>
+            <div className="relative aspect-video w-full mx-auto shadow-2xl rounded-lg overflow-hidden">
+              <iframe 
+                width="100%" 
+                height="100%" 
+                src="https://www.youtube.com/embed/QLtqDpgK6dg?si=7VPkkd1RH6ifElsR" 
+                title="YouTube video player" 
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin" 
+                allowFullScreen
+                className="absolute inset-0"
+              ></iframe>
+            </div>
+          </div>
         </div>
+      </section>
 
-
-        {/* Maps */}
-        <section className="relative w-full mt-10 mb-10 overflow-hidden shadow-2xl flex items-center justify-center">
-          <div className="w-full">
-            <MultiTrailMap trails={trails} />
-          </div>
-        </section>
-        {/* Featured Video Section */}
-        <section className="py-8 w-full mt-8 bg-gray-800 text-white">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-8">Experience the Thrill</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="relative aspect-video w-full mx-auto shadow-2xl overflow-hidden">
-                <iframe 
-                  width="100%" 
-                  height="100%" 
-                  src="https://www.youtube.com/embed/ojMvLUjlmKQ?si=ci0GCMZqyme0Jbdz" 
-                  title="YouTube video player" 
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                  referrerPolicy="strict-origin-when-cross-origin" 
-                  allowFullScreen
-                  className="absolute inset-0"
-                ></iframe>
-              </div>
-              <div className="relative aspect-video w-full mx-auto shadow-2xl rounded-lg overflow-hidden">
-                <iframe 
-                  width="100%" 
-                  height="100%" 
-                  src="https://www.youtube.com/embed/QLtqDpgK6dg?si=7VPkkd1RH6ifElsR" 
-                  title="YouTube video player" 
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                  referrerPolicy="strict-origin-when-cross-origin" 
-                  allowFullScreen
-                  className="absolute inset-0"
-                ></iframe>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Featured Trails Section */}
-        <section className="py-20 w-full bg-gray-50">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">Featured Trails</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {featuredTrails.map((trail) => (
-                <div key={trail.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                  <div className="relative h-60">
-                    {trail.image && (
-                      <Image
-                        src={trail.image}
-                        alt={trail.name}
-                        fill
-                        className="object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    )}
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl text-gray-900 font-bold mb-2">{trail.name}</h3>
-                    <p className="text-gray-600 mb-4">{trail.description}</p>
-                    <div className="flex justify-between items-center mb-4">
-                      <span className={`px-3 py-1 rounded-full text-white text-sm ${
-                        trail.difficulty === 'Beginner' ? 'bg-green-600' :
-                        trail.difficulty === 'Intermediate' ? 'bg-blue-600' :
-                        trail.difficulty === 'Advanced' ? 'bg-orange-600' :
-                        'bg-red-600'
-                      }`}>
-                        {trail.difficulty}
-                      </span>
-                      <span className="text-sm text-gray-500">Length: {trail.length}</span>
-                    </div>
-                    <Link 
-                      href={`/trails/${trail.slug}`}
-                      className="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors"
-                    >
-                      View Trail
-                    </Link>
-                  </div>
+      {/* Featured Trails Section */}
+      <section className="py-20 w-full bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">Featured Trails</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {featuredTrails.map((trail) => (
+              <div key={trail.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                <div className="relative h-60">
+                  {trail.image && (
+                    <Image
+                      src={trail.image}
+                      alt={trail.name}
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  )}
                 </div>
-              ))}
-            </div>
+                <div className="p-6">
+                  <h3 className="text-xl text-gray-900 font-bold mb-2">{trail.name}</h3>
+                  <p className="text-gray-600 mb-4">{trail.description}</p>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className={`px-3 py-1 rounded-full text-white text-sm ${
+                      trail.difficulty === 'Beginner' ? 'bg-green-600' :
+                      trail.difficulty === 'Intermediate' ? 'bg-blue-600' :
+                      trail.difficulty === 'Advanced' ? 'bg-orange-600' :
+                      'bg-red-600'
+                    }`}>
+                      {trail.difficulty}
+                    </span>
+                    <span className="text-sm text-gray-500">Length: {trail.length}</span>
+                  </div>
+                  <Link 
+                    href={`/trails/${trail.slug}`}
+                    className="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors"
+                  >
+                    View Trail
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Call to Action Section */}
-        <section className="py-20 w-full bg-gray-800 text-white">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6">Ready to Hit the Trails?</h2>
-            <p className="text-xl mb-8">Join our community of mountain bikers and discover new adventures every day.</p>
-            <Link href="/trails" className="bg-white text-green-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-full transition-colors inline-block">
-              Browse All Trails
-            </Link>
-          </div>
-        </section>
-      </div>
-    </main>
-  );
+      {/* Call to Action Section */}
+      <section className="py-20 w-full bg-gray-800 text-white">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-6">Ready to Hit the Trails?</h2>
+          <p className="text-xl mb-8">Join our community of mountain bikers and discover new adventures every day.</p>
+          <Link href="/trails" className="bg-white text-green-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-full transition-colors inline-block">
+            Browse All Trails
+          </Link>
+        </div>
+      </section>
+    </div>
+  </main>
+);
 }
