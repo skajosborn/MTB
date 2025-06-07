@@ -77,6 +77,70 @@ const trailFeatures = [
   }
 ];
 
+// Trail tips data
+const trailTips = [
+  {
+    title: 'Weather & Conditions',
+    icon: '🌧️',
+    tips: [
+      'Trails can be extremely slick after rain - wait 24-48 hours after heavy rainfall',
+      'Summer months (June-September) bring frequent afternoon thunderstorms - plan rides for early morning',
+      'Best riding conditions are typically October through April',
+      'Check trail conditions on local Facebook groups before heading out'
+    ]
+  },
+  {
+    title: 'Essential Gear',
+    icon: '🛠️',
+    tips: [
+      'Bug spray is a must - mosquitoes and no-see-ums are prevalent year-round',
+      'Carry plenty of water - Florida heat and humidity can be intense',
+      'Consider a hydration pack with at least 2L capacity',
+      'Basic repair kit including spare tube, pump, and chain tool'
+    ]
+  },
+  {
+    title: 'Trail Etiquette',
+    icon: '🤝',
+    tips: [
+      'Yield to hikers and equestrians - announce your presence when approaching',
+      'Stay on marked trails to protect sensitive ecosystems',
+      'Pack out all trash, including energy bar wrappers',
+      'Be mindful of wildlife - especially in areas with alligators'
+    ]
+  },
+  {
+    title: 'Safety Tips',
+    icon: '⚠️',
+    tips: [
+      'Ride with a buddy when possible, especially on remote trails',
+      'Carry a basic first aid kit and know basic trailside repairs',
+      'Be aware of hunting seasons in wildlife management areas',
+      'Check for trail closures during prescribed burns'
+    ]
+  },
+  {
+    title: 'Best Times to Ride',
+    icon: '⏰',
+    tips: [
+      'Early morning rides (6-9am) offer the best conditions in summer',
+      'Weekday rides typically mean less crowded trails',
+      'Avoid peak heat hours (11am-3pm) during summer months',
+      'Consider night rides during summer - many trails are open after dark'
+    ]
+  },
+  {
+    title: 'Local Knowledge',
+    icon: '💡',
+    tips: [
+      'Join local MTB Facebook groups for real-time trail conditions',
+      'Trail difficulty ratings can be misleading - check recent reviews',
+      'Some trails require permits or have entry fees - check before you go',
+      'Many trails have specific parking areas - arrive early on weekends'
+    ]
+  }
+];
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -210,6 +274,36 @@ export default function Home() {
             </div>
           </section>
         </>
+      )}
+
+      {activeTab === 'beginner' && (
+        <section className="py-16 w-full">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-4xl font-bold text-white text-center mb-4">Central Florida Trail Tips</h2>
+            <p className="text-gray-300 text-center mb-12 max-w-3xl mx-auto">
+              Essential knowledge for riding Central Florida&apos;s trails. From weather conditions to local etiquette, 
+              these tips will help you make the most of your mountain biking experience in the region.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {trailTips.map((category, idx) => (
+                <div key={idx} className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="flex items-center mb-4">
+                    <span className="text-3xl mr-3">{category.icon}</span>
+                    <h3 className="text-xl font-bold text-white">{category.title}</h3>
+                  </div>
+                  <ul className="space-y-3">
+                    {category.tips.map((tip, tipIdx) => (
+                      <li key={tipIdx} className="text-gray-300 flex items-start">
+                        <span className="text-green-500 mr-2">•</span>
+                        <span>{tip}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Featured Video Section */}
