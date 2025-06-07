@@ -225,6 +225,70 @@ const rulesAndGuidelines = [
   }
 ];
 
+// Access and amenities data
+const accessAndAmenities = [
+  {
+    title: 'Parking & Access',
+    icon: '🅿️',
+    features: [
+      'Most trailheads have dedicated parking areas with clear signage',
+      'Weekend mornings (8-11am) are typically the busiest times',
+      'Some locations require a state park pass or daily entrance fee',
+      'Arrive early on weekends to secure parking, especially at popular trails'
+    ]
+  },
+  {
+    title: 'Trailhead Facilities',
+    icon: '🏠',
+    features: [
+      'Most major trailheads have restroom facilities',
+      'Bike wash stations are common at popular trail systems',
+      'Information kiosks with trail maps and current conditions',
+      'Some locations offer bike repair stations with basic tools'
+    ]
+  },
+  {
+    title: 'On-Trail Amenities',
+    icon: '🚰',
+    features: [
+      'Water fountains at main trailheads (bring your own water for longer rides)',
+      'Benches and rest areas at scenic viewpoints',
+      'Trail markers and difficulty indicators throughout the system',
+      'Emergency contact information posted at trailheads'
+    ]
+  },
+  {
+    title: 'Nearby Services',
+    icon: '🏪',
+    features: [
+      'Bike shops typically within 15-30 minutes of major trail systems',
+      'Gas stations and convenience stores near most trailheads',
+      'Restaurants and cafes in nearby towns',
+      'Some locations have camping facilities nearby'
+    ]
+  },
+  {
+    title: 'Trail System Features',
+    icon: '🗺️',
+    features: [
+      'Color-coded trail difficulty markers (green, blue, black)',
+      'Bailout points and shortcut options on longer trails',
+      'Trail maps available online and at trailheads',
+      'Multiple entry/exit points at larger trail systems'
+    ]
+  },
+  {
+    title: 'Seasonal Considerations',
+    icon: '🌤️',
+    features: [
+      'Trail conditions vary significantly with rainfall',
+      'Summer months may have limited water availability',
+      'Some trails close during hunting seasons',
+      'Prescribed burns may affect trail access (check before visiting)'
+    ]
+  }
+];
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -306,16 +370,6 @@ export default function Home() {
                 } cursor-pointer`}
               >
                 Rules & Guidelines
-              </button>
-              <button 
-                onClick={() => setActiveTab('advanced')}
-                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
-                  activeTab === 'advanced'
-                    ? 'bg-gray-800 text-white border-b-2 border-orange-500 shadow-lg'
-                    : 'hover:bg-gray-800/50 hover:text-white'
-                } cursor-pointer`}
-              >
-                Advanced Trails
               </button>
               <button 
                 onClick={() => setActiveTab('amenities')}
@@ -424,6 +478,44 @@ export default function Home() {
                 By following them, you help maintain trail access and ensure a positive experience 
                 for everyone. When in doubt, always err on the side of caution and respect for 
                 the trail and other users.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {activeTab === 'amenities' && (
+        <section className="py-16 w-full">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-4xl font-bold text-white text-center mb-4">Trail Access & Amenities</h2>
+            <p className="text-gray-300 text-center mb-12 max-w-3xl mx-auto">
+              Central Florida&apos;s trail systems offer a range of facilities and amenities to enhance your riding experience. 
+              While specific features may vary by location, these are common across most trail systems in the region.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {accessAndAmenities.map((category, idx) => (
+                <div key={idx} className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="flex items-center mb-4">
+                    <span className="text-3xl mr-3">{category.icon}</span>
+                    <h3 className="text-xl font-bold text-white">{category.title}</h3>
+                  </div>
+                  <ul className="space-y-3">
+                    {category.features.map((feature, featureIdx) => (
+                      <li key={featureIdx} className="text-gray-300 flex items-start">
+                        <span className="text-purple-500 mr-2">•</span>
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <div className="mt-12 bg-gray-800/50 rounded-lg p-6 max-w-3xl mx-auto">
+              <h3 className="text-xl font-bold text-white mb-4 text-center">Before You Go</h3>
+              <p className="text-gray-300 text-center">
+                While these amenities are common across Central Florida trails, it&apos;s always best to check the specific 
+                trail system&apos;s website or social media for current conditions and available facilities. Some amenities 
+                may be seasonal or temporarily unavailable due to maintenance or weather conditions.
               </p>
             </div>
           </div>
