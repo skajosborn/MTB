@@ -17,7 +17,7 @@ interface RadialMenuProps {
   overlay?: boolean; // Optional: show a dim background overlay
 }
 
-const DEFAULT_SIZE = 800; // Increase SVG size
+const DEFAULT_SIZE = 350; // or 400
 const MIN_SECTORS = 6;
 
 const getAngle = (idx: number, total: number) => {
