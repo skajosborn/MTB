@@ -6,6 +6,7 @@ import Link from 'next/link';
 // Trail data
 const trails = [
   { name: "Croom", slug: "croom", difficulty: "Advanced" },
+  { name: "Santos/Vortex", slug: "santos-vortex", difficulty: "Intermediate" },
   { name: "Slickrock Trail", slug: "slickrock-trail", difficulty: "Advanced" },
   { name: "Whole Enchilada", slug: "whole-enchilada", difficulty: "Expert" },
   { name: "McKenzie River Trail", slug: "mckenzie-river-trail", difficulty: "Intermediate" },

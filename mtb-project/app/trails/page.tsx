@@ -12,60 +12,60 @@ const trails = [
     description: 'An extensive network of mountain biking trails with a variety of terrain from flowing singletrack to technical sections.'
   },
   {
-    slug: 'Balm Boyette',
+    slug: 'balm-boyette',
     name: 'Balm Boyette',
     difficulty: 'Expert',
-    location: 'Moab, Utah',
+    location: 'Lithia, Florida',
     image: '/good4.jpg',
-    description: 'An epic trail that begins in the high alpine terrain of the La Sal Mountains and descends over 7,000 feet.'
+    description: 'Technical trails with challenging features and elevation changes in the Balm Boyette Scrub Nature Preserve.'
   },
   {
-    slug: 'Santos & Vortex',
-    name: 'Santos & Vortex',
+    slug: 'santos-vortex',
+    name: 'Santos/Vortex',
     difficulty: 'Intermediate',
-    location: 'Eugene, OR',
-    image: '/trail4.jpg',
-    description: 'A 26-mile singletrack trail following the McKenzie River through ancient forest and lava flows.'
+    location: 'Ocala, Florida',
+    image: '/images/santos/santos1.jpg',
+    description: "Florida's largest and most popular MTB destination, featuring 80+ miles of singletrack with trails for all skill levels."
   },
   {
-    slug: 'Mount Dora',
+    slug: 'mount-dora',
     name: 'Mount Dora',
     difficulty: 'Advanced',
-    location: 'Moab, Utah',
+    location: 'Mount Dora, Florida',
     image: '/good3.jpg',
-    description: 'A challenging trail with technical terrain and breathtaking views of Castle Valley.'
+    description: 'Urban trail system with technical features and elevation changes in the heart of Mount Dora.'
   },
   {
-    slug: 'Alafia',
+    slug: 'alafia',
     name: 'Alafia',
     difficulty: 'Intermediate',
-    location: 'Lake Tahoe, NV',
+    location: 'Lithia, Florida',
     image: '/good2.jpg',
-    description: 'Famous for its stunning views of Lake Tahoe and narrow singletrack along a mountain ledge.'
+    description: '20+ miles of purpose-built trails with progressive difficulty levels in Alafia River State Park.'
   },
   {
-    slug: 'Loyce E. Harpe',
-    name: '18 Road',
+    slug: 'loyce-harpe',
+    name: 'Loyce E. Harpe',
     difficulty: 'Beginner',
-    location: 'Fruita, CO',
+    location: 'Mulberry, Florida',
     image: '/good9.jpg',
-    description: 'A network of flowing singletrack trails perfect for riders of all skill levels.'
+    description: 'A network of flowing singletrack trails perfect for riders of all skill levels in the Loyce E. Harpe Park.'
   },
   {
     slug: 'carter-road',
     name: 'Carter Road',
     difficulty: 'Intermediate',
-    location: 'Citrus Wildlife Management Area, FL',
+    location: 'Citrus Wildlife Management Area, Florida',
     image: '/bike.jpg',
     description: 'A unique riding experience through Florida swamplands with wooden boardwalks and diverse ecosystems.'
   },
   {
-    slug: '49th Ave Trailhead',
+    slug: '49th-ave',
     name: '49th Ave Trailhead',
     difficulty: 'Advanced',
-    location: 'Crested Butte, CO',
+    location: 'Ocala, Florida',
     image: '/magestic.jpg',
-    description: 'A classic Colorado trail with fast, flowing singletrack through aspen groves and dense forest.'
+    description: 'Southern access point to the Santos trail system with direct entry to the southern trails and less crowded sections.'
   }
 ];
 

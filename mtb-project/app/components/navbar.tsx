@@ -6,13 +6,13 @@ import Image from 'next/image';
 
 // Combine trail data into one list
 const trails = [
-  { name: "Croom", difficulty: "Advanced" },
-  { name: "Balm Boyette", difficulty: "Expert" },
-  { name: "Santos & Vortex", difficulty: "Intermediate" },
-  { name: "Mount Dora", difficulty: "Advanced" },
-  { name: "Alafia", difficulty: "Intermediate" },
-  { name: "Carter Road", difficulty: "Intermediate" },
-  { name: "49th Ave Trailhead", difficulty: "Advanced" },
+  { name: "Croom", slug: "croom", difficulty: "Advanced" },
+  { name: "Balm Boyette", slug: "balm-boyette", difficulty: "Expert" },
+  { name: "Santos/Vortex", slug: "santos-vortex", difficulty: "Intermediate" },
+  { name: "Mount Dora", slug: "mount-dora", difficulty: "Advanced" },
+  { name: "Alafia", slug: "alafia", difficulty: "Intermediate" },
+  { name: "Carter Road", slug: "carter-road", difficulty: "Intermediate" },
+  { name: "49th Ave Trailhead", slug: "49th-ave", difficulty: "Advanced" },
 ];
 
 export function Navbar() {
@@ -138,8 +138,8 @@ export function Navbar() {
                         <div className="space-y-1">
                           {trails.map((trail) => (
                             <Link 
-                              key={trail.name}
-                              href={`/trails/${trail.name.toLowerCase().replace(/\s+/g, '-')}`}
+                              key={trail.slug}
+                              href={`/trails/${trail.slug}`}
                               className={`
                                 block px-3 py-2 rounded text-white hover:bg-gray-700 transition-colors
                                 ${trail.difficulty === 'Beginner' ? 'border-l-4 border-green-500' : 

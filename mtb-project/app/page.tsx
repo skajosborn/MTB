@@ -289,11 +289,180 @@ const accessAndAmenities = [
   }
 ];
 
+// Trail maps data
+const trailMaps = [
+  {
+    name: 'Croom',
+    image: '/images/croom/trailmap.png',
+    description: 'Over 25 miles of diverse singletrack in the Withlacoochee State Forest',
+    location: 'Brooksville, FL',
+    difficulty: 'Beginner to Advanced',
+    link: 'https://www.alltrails.com/parks/us/florida/withlacoochee-state-forest/croom'
+  },
+  {
+    name: 'Alafia River State Park',
+    image: '/images/alafia/AlafiaMap-10.jpeg',
+    description: '20+ miles of purpose-built trails with progressive difficulty levels',
+    location: 'Lithia, FL',
+    difficulty: 'Beginner to Expert',
+    link: 'https://www.alltrails.com/parks/us/florida/alafia-river-state-park'
+  },
+  {
+    name: 'Santos/Vortex',
+    image: '/images/santos/santosmap.png',
+    description: "Florida's largest and most popular MTB destination, featuring 80+ miles of singletrack. The Santos Trailhead offers access to a wide range of trails for all skill levels. The Vortex area is famous for its technical features, jumps, and skills park. The 49th Ave Trailhead provides additional parking and direct access to the southern trail system.",
+    location: 'Ocala, FL',
+    difficulty: 'Beginner to Expert',
+    link: 'https://www.alltrails.com/parks/us/florida/santos-trailhead'
+  },
+  {
+    name: 'Carter Road',
+    image: '/images/carter-road/cartermap.jpg',
+    description: 'Scenic trails through pine forests and wetlands',
+    location: 'Lakeland, FL',
+    difficulty: 'Beginner to Intermediate',
+    link: 'https://www.alltrails.com/trail/us/florida/carter-road-trail'
+  },
+  {
+    name: 'Balm Boyette',
+    image: '/images/balm-boyette/balmboyettemap.jpg',
+    description: 'Technical trails with challenging features and elevation changes',
+    location: 'Lithia, FL',
+    difficulty: 'Intermediate to Expert',
+    link: 'https://www.alltrails.com/trail/us/florida/balm-boyette-scrub-nature-preserve'
+  },
+  {
+    name: 'Mount Dora',
+    image: '/images/mount-dora/mtdoratrailmap.png',
+    description: 'Urban trail system with technical features and elevation',
+    location: 'Mount Dora, FL',
+    difficulty: 'Beginner to Advanced',
+    link: 'https://www.alltrails.com/trail/us/florida/mount-dora-trail'
+  }
+];
+
+// Add rotation state for each map
+const initialRotations: { [key: string]: number } = {
+  '/images/croom/trailmap.png': 90,
+  '/images/alafia/AlafiaMap-10.jpeg': 0,
+  '/images/santos/santosmap.png': 270,
+  '/images/carter-road/cartermap.jpg': 0,
+  '/images/balm-boyette/balmboyettemap.jpg': 0,
+  '/images/mount-dora/mountdoramap.png': 0,
+};
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState('overview');
+  const [selectedMap, setSelectedMap] = useState<{ name: string; image: string } | null>(null);
+  const [rotation, setRotation] = useState(0);
+
+  const handleMapSelect = (map: { name: string; image: string }) => {
+    setSelectedMap(map);
+    setRotation(initialRotations[map.image] || 0);
+  };
+
+  const rotateMap = (direction: 'left' | 'right') => {
+    setRotation(prev => (prev + (direction === 'left' ? -90 : 90)) % 360);
+  };
+
+  const downloadMap = async () => {
+    if (!selectedMap) return;
+    
+    try {
+      const response = await fetch(selectedMap.image);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${selectedMap.name.toLowerCase().replace(/\s+/g, '-')}-trail-map${selectedMap.image.substring(selectedMap.image.lastIndexOf('.'))}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading map:', error);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-gray-900">
+      {/* Map Modal */}
+      {selectedMap && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4"
+          onClick={() => setSelectedMap(null)}
+        >
+          <div 
+            className="relative max-w-7xl w-full max-h-[90vh] bg-gray-800 rounded-lg overflow-hidden"
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setSelectedMap(null)}
+              className="absolute top-4 right-4 text-white bg-gray-900 rounded-full p-2 hover:bg-gray-700 transition-colors z-10"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Controls */}
+            <div className="absolute top-4 left-4 flex space-x-2 z-10">
+              <button
+                onClick={() => rotateMap('left')}
+                className="text-white bg-gray-900 rounded-full p-2 hover:bg-gray-700 transition-colors"
+                title="Rotate left"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+              </button>
+              <button
+                onClick={() => rotateMap('right')}
+                className="text-white bg-gray-900 rounded-full p-2 hover:bg-gray-700 transition-colors"
+                title="Rotate right"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </button>
+              <button
+                onClick={downloadMap}
+                className="text-white bg-gray-900 rounded-full p-2 hover:bg-gray-700 transition-colors"
+                title="Download map"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Map Image */}
+            <div className="relative w-full h-[80vh]">
+              <div 
+                className="w-full h-full transition-transform duration-300"
+                style={{ transform: `rotate(${rotation}deg)` }}
+              >
+                <Image
+                  src={selectedMap.image}
+                  alt={`${selectedMap.name} trail map`}
+                  fill
+                  className="object-contain p-4"
+                  sizes="(max-width: 1280px) 100vw, 1280px"
+                  priority
+                />
+              </div>
+            </div>
+
+            {/* Bottom Bar */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-75 p-4 flex justify-between items-center">
+              <h3 className="text-xl font-bold text-white">{selectedMap.name} Trail Map</h3>
+              <span className="text-gray-300 text-sm">Click and drag to pan, use controls to rotate</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-screen-2xl mx-auto  mt-15">
         {/* Hero Section */}
         <section className="relative flex flex-col items-center justify-center pt-20 min-h-[500px] md:min-h-[600px] lg:min-h-[700px]">
@@ -380,6 +549,16 @@ export default function Home() {
                 } cursor-pointer`}
               >
                 Access & Amenities
+              </button>
+              <button 
+                onClick={() => setActiveTab('maps')}
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'maps'
+                    ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                } cursor-pointer`}
+              >
+                Trail Maps
               </button>
             </div>
           </div>
@@ -516,6 +695,60 @@ export default function Home() {
                 While these amenities are common across Central Florida trails, it&apos;s always best to check the specific 
                 trail system&apos;s website or social media for current conditions and available facilities. Some amenities 
                 may be seasonal or temporarily unavailable due to maintenance or weather conditions.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {activeTab === 'maps' && (
+        <section className="py-16 w-full">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-4xl font-bold text-white text-center mb-4">Central Florida Trail Maps</h2>
+            <p className="text-gray-300 text-center mb-12 max-w-3xl mx-auto">
+              Explore the major mountain biking trail systems in Central Florida. Each trail system offers unique 
+              features and challenges, from beginner-friendly loops to expert-level technical trails.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {trailMaps.map((trail, idx) => (
+                <div key={idx} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="relative h-48">
+                    <Image
+                      src={trail.image}
+                      alt={`${trail.name} trail map`}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-white mb-2">{trail.name}</h3>
+                    <p className="text-gray-300 mb-4">{trail.description}</p>
+                    <div className="space-y-2 mb-4">
+                      <div className="flex items-center text-gray-400">
+                        <span className="mr-2">📍</span>
+                        <span>{trail.location}</span>
+                      </div>
+                      <div className="flex items-center text-gray-400">
+                        <span className="mr-2">🚵</span>
+                        <span>{trail.difficulty}</span>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={() => handleMapSelect({ name: trail.name, image: trail.image })}
+                      className="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors"
+                    >
+                      View Full Map
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-12 bg-gray-800/50 rounded-lg p-6 max-w-3xl mx-auto">
+              <h3 className="text-xl font-bold text-white mb-4 text-center">About the Maps</h3>
+              <p className="text-gray-300 text-center">
+                Click on any trail map to view a larger version. These maps are regularly updated by local trail 
+                organizations. For the most current trail conditions and detailed information, visit the specific 
+                trail system&apos;s website or social media pages.
               </p>
             </div>
           </div>

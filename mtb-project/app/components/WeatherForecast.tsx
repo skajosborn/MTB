@@ -14,6 +14,7 @@ interface WeatherForecastProps {
   latitude: number;
   longitude: number;
   apiKey: string;
+  days?: number; // Optional, default 5
 }
 
 // Add proper types for the API response
@@ -45,7 +46,7 @@ interface ErrorType extends Error {
   message: string;
 }
 
-export default function WeatherForecast({ location, latitude, longitude, apiKey }: WeatherForecastProps) {
+export default function WeatherForecast({ location, latitude, longitude, apiKey, days = 5 }: WeatherForecastProps) {
   const [weatherData, setWeatherData] = useState<WeatherDay[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -64,14 +65,20 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
       const now = new Date();
       setLastUpdated(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
       
-      // Set fallback weather data
-      setWeatherData([
-        { day: 'Today', icon: '☀️', high: 82, low: 64 },
-        { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '🌤️', high: 80, low: 62 },
-        { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '🌧️', high: 75, low: 60 },
-        { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '☁️', high: 78, low: 62 },
-        { day: getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()), icon: '☀️', high: 83, low: 65 }
-      ]);
+      // Generate fallback data for the requested number of days
+      const fallbackIcons = ['☀️', '🌤️', '🌧️', '☁️', '☀️', '🌦️', '⛅'];
+      const fallbackHighs = [82, 80, 75, 78, 83, 79, 81];
+      const fallbackLows = [64, 62, 60, 62, 65, 63, 66];
+      const fallbackData: WeatherDay[] = [];
+      for (let i = 0; i < days; i++) {
+        fallbackData.push({
+          day: i === 0 ? 'Today' : getDayName(new Date(now.setDate(now.getDate() + 1)).toISOString()),
+          icon: fallbackIcons[i % fallbackIcons.length],
+          high: fallbackHighs[i % fallbackHighs.length],
+          low: fallbackLows[i % fallbackLows.length],
+        });
+      }
+      setWeatherData(fallbackData);
 
       // Set fallback hourly data
       const hours = [];
@@ -107,7 +114,7 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
         console.log('Using API key (truncated):', apiKey.substring(0, 5) + '...');
         
         // Use WeatherAPI endpoint
-        const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=5&aqi=no&alerts=no`;
+        const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=${days}&aqi=no&alerts=no`;
         
         console.log('Fetching weather data from:', apiUrl?.replace(apiKey, 'API_KEY_HIDDEN'));
         
@@ -189,21 +196,15 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey 
         
         setError(errorMessage);
         
-        // Fallback to default values
-        setWeatherData([
-          { day: 'Today', icon: '☀️', high: 82, low: 64 },
-          { day: 'Wed', icon: '🌤️', high: 80, low: 62 },
-          { day: 'Thu', icon: '🌧️', high: 75, low: 60 },
-          { day: 'Fri', icon: '☁️', high: 78, low: 62 },
-          { day: 'Sat', icon: '☀️', high: 83, low: 65 }
-        ]);
+        // Fallback for error: use the same fallbackData as above
+        getFallbackData();
       } finally {
         setLoading(false);
       }
     };
 
     fetchWeatherData();
-  }, [latitude, longitude, apiKey]);
+  }, [latitude, longitude, apiKey, days]);
 
   return (
     <div className="mt-6">
