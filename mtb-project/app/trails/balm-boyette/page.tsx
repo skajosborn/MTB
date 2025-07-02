@@ -349,7 +349,17 @@ export default function BalmBoyetteTrailPage() {
 
               {/* Video Section */}
               <div className="bg-gray-800 overflow-hidden shadow-xl transition-transform hover:scale-105 mb-8">
-                {/* ...video iframe... */}
+                <iframe 
+                  width="100%" 
+                  height="400" 
+                  src="https://www.youtube.com/embed/ulaQAEc1HZc?si=IYKYi-mgK3p2GWk6" 
+                  title="YouTube video player" 
+                  frameBorder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  referrerPolicy="strict-origin-when-cross-origin" 
+                  allowFullScreen
+                  className="rounded-lg"
+                ></iframe>
               </div>
 
               {/* Trail Features Section */}
