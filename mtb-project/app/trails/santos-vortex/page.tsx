@@ -2,25 +2,13 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import WeatherForecast from '@/app/components/WeatherForecast';
 import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
 // import TrailMap from '@/app/components/TrailMap';
 // import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
 // import 'mapbox-gl/dist/mapbox-gl.css';
 // import TrailFeatures from '@/app/components/TrailFeatures';
-
-const TRAIL_COORDS = {
-  latitude: 29.102, // Santos main trailhead
-  longitude: -82.137,
-  location: "Ocala, FL"
-};
-
-const trailData = {
-  name: "Santos/Vortex",
-  lon: -82.137,
-  lat: 29.102
-};
 
 const features = [
   {
@@ -52,65 +40,6 @@ const photos: TrailPhoto[] = [
   { src: '/images/santos/49th2.jpg', alt: '49th Ave parking' },
 ];
 
-// Trail Difficulty Tabs Component
-function TrailDifficultyTabs() {
-  const trailTabs = [
-    { label: 'Beginner', key: 'beginner' },
-    { label: 'Intermediate', key: 'intermediate' },
-    { label: 'Advanced', key: 'advanced' },
-  ];
-  const trailsByDifficulty = {
-    beginner: [
-      { name: 'Marshmallow', distance: '0.6km', location: 'Silver Springs Shores, FL' },
-      { name: 'Pine Tree West', distance: '2.6km', location: 'Silver Springs Shores, FL' },
-    ],
-    intermediate: [
-      { name: 'Bryar Patch', distance: '0.6km', location: 'Belleview, FL' },
-      { name: 'Twister', distance: '3.9km', location: 'Belleview, FL' },
-      { name: 'Cow Bone', distance: '1.7km', location: 'Silver Springs Shores, FL' },
-      { name: 'Bunny', distance: '2.1km', location: 'Belleview, FL' },
-      { name: 'Kennz Kornerz', distance: '0.2km', location: 'Belleview, FL' },
-      { name: 'Sinkhole', distance: '1.4km', location: 'Silver Springs Shores, FL' },
-    ],
-    advanced: [
-      { name: 'Vortex', distance: '3.4km', location: 'Belleview, FL' },
-      { name: 'John Brown', distance: '0.8km', location: 'Belleview, FL' },
-    ],
-  };
-  type TabKey = 'beginner' | 'intermediate' | 'advanced';
-  const [activeTab, setActiveTab] = useState<TabKey>('beginner');
-  return (
-    <div className="my-10">
-      <div className="flex space-x-4 mb-6">
-        {trailTabs.map(tab => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key as TabKey)}
-            className={`px-4 py-2 rounded-lg font-semibold ${
-              activeTab === tab.key
-                ? 'bg-green-600 text-white'
-                : 'bg-gray-700 text-gray-200 hover:bg-green-700'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-      <div>
-        <ul className="space-y-3">
-          {trailsByDifficulty[activeTab].map((trail: { name: string; distance: string; location: string }, idx: number) => (
-            <li key={idx} className="bg-gray-800 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between">
-              <span className="font-bold text-white">{trail.name}</span>
-              <span className="text-gray-400 ml-2">{trail.distance}</span>
-              <span className="text-gray-400 ml-2">{trail.location}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
 export default function SantosVortexTrailPage() {
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -133,7 +62,7 @@ export default function SantosVortexTrailPage() {
             Beginner to Expert
           </div>
           <p className="text-xl text-white max-w-2xl mx-auto">
-            Florida's largest and most popular MTB destination, with world-class features and trail variety.
+            Florida&apos;s largest and most popular MTB destination, with world-class features and trail variety.
           </p>
         </div>
       </div>
@@ -281,7 +210,7 @@ export default function SantosVortexTrailPage() {
                   Santos is the heart of Florida mountain biking, offering everything from beginner-friendly flow trails to expert-level technical features. The Vortex area is a must-ride for advanced riders, while the 49th Ave Trailhead provides easy access to the southern trails and less crowded routes. Maintained by OMBA, this system is a true MTB destination.
                 </p>
                 <p className="text-gray-300 text-lg mb-4">
-                  The trail system is known for its variety: fast singletrack, technical rock gardens, wooden features, and a vibrant community. Whether you're looking for a family ride or a pro-level challenge, Santos delivers.
+                  The trail system is known for its variety: fast singletrack, technical rock gardens, wooden features, and a vibrant community. Whether you&apos;re looking for a family ride or a pro-level challenge, Santos delivers.
                 </p>
               </div>
             </div>
