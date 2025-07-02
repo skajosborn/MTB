@@ -327,21 +327,7 @@ export default function AlafiaTrailPage() {
                   </p>
                 </div>
                 {/* Video Section */}
-                <div className="bg-gray-800 overflow-hidden shadow-xl transition-transform hover:scale-105 mb-8">
-                  <div className="aspect-video w-full">
-                    <iframe
-                      src="https://www.youtube.com/embed/QLtqDpgK6dg?si=7VPkkd1RH6ifElsR"
-                      width="100%"
-                      height="100%"
-                      title="YouTube video player"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                      className="w-full h-full"
-                    ></iframe>
-                  </div>
-                </div>
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/a59eKpLUgsw?si=rOrZtgPZB2zzaFMc" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                 {/* Trail Features Section */}
                 <TrailFeatures features={features} />
                 {/* Map Section */}
@@ -353,12 +339,14 @@ export default function AlafiaTrailPage() {
                 </div>
                 {/* Alafia Map Image */}
                 <h3 className="text-2xl font-bold text-white mt-10 mb-6">Alafia Trail Map</h3>
-                <div className="relative h-96 max-w-contain mx-auto">
+                <div className="relative h-96 max-w-4xl mx-auto bg-gray-900 rounded-lg">
                   <Image
                     src="/images/alafia/AlafiaMap-10.jpeg"
                     alt="Alafia River State Park Trail Map"
                     fill
+                    sizes="(max-width: 768px) 100vw, 700px"
                     className="object-contain rounded-lg"
+                    priority
                   />
                 </div>
                 {/* Photo Gallery Section */}

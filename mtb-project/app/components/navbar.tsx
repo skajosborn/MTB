@@ -12,7 +12,7 @@ const trails = [
   { name: "Mount Dora", slug: "mount-dora", difficulty: "Advanced" },
   { name: "Alafia", slug: "alafia", difficulty: "Intermediate" },
   { name: "Carter Road", slug: "carter-road", difficulty: "Intermediate" },
-  { name: "49th Ave Trailhead", slug: "49th-ave", difficulty: "Advanced" },
+  // { name: "49th Ave Trailhead", slug: "49th-ave", difficulty: "Advanced" },
 ];
 
 export function Navbar() {

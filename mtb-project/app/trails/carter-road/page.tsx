@@ -8,9 +8,16 @@ import TrailMap from '@/app/components/TrailMap';
 import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
 import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
 import 'mapbox-gl/dist/mapbox-gl.css';
-// import TrailFeatures from '@/app/components/TrailFeatures';
+import TrailFeatures from '@/app/components/TrailFeatures';
 // import TrailDifficulty from '@/app/components/TrailDifficulty';
 import TrailAmenities from '@/app/components/TrailAmenities';
+
+type Features = {
+  image: string;
+  title: string;
+  description: string;
+  type: string;
+};
 
 const TRAIL_COORDS = {
   latitude: 28.745284,
@@ -123,6 +130,45 @@ const ridingTips: { category: string; description?: string; tips: string[] }[] =
       'Moisture-wicking clothing',
       'Camera for wildlife photography opportunities',
     ],
+  },
+];
+
+const features: Features[] = [
+  {
+    image: '/feature1.jpg',
+    title: 'Pine Forest Singletrack',
+    description: 'Flowing trails through tall pine forests, offering fast and scenic riding with a classic Florida feel.',
+    type: 'Natural Terrain',
+  },
+  {
+    image: '/rocks2.jpg',
+    title: 'Rock Gardens',
+    description: 'Technical rock garden sections that challenge bike handling skills and provide a taste of rugged terrain.',
+    type: 'Technical Challenge',
+  },
+  {
+    image: '/hill4.jpg',
+    title: 'Steep Climbs',
+    description: 'Surprisingly steep climbs and punchy ascents, rare for Florida, that test endurance and power.',
+    type: 'Elevation',
+  },
+  {
+    image: '/river.jpg',
+    title: 'River Crossings',
+    description: 'Scenic crossings and views along the Withlacoochee River, adding variety and beauty to the ride.',
+    type: 'Scenic Feature',
+  },
+  {
+    image: '/feature3.jpg',
+    title: 'Quarry Sections',
+    description: 'Trails wind through abandoned phosphate quarries, creating a natural playground of drops and features.',
+    type: 'Unique Terrain',
+  },
+  {
+    image: '/longbridge.jpg',
+    title: 'Long Wooden Bridges',
+    description: 'Bridges and boardwalks over low-lying areas, providing both technical interest and access.',
+    type: 'Infrastructure',
   },
 ];
 
@@ -322,6 +368,14 @@ export default function CarterRoadTrailPage() {
                     ></iframe>
                   </div>
                 </div>
+
+                 {/* Trail Features Section */}
+          <section className="py-16 w-full bg-gray-800/50">
+            <div className="max-w-7xl mx-auto px-4">
+              <h2 className="text-4xl font-bold text-white text-center mb-12">Trail Features</h2>
+              <TrailFeatures features={features} />
+            </div>
+          </section>
 
                 {/* Maps & Directions Section */}
                 <h2 className="text-3xl font-bold text-white mb-6">Maps & Directions</h2>

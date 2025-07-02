@@ -209,6 +209,14 @@ export default function SantosVortexTrailPage() {
             {/* LEFT COLUMN: Overview Text */}
             <div className="lg:col-span-2 flex flex-col gap-8">
               <h1 className="text-4xl font-bold mb-8">The Rundown</h1>
+              <div className="prose prose-invert max-w-none mb-8">
+                <p className="text-gray-300 text-lg mb-4">
+                  Santos is the heart of Florida mountain biking, offering everything from beginner-friendly flow trails to expert-level technical features. The Vortex area is a must-ride for advanced riders, while the 49th Ave Trailhead provides easy access to the southern trails and less crowded routes. Maintained by OMBA, this system is a true MTB destination.
+                </p>
+                <p className="text-gray-300 text-lg mb-4">
+                  The trail system is known for its variety: fast singletrack, technical rock gardens, wooden features, and a vibrant community. Whether you&apos;re looking for a family ride or a pro-level challenge, Santos delivers.
+                </p>
+              </div>
               <div className="relative w-full aspect-video mb-8">
                 <iframe 
                   className="absolute inset-0 w-full h-full rounded-lg"
@@ -220,14 +228,6 @@ export default function SantosVortexTrailPage() {
                   allowFullScreen
                 ></iframe>
               </div>
-              <div className="prose prose-invert max-w-none">
-                <p className="text-gray-300 text-lg mb-4">
-                  Santos is the heart of Florida mountain biking, offering everything from beginner-friendly flow trails to expert-level technical features. The Vortex area is a must-ride for advanced riders, while the 49th Ave Trailhead provides easy access to the southern trails and less crowded routes. Maintained by OMBA, this system is a true MTB destination.
-                </p>
-                <p className="text-gray-300 text-lg mb-4">
-                  The trail system is known for its variety: fast singletrack, technical rock gardens, wooden features, and a vibrant community. Whether you&apos;re looking for a family ride or a pro-level challenge, Santos delivers.
-                </p>
-              </div>
               {/* Trail Features Section */}
               <TrailFeatures features={features} />
               {/* Interactive Mapbox Map */}
@@ -238,8 +238,8 @@ export default function SantosVortexTrailPage() {
                 </div>
               </div>
               {/* Static Trail Map Image */}
-              <h3 className="text-2xl font-bold text-white mt-10 mb-6">Santos Trail Map</h3>
-              <div className="relative h-96 max-w-contain mx-auto">
+              <h3 className="text-2xl font-bold text-white mt-8 mb-6">Santos Trail Map</h3>
+              <div className="relative h-96 max-w-contain mx-auto mb-8">
                 <Image
                   src="/images/santos/santosmap.png"
                   alt="Santos Trail Map"
