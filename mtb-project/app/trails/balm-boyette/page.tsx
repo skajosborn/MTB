@@ -123,16 +123,49 @@ const amenities = [
 type DifficultyLevelType = 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
 
 const trailDifficulties: { name: string; length: string; level: DifficultyLevelType }[] = [
-  { name: 'Intermediate Loop', length: '4.0', level: 'Intermediate' },
-  { name: 'Ridgeline Trail', length: '3.0', level: 'Expert' },
-  { name: 'Pit Run', length: '2.5', level: 'Advanced' },
-  { name: 'Technical Loop', length: '3.5', level: 'Advanced' },
-  { name: 'Expert Ridge', length: '2.8', level: 'Expert' },
-  { name: 'Mining Pit Trail', length: '1.8', level: 'Expert' },
-  { name: 'Advanced Loop', length: '4.2', level: 'Advanced' },
-  { name: 'Technical Descent', length: '1.5', level: 'Expert' },
+  { name: 'East Meadow', length: '0.86', level: 'Beginner' },
+  { name: 'Inception', length: '0.7', level: 'Beginner' },
+  { name: 'Northeast', length: '2.0', level: 'Beginner' },
+  { name: 'Northwest', length: '1.0', level: 'Beginner' },
+  { name: 'Pandemonium 1', length: '0.32', level: 'Beginner' },
+  { name: 'Randys Trail', length: '0.22', level: 'Beginner' },
+  { name: 'Sasquatch', length: '0.95', level: 'Beginner' },
+  { name: 'Southeast', length: '1.0', level: 'Beginner' },
+  { name: 'Southwest', length: '0.63', level: 'Beginner' },
+  { name: 'Vista Ridge', length: '0.15', level: 'Beginner' },
+  { name: 'Woods Trail', length: '1.0', level: 'Beginner' },
+
+  { name: 'Canyon', length: '0.37', level: 'Intermediate' },
+  { name: 'Chaos', length: '0.07', level: 'Intermediate' },
+  { name: 'Gator Pit', length: '0.27', level: 'Intermediate' },
+  { name: 'Golf Cart', length: '1.0', level: 'Intermediate' },
+  { name: 'Lower West Meadow', length: '0.20', level: 'Intermediate' },
+  { name: 'Nemesis', length: '0.27', level: 'Intermediate' },
+  { name: 'Pandemonium 2', length: '0.19', level: 'Intermediate' },
+  { name: 'Serpentine', length: '0.20', level: 'Intermediate' },
+  { name: 'Sidewinder', length: '0.27', level: 'Intermediate' },
+  { name: 'Spiderberm', length: '0.19', level: 'Intermediate' },
+  { name: 'Swamp Thing', length: '0.24', level: 'Intermediate' },
+  { name: 'The Spur', length: '0.85', level: 'Intermediate' },
+  { name: 'Upper Loch Ness', length: '1.0', level: 'Intermediate' },
+  { name: 'Upper West Meadow', length: '0.50', level: 'Intermediate' },
+  { name: 'Expert Ridge', length: '0.17', level: 'Intermediate' },
+  { name: 'Mining Pit Trail', length: '0.27', level: 'Intermediate' },
+  { name: 'Advanced Loop', length: '0.24', level: 'Intermediate' },
+  { name: 'Technical Descent', length: '1.5', level: 'Intermediate' },
   { name: 'Intermediate Ridge', length: '2.2', level: 'Intermediate' },
-  { name: 'Expert Challenge', length: '3.2', level: 'Expert' },
+  { name: 'Expert Challenge', length: '3.2', level: 'Intermediate' },
+
+  { name: 'Ridgeline', length: '2.0', level: 'Advanced' },
+  { name: 'Laurens Overlook', length: '0.03', level: 'Advanced' },
+  { name: 'Pandemonium 3', length: '0.16', level: 'Advanced' },
+  { name: 'OMG', length: '0.07', level: 'Advanced' },
+  { name: 'Max G', length: '0.05', level: 'Advanced' },
+  { name: 'Plunge', length: '0.06', level: 'Advanced' },
+  { name: 'Garrys Loop', length: '0.23', level: 'Advanced' },
+  { name: 'South Abyss', length: '0.57', level: 'Advanced' },
+  { name: 'North Abyss', length: '0.74', level: 'Advanced' },
+  { name: 'Baby Nessie', length: '0.7', level: 'Advanced' },
 ];
 
 const photos: TrailPhoto[] = [
@@ -302,7 +335,7 @@ export default function BalmBoyetteTrailPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
             <div className="lg:col-span-2">
               <h2 className="text-3xl font-bold text-white mb-6">About Balm Boyette</h2>
-              <div className="prose prose-invert max-w-none">
+              <div className="prose prose-invert max-w-none mb-8">
                 <p className="text-gray-300 text-base md:text-lg mb-4">
                   Balm Boyette Scrub Nature Preserve offers some of Florida&apos;s most challenging mountain biking experiences. Located on former phosphate mining land, the preserve features unique topography with steep climbs, technical descents, and expert-level features.
                 </p>
@@ -313,25 +346,30 @@ export default function BalmBoyetteTrailPage() {
                   While primarily known for its expert-level riding, Balm Boyette also offers some intermediate trails for progressing riders. The unique landscape, created by historical phosphate mining, provides an exceptional riding environment unlike anywhere else in Florida.
                 </p>
               </div>
-              
-                             {/* Trail Map */}
-               <div className="mt-8 md:mt-10">
-                 <h3 className="text-xl md:text-2xl font-bold text-white mb-4">Trail Map</h3>
-                 <div className="relative h-64 md:h-96 rounded-lg overflow-hidden shadow-lg">
-                   <TrailMap 
-                     lat={TRAIL_COORDS.latitude}
-                     lon={TRAIL_COORDS.longitude}
-                     name={trailData.name}
-                   />
-                 </div>
-               </div>
 
-              {/* Trail Difficulty */}
-              <div className="mt-8 md:mt-10">
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-4">Trail Difficulty Breakdown</h3>
-                <TrailDifficulty trails={trailDifficulties} />
+              {/* Video Section */}
+              <div className="bg-gray-800 overflow-hidden shadow-xl transition-transform hover:scale-105 mb-8">
+                {/* ...video iframe... */}
               </div>
-              
+
+              {/* Trail Features Section */}
+              <TrailFeatures features={features} />
+
+              {/* Map Section */}
+              <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8 mt-8">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-4">Trail Map</h3>
+                <div className="relative h-64 md:h-96 rounded-lg overflow-hidden shadow-lg">
+                  <TrailMap 
+                    lat={TRAIL_COORDS.latitude}
+                    lon={TRAIL_COORDS.longitude}
+                    name={trailData.name}
+                  />
+                </div>
+              </div>
+
+              {/* Photo Gallery Section */}
+              <TrailPhotoGallery photos={photos} />
+
               {/* Trail Maintenance & Community */}
               <div className="mt-12 md:mt-20">
                 <div className="flex items-center mb-4">
@@ -351,49 +389,21 @@ export default function BalmBoyetteTrailPage() {
               </div>
             </div>
             
-            <div>
-              {/* Trail Details Card */}
-              <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mb-8">
-                <div className="bg-gray-700 px-6 py-4">
-                  <h3 className="text-xl font-bold text-white">Trail Details</h3>
-                </div>
-                <div className="p-6">
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="font-semibold text-gray-300">Location</h4>
-                      <p className="text-gray-400">Balm Boyette Scrub Preserve, Lithia, Florida</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-300">Length</h4>
-                      <p className="text-gray-400">25+ miles of trails</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-300">Elevation Gain</h4>
-                      <p className="text-gray-400">400+ feet</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-300">Difficulty</h4>
-                      <p className="text-gray-400">Intermediate to Expert</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-300">Best Time to Visit</h4>
-                      <p className="text-gray-400">October through April (cooler months)</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-300">Parking</h4>
-                      <p className="text-gray-400">Main trailhead parking lot off Boyette Road</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Weather Forecast */}
+            <div className="lg:col-span-1">
               <WeatherForecast 
-                location="Balm Boyette"
+                location={TRAIL_COORDS.location}
                 latitude={TRAIL_COORDS.latitude}
                 longitude={TRAIL_COORDS.longitude}
                 apiKey={process.env.NEXT_PUBLIC_WEATHERAPI_KEY || ''}
               />
+              <div className="bg-gray-800 rounded-lg overflow-visible shadow-lg mt-8">
+                <div className="bg-gray-700 px-6 py-4">
+                  <h3 className="text-xl font-bold text-white">Trail Difficulty Breakdown</h3>
+                </div>
+                <div className="p-6">
+                  <TrailDifficulty trails={trailDifficulties} />
+                </div>
+              </div>
             </div>
           </div>
         )}

@@ -1,17 +1,23 @@
 "use client";
 
-import { useState, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useState, useRef } from 'react';
 import WeatherForecast from '@/app/components/WeatherForecast';
 import TrailMap from '@/app/components/TrailMap';
-import TrailDifficulty from '@/app/components/TrailDifficulty';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import Link from 'next/link';
-import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
-// import NavigationTabs from '@/app/components/NavigationTabs';
 import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
+import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import TrailFeatures from '@/app/components/TrailFeatures';
+import TrailDifficulty from '@/app/components/TrailDifficulty';
 import TrailAmenities from '@/app/components/TrailAmenities';
+
+type Features = {
+  image: string;
+  title: string;
+  description: string;
+  type: string;
+};
 
 const TRAIL_COORDS = {
   latitude: 28.745284,
@@ -25,52 +31,48 @@ const trailData = {
   lat: 28.745284    // latitude
 };
 
-// const tabs = [
-//   { label: 'Overview', value: 'overview' },
-//   { label: 'Trail Features', value: 'features' },
-//   { label: 'Riding Tips', value: 'tips' },
-//   { label: 'Access & Amenities', value: 'amenities' },
-// ];
+const photos: TrailPhoto[] = [
+  { src: '/bridge1.jpg', alt: 'Wooden Boardwalk' },
+  { src: '/bridge20.jpg', alt: 'Swampland Section' },
+  { src: '/woodedtrail.jpg', alt: 'Pine Forest Segment' },
+  { src: '/rocks.jpg', alt: 'Rocky Technical Section' },
+  { src: '/gator.jpg', alt: 'Wildlife Viewing Area' },
+  { src: '/lake.jpg', alt: 'Open Prairie Crossing' },
+];
 
-const features = [
+const features: Features[] = [
   {
     image: '/bridge1.jpg',
-    alt: 'Wooden Boardwalk',
     title: 'Wooden Boardwalks',
     description: 'Elevated wooden structures that cross over wetland areas, offering unique views of the surrounding landscape and wildlife.',
     type: 'Infrastructure',
   },
   {
     image: '/bridge20.jpg',
-    alt: 'Swampland Section',
     title: 'Swampland Sections',
     description: 'Beautiful sections that wind through cypress swamps, providing a striking backdrop for riders with reflective water surfaces.',
     type: 'Natural Terrain',
   },
   {
     image: '/woodedtrail.jpg',
-    alt: 'Pine Forest Segment',
     title: 'Pine Forest Segments',
     description: 'Fast-flowing segments through pine forests with a bed of pine needles creating a smooth, cushioned riding surface.',
     type: 'Natural Terrain',
   },
   {
     image: '/rocks.jpg',
-    alt: 'Rocky Technical Section',
     title: 'Rocky Technical Sections',
     description: 'Several short but challenging sections with limestone outcroppings that provide technical riding opportunities.',
     type: 'Technical Challenge',
   },
   {
     image: '/gator.jpg',
-    alt: 'Wildlife Viewing Area',
     title: 'Wildlife Viewing Areas',
     description: 'Designated spots along the trail that offer excellent opportunities to observe native Florida wildlife in their natural habitat.',
     type: 'Points of Interest',
   },
   {
     image: '/lake.jpg',
-    alt: 'Open Prairie Crossing',
     title: 'Open Prairie Crossings',
     description: 'Occasional sections that cross open prairies, offering a change of scenery and expansive views of the Florida landscape.',
     type: 'Natural Terrain',
@@ -168,20 +170,10 @@ const trailDifficulties: { name: string; length: string; level: DifficultyLevelT
   { name: 'The Beast', length: '0.42', level: 'Advanced' },
   { name: 'The Moe', length: '0.25', level: 'Advanced' },
   { name: 'Your Mom', length: '0.45', level: 'Expert' },
-]
-
-
-const photos: TrailPhoto[] = [
-  { src: '/bridge1.jpg', alt: 'Wooden Boardwalk' },
-  { src: '/bridge20.jpg', alt: 'Swampland Section' },
-  { src: '/woodedtrail.jpg', alt: 'Pine Forest Segment' },
-  { src: '/rocks.jpg', alt: 'Rocky Technical Section' },
-  { src: '/gator.jpg', alt: 'Wildlife Viewing Area' },
-  { src: '/lake.jpg', alt: 'Open Prairie Crossing' },
 ];
 
 export default function CarterRoadTrailPage() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'features' | 'tips' | 'amenities'>('overview');
+  const [activeTab, setActiveTab] = useState('overview');
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPosition, setMenuPosition] = useState<{ x: number; y: number } | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -214,36 +206,37 @@ export default function CarterRoadTrailPage() {
     setMenuPosition(null);
   };
 
-
   return (
-    <main className="min-h-screen bg-gray-900 pt-8">
-      {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[400px] w-full">
-        <div className="absolute inset-0">
+    <main className="min-h-screen pt-15">
+      {/* Hero Header Section */}
+      <div className="relative min-h-[50vh] flex flex-col items-center justify-center text-center py-16 px-4 pt-20">
+        <div className="absolute inset-0 z-0">
           <Image
             src="/bikebg.png"
-            alt="Carter Road Trail"
+            alt="Carter Road Trails landscape"
             fill
-            className="object-cover"
+            className="object-cover brightness-50"
             priority
           />
-          <div className="absolute inset-0 bg-black/50"></div>
         </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-white">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Carter Road</h1>
-            <p className="text-xl md:text-2xl text-gray-200">Experience Florida&apos;s Natural Beauty</p>
+        <div className="relative z-10">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">Carter Road Trails</h1>
+          <div className="inline-block bg-blue-500 px-4 py-1 rounded-full text-white font-semibold mb-4">
+            Intermediate Difficulty
           </div>
+          <p className="text-xl text-white max-w-2xl mx-auto">
+            Experience Florida&apos;s natural beauty through scenic wetlands and pine forests
+          </p>
         </div>
-      </section>
+      </div>
 
       {/* Stats Bar */}
-      <div className="bg-gray-800 text-white pb-4 pt-4 w-full">
+      <div className="bg-gray-800 text-white pb-1 w-full">
         <div className="max-w-[90%] mx-auto px-4 md:px-8">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center items-center">
             <div>
               <div className="text-sm text-gray-400">Location</div>
-              <div className="font-medium">Citrus Wildlife Mgmt Area, FL</div>
+              <div className="font-medium">Citrus Wildlife Mgmt Area</div>
             </div>
             <div>
               <div className="text-sm text-gray-400">Total Length</div>
@@ -254,8 +247,8 @@ export default function CarterRoadTrailPage() {
               <div className="font-medium">Minimal</div>
             </div>
             <div
-                 onMouseEnter={handleMenuOpen}
-                 onMouseLeave={handleMenuClose}
+              onMouseEnter={handleMenuOpen}
+              onMouseLeave={handleMenuClose}
             >
               <div className="text-sm text-gray-400 pb-2">Access</div>
               <button ref={menuButtonRef} className="pb-2 cursor-pointer">Amenities & Restrictions</button>
@@ -275,10 +268,10 @@ export default function CarterRoadTrailPage() {
             </div>
           </div>
         </div>
-      </div> 
+      </div>
 
       {/* Navigation Tabs */}
-      <div className="bg-gray-900 w-full border-b border-gray-700" style={{ overflow: 'visible' }}>
+      <div className="bg-gray-900 w-full border-b border-gray-700">
         <div className="max-w-[90%] mx-auto px-4 md:px-8">
           <div className="flex items-center py-2">
             <div className="flex flex-grow space-x-8 text-gray-300 overflow-x-auto no-scrollbar">
@@ -293,24 +286,34 @@ export default function CarterRoadTrailPage() {
                 Overview
               </button>
               <button 
-                onClick={() => setActiveTab('features')}
+                onClick={() => setActiveTab('beginner')}
                 className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
-                  activeTab === 'features'
+                  activeTab === 'beginner'
                     ? 'bg-gray-800 text-white border-b-2 border-green-500 shadow-lg'
                     : 'hover:bg-gray-800/50 hover:text-white'
                 } cursor-pointer`}
               >
-                Trail Features
+                Beginner Trails
               </button>
               <button 
-                onClick={() => setActiveTab('tips')}
+                onClick={() => setActiveTab('intermediate')}
                 className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
-                  activeTab === 'tips'
+                  activeTab === 'intermediate'
                     ? 'bg-gray-800 text-white border-b-2 border-blue-500 shadow-lg'
                     : 'hover:bg-gray-800/50 hover:text-white'
                 } cursor-pointer`}
               >
-                Riding Tips
+                Intermediate Trails
+              </button>
+              <button 
+                onClick={() => setActiveTab('advanced')}
+                className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'advanced'
+                    ? 'bg-gray-800 text-white border-b-2 border-orange-500 shadow-lg'
+                    : 'hover:bg-gray-800/50 hover:text-white'
+                } cursor-pointer`}
+              >
+                Advanced Trails
               </button>
               <button 
                 onClick={() => setActiveTab('amenities')}
@@ -320,23 +323,24 @@ export default function CarterRoadTrailPage() {
                     : 'hover:bg-gray-800/50 hover:text-white'
                 } cursor-pointer`}
               >
-                Access & Amenities
+                Things to Know
               </button>
             </div>
           </div>
         </div>
       </div>
-      
+
       {/* Main Content */}
-      <div className="w-full">
-        <div className="max-w-[90%] mx-auto px-4 md:px-8 py-10">
-          {activeTab === 'overview' && (
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 mb-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 mt-10">
+        {activeTab === 'overview' && (
+          <div className="max-w-7xl mx-auto flex flex-col gap-6">
+            {/* Experience Carter Road Video and Weather Side by Side */}
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
               {/* Left Column - Main Content */}
               <div className="lg:col-span-3">
                 {/* About Section */}
-                <h2 className="text-3xl font-bold text-white mt-10 mb-10">About Carter Road</h2>
-                <div className="prose prose-invert max-w-none">
+                <h2 className="text-3xl font-bold text-white mb-6">About Carter Road</h2>
+                <div className="prose prose-invert max-w-none mb-8">
                   <p className="text-gray-300 text-lg mb-4">
                     Carter Road (Loyce E. Harpe Park) is located in the Citrus Wildlife Management Area, offering a unique riding experience through the beautiful Florida swamplands. The trail provides a distinctive blend of scenic wetlands, pine forests, and occasional technical sections.
                   </p>
@@ -349,100 +353,89 @@ export default function CarterRoadTrailPage() {
                 </div>
 
                 {/* Video Section */}
-                <div className="bg-gray-700 px-8 mt-20 rounded-lg">
-                  <div className="bg-gray-800 overflow-hidden shadow-xl transition-transform hover:scale-105 mt-20 mb-20">
-                    <div className="aspect-video w-full">
+                <div className="bg-gray-800 overflow-hidden shadow-xl transition-transform hover:scale-105 mb-8">
+                  <div className="aspect-video w-full">
+                    <iframe
+                      src="https://www.youtube.com/embed/2wKBkxN0PDo?si=lkNnd3q7t4JsOK8u"
+                      width="100%"
+                      height="100%"
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                      className="w-full h-full"
+                    ></iframe>
+                  </div>
+                </div>
+
+                {/* Maps & Directions Section */}
+                <h2 className="text-3xl font-bold text-white mb-6">Maps & Directions</h2>
+                <div className="text-xl mb-4">Address: <strong className="font-bold text-blue-300">Loyce E. Harpe Park</strong> 500 W Carter Road, Mulberry, FL 33860</div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                  {/* Map */}
+                  <div>
+                    <div className="rounded-lg overflow-hidden shadow-lg">
                       <iframe
-                        src="https://www.youtube.com/embed/2wKBkxN0PDo?si=lkNnd3q7t4JsOK8u"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14048.609155217813!2d-82.43553123022462!3d28.745284200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e840c22da7b915%3A0xb79b2387345f868a!2sCarter%20Road%20Trail!5e0!3m2!1sen!2sus!4v1717528158099!5m2!1sen!2sus"
                         width="100%"
-                        height="100%"
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
+                        height="400"
+                        style={{ border: 0 }}
                         allowFullScreen
-                        className="w-full h-full"
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
                       ></iframe>
                     </div>
                   </div>
-                </div>
-              
-                <h2 className="text-3xl font-bold text-white mt-10 mb-10">Maps & Directions</h2>
-                
-                   {/* Maps & Directions Section */}
-                   <div className="text-xl">Address: <strong className="font-bold text-blue-300">Loyce E. Harpe Park</strong> 500 W Carter Road, Mulberry, FL 33860</div>
-                <section className="bg-gray-800 mt-4">
-                  <div className="max-w-7xl mx-auto px-4">
                   
-                    <div className="flex items-center mb-6">
-           
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Map */}
-            <div>
-             
-              <div className="rounded-lg mb-6 overflow-hidden shadow-lg">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14048.609155217813!2d-82.30127323022462!3d28.542212200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e840c22da7b915%3A0xb79b2387345f868a!2sCroom%20Motorcycle%20Area!5e0!3m2!1sen!2sus!4v1717528158099!5m2!1sen!2sus"
-                  width="100%"
-                  height="400"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                ></iframe>
-              </div>
-            </div>
-            
-            {/* Directions */}
-            <div>
-              <h3 className="text-xl font-bold mb-4 pl-6 text-white">Driving Directions</h3>
-              <div className="bg-gray-800 rounded-lg p-6 shadow-lg">
-                <div className="space-y-4">
+                  {/* Directions */}
                   <div>
-                    <h4 className="font-semibold text-gray-300">From Tampa:</h4>
-                    <p className="text-gray-400">Take I-75 North to exit 301 (SR-50). Head east on SR-50 for approximately 12 miles. Turn north onto Croom Rital Road, then left onto Croom Road (Forest Road 6). The main trailhead is Tucker Hill Day Use Area.</p>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-300">From Orlando:</h4>
-                    <p className="text-gray-400">Take I-4 West to exit 58 (CR-54/Polk City). Continue west to US-98, then head north to SR-50. Turn left (west) on SR-50, then north on Croom Rital Road, and left on Croom Road (Forest Road 6).</p>
-                  </div>
-                  <div className="pt-3 flex justify-center">
-                    <a href="https://maps.google.com/?q=Croom+Mountain+Bike+Trails+Brooksville+Florida" target="_blank" rel="noopener noreferrer" className="inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
-                      Get Directions
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-       {/* Trail Map (Mapbox with 2D/3D toggle) */}
-       <div className="bg-gray-700 rounded-lg p-6 shadow-lg mt-20">
-            <div style={{ width: "100%", height: "100%" }}>
-                <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+                    <h3 className="text-xl font-bold mb-4 text-white">Driving Directions</h3>
+                    <div className="bg-gray-800 rounded-lg p-6 shadow-lg">
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-semibold text-gray-300">From Tampa:</h4>
+                          <p className="text-gray-400">Take I-75 North to exit 301 (SR-50). Head east on SR-50 for approximately 12 miles. Turn north onto Carter Road. The main trailhead is Loyce E. Harpe Park.</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-300">From Orlando:</h4>
+                          <p className="text-gray-400">Take I-4 West to exit 58 (CR-54/Polk City). Continue west to US-98, then head north to SR-50. Turn left (west) on SR-50, then north on Carter Road.</p>
+                        </div>
+                        <div className="pt-3 flex justify-center">
+                          <a href="https://maps.google.com/?q=Carter+Road+Trail+Mulberry+Florida" target="_blank" rel="noopener noreferrer" className="inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                            Get Directions
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
+                {/* Trail Map (Mapbox with 2D/3D toggle) */}
+                <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
+                  <div className="w-full h-96 overflow-hidden rounded-lg">
+                    <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+                  </div>
+                </div>
 
                 {/* Photo Gallery Section */}
                 <TrailPhotoGallery photos={photos} />
 
                 {/* Carter Road Map Image */}
-                <h3 className="text-3xl font-bold text-white mt-10 mb-10">Trail Map</h3>
+                <h3 className="text-3xl font-bold text-white mt-10 mb-6">Trail Map</h3>
                 <div className="relative h-96 max-w-contain mx-auto">
                   <Image
-                    src="/balmboyettemap.jpg"
-                    alt="Open Prairie Crossing"
+                    src="/images/carter-road/cartermap.jpg"
+                    alt="Carter Road Trail Map"
                     fill
                     className="object-contain rounded-lg"
                   />
                 </div>
               </div>
               
-              <div className="lg:col-span-1 pt-8 pl-10">
+              {/* Right Column - Sidebar */}
+              <div className="lg:col-span-1">
                 {/* Weather Section */}
                 <WeatherForecast 
                   location={TRAIL_COORDS.location}
@@ -450,90 +443,127 @@ export default function CarterRoadTrailPage() {
                   longitude={TRAIL_COORDS.longitude}
                   apiKey={process.env.NEXT_PUBLIC_WEATHERAPI_KEY || ''}
                 />
-
-                {/* Trail Difficulty Section */}
-                <div className="bg-gray-800 rounded-lg overflow-visible shadow-lg mt-18">
-                  <div className="bg-gray-700 px-6 py-4">
-                    <h3 className="text-xl font-bold text-white">Trail Difficulty Breakdown</h3>
-                  </div>
-                  <div className="p-6">
-                    <div className="space-y-4">
-                      <TrailDifficulty trails={trailDifficulties} />
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {activeTab === 'features' && (
-            <TrailFeatures features={features} />
-          )}
-
-          {activeTab === 'amenities' && (
-            <div>
-              <div className="flex items-center mb-8">
-                <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center mr-5">
-                  <span className="text-white text-xl font-bold">📍</span>
+        {activeTab === 'beginner' && (
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-3xl font-bold text-white mb-8">Beginner Trails</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {trailDifficulties.filter(trail => trail.level === 'Beginner').map((trail, idx) => (
+                <div key={idx} className="bg-gray-800 rounded-lg p-6 shadow-lg">
+                  <h3 className="text-xl font-bold text-white mb-2">{trail.name}</h3>
+                  <p className="text-gray-300 mb-4">Length: {trail.length} miles</p>
+                  <div className="inline-block bg-green-600 px-3 py-1 rounded-full text-white text-sm">
+                    Beginner
+                  </div>
                 </div>
-                <h2 className="text-3xl font-bold text-white">Trail Access & Amenities</h2>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'intermediate' && (
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-3xl font-bold text-white mb-8">Intermediate Trails</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {trailDifficulties.filter(trail => trail.level === 'Intermediate').map((trail, idx) => (
+                <div key={idx} className="bg-gray-800 rounded-lg p-6 shadow-lg">
+                  <h3 className="text-xl font-bold text-white mb-2">{trail.name}</h3>
+                  <p className="text-gray-300 mb-4">Length: {trail.length} miles</p>
+                  <div className="inline-block bg-blue-600 px-3 py-1 rounded-full text-white text-sm">
+                    Intermediate
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'advanced' && (
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-3xl font-bold text-white mb-8">Advanced Trails</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {trailDifficulties.filter(trail => trail.level === 'Advanced').map((trail, idx) => (
+                <div key={idx} className="bg-gray-800 rounded-lg p-6 shadow-lg">
+                  <h3 className="text-xl font-bold text-white mb-2">{trail.name}</h3>
+                  <p className="text-gray-300 mb-4">Length: {trail.length} miles</p>
+                  <div className="inline-block bg-orange-600 px-3 py-1 rounded-full text-white text-sm">
+                    Advanced
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8">
+              <h3 className="text-2xl font-bold text-white mb-6">Expert Trails</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {trailDifficulties.filter(trail => trail.level === 'Expert').map((trail, idx) => (
+                  <div key={idx} className="bg-gray-800 rounded-lg p-6 shadow-lg">
+                    <h3 className="text-xl font-bold text-white mb-2">{trail.name}</h3>
+                    <p className="text-gray-300 mb-4">Length: {trail.length} miles</p>
+                    <div className="inline-block bg-red-600 px-3 py-1 rounded-full text-white text-sm">
+                      Expert
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div>
-                  <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-white mb-4">Trailhead Access</h3>
-                      <p className="text-gray-300 mb-4">The main trailhead is located off of S. Carter Road in the Citrus Wildlife Management Area. There is ample parking available and no entry fee is required.</p>
-                      <h3 className="text-xl font-semibold text-white mb-4 mt-6">Trail Markings</h3>
-                      <p className="text-gray-300 mb-4">The trail is marked with blue blazes throughout the route. Major intersections have signage indicating direction and distance.</p>
-                      <div className="flex flex-wrap gap-4 mt-2">
-                        <div className="flex items-center bg-blue-900 bg-opacity-40 rounded-full px-4 py-2">
-                          <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
-                          <span className="text-blue-300">Blue Blazes - Main Trail</span>
-                        </div>
-                        <div className="flex items-center bg-yellow-900 bg-opacity-40 rounded-full px-4 py-2">
-                          <div className="w-4 h-4 bg-yellow-500 rounded-full mr-2"></div>
-                          <span className="text-yellow-300">Yellow Blazes - Side Loops</span>
-                        </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'amenities' && (
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div>
+                <h2 className="text-3xl font-bold text-white mb-8">Trail Access & Amenities</h2>
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-white mb-4">Trailhead Access</h3>
+                    <p className="text-gray-300 mb-4">The main trailhead is located off of S. Carter Road in the Citrus Wildlife Management Area. There is ample parking available and no entry fee is required.</p>
+                    <h3 className="text-xl font-semibold text-white mb-4 mt-6">Trail Markings</h3>
+                    <p className="text-gray-300 mb-4">The trail is marked with blue blazes throughout the route. Major intersections have signage indicating direction and distance.</p>
+                    <div className="flex flex-wrap gap-4 mt-2">
+                      <div className="flex items-center bg-blue-900 bg-opacity-40 rounded-full px-4 py-2">
+                        <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                        <span className="text-blue-300">Blue Blazes - Main Trail</span>
+                      </div>
+                      <div className="flex items-center bg-yellow-900 bg-opacity-40 rounded-full px-4 py-2">
+                        <div className="w-4 h-4 bg-yellow-500 rounded-full mr-2"></div>
+                        <span className="text-yellow-300">Yellow Blazes - Side Loops</span>
                       </div>
                     </div>
                   </div>
-                  <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mt-6">
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-white mb-4">Operating Hours</h3>
-                      <p className="text-gray-300 mb-4">The trail is open from sunrise to sunset, 365 days a year. Night riding is not permitted in the Wildlife Management Area.</p>
-                      <h3 className="text-xl font-semibold text-white mb-4 mt-6">Fees</h3>
-                      <p className="text-gray-300">There is no fee to access the trail. Donations to the Florida Trail Association are appreciated to help with trail maintenance.</p>
-                    </div>
+                </div>
+                <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mt-6">
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-white mb-4">Operating Hours</h3>
+                    <p className="text-gray-300 mb-4">The trail is open from sunrise to sunset, 365 days a year. Night riding is not permitted in the Wildlife Management Area.</p>
+                    <h3 className="text-xl font-semibold text-white mb-4 mt-6">Fees</h3>
+                    <p className="text-gray-300">There is no fee to access the trail. Donations to the Florida Trail Association are appreciated to help with trail maintenance.</p>
                   </div>
                 </div>
-                <div>
-                  <TrailAmenities amenities={amenities} />
-                  <div className="mt-8 bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-white mb-4">Nearby Services</h3>
-                      <p className="text-gray-300 mb-4">The closest amenities are located in Inverness, approximately 15 minutes by car:</p>
-                      <ul className="list-disc pl-5 text-gray-300 space-y-2">
-                        <li>Gas stations</li>
-                        <li>Restaurants and grocery stores</li>
-                        <li>Bike shops for repairs and supplies</li>
-                        <li>Medical facilities</li>
-                      </ul>
-                    </div>
+              </div>
+              <div>
+                <TrailAmenities amenities={amenities} />
+                <div className="mt-8 bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-white mb-4">Nearby Services</h3>
+                    <p className="text-gray-300 mb-4">The closest amenities are located in Inverness, approximately 15 minutes by car:</p>
+                    <ul className="list-disc pl-5 text-gray-300 space-y-2">
+                      <li>Gas stations</li>
+                      <li>Restaurants and grocery stores</li>
+                      <li>Bike shops for repairs and supplies</li>
+                      <li>Medical facilities</li>
+                    </ul>
                   </div>
                 </div>
               </div>
             </div>
-          )}
 
-          {activeTab === 'tips' && (
-            <div>
-              <div className="flex items-center mb-8">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-5">
-                  <span className="text-white text-xl font-bold">💡</span>
-                </div>
-                <h2 className="text-3xl font-bold text-white">Riding Tips</h2>
-              </div>
+            <div className="mt-12">
+              <h2 className="text-3xl font-bold text-white mb-8">Riding Tips</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {ridingTips.map((section, idx) => (
                   <div key={idx} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
@@ -550,11 +580,10 @@ export default function CarterRoadTrailPage() {
                 ))}
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
-      
       {/* Call to Action */}
       <div className="bg-gray-800">
         <div className="max-w-4xl mx-auto text-center py-8 px-4">

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import WeatherForecast from '@/app/components/WeatherForecast';
 import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
+import TrailDifficulty from '@/app/components/TrailDifficulty';
 // import TrailMap from '@/app/components/TrailMap';
 // import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
 // import 'mapbox-gl/dist/mapbox-gl.css';
@@ -38,6 +39,19 @@ const photos: TrailPhoto[] = [
   { src: '/images/santos/santos2.jpg', alt: 'Santos forest trail' },
   { src: '/images/santos/vortex2.jpg', alt: 'Vortex drop' },
   { src: '/images/santos/49th2.jpg', alt: '49th Ave parking' },
+];
+
+const trailDifficulties: { name: string; length: string; level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert' }[] = [
+  { name: 'Marshmallow', length: '0.6km', level: 'Beginner' },
+  { name: 'Pine Tree West', length: '2.6km', level: 'Beginner' },
+  { name: 'Bryar Patch', length: '0.6km', level: 'Intermediate' },
+  { name: 'Twister', length: '3.9km', level: 'Intermediate' },
+  { name: 'Cow Bone', length: '1.7km', level: 'Intermediate' },
+  { name: 'Bunny', length: '2.1km', level: 'Intermediate' },
+  { name: 'Kennz Kornerz', length: '0.2km', level: 'Intermediate' },
+  { name: 'Sinkhole', length: '1.4km', level: 'Intermediate' },
+  { name: 'Vortex', length: '3.4km', level: 'Advanced' },
+  { name: 'John Brown', length: '0.8km', level: 'Advanced' },
 ];
 
 export default function SantosVortexTrailPage() {
@@ -223,6 +237,14 @@ export default function SantosVortexTrailPage() {
                 apiKey={process.env.NEXT_PUBLIC_WEATHERAPI_KEY || ''}
                 days={7}
               />
+              <div className="bg-gray-800 rounded-lg overflow-visible shadow-lg">
+                <div className="bg-gray-700 px-6 py-4">
+                  <h3 className="text-xl font-bold text-white">Trail Difficulty Breakdown</h3>
+                </div>
+                <div className="p-6">
+                  <TrailDifficulty trails={trailDifficulties} />
+                </div>
+              </div>
             </div>
           </div>
           {/* Photo Gallery */}
@@ -378,7 +400,7 @@ export default function SantosVortexTrailPage() {
             </div>
             <div className="mt-6 text-center">
               <a
-                href="/images/santos/santosmap.png"
+                href="/images/santos/trail-1.jpg"
                 download
                 className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded transition-colors mt-4"
               >
