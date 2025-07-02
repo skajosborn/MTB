@@ -8,6 +8,8 @@ import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGaller
 import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import TrailFeatures from '@/app/components/TrailFeatures';
+import WeatherForecast from '@/app/components/WeatherForecast';
+import TrailDifficulty from '@/app/components/TrailDifficulty';
 
 type Features = {
   image: string;
@@ -16,11 +18,31 @@ type Features = {
   type: string;
 };
 
+const TRAIL_COORDS = {
+  latitude: 28.542212,
+  longitude: -82.301273,
+  location: "Croom Trails, Brooksville, FL"
+};
+
 const trailData = {
   name: "Croom",
   lon: -82.301273,  // longitude
   lat: 28.542212    // latitude
 };
+
+type DifficultyLevelType = 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
+
+const trailDifficulties: { name: string; length: string; level: DifficultyLevelType }[] = [
+  { name: "South Blue Trail", length: "2 miles", level: "Beginner" },
+  { name: "Northwest Blue Trail", length: "3 miles", level: "Beginner" },
+  { name: "Southwest Blue Trail", length: "2.5 miles", level: "Beginner" },
+  { name: "Yellow Trail Loop", length: "12 miles", level: "Intermediate" },
+  { name: "Southeast Blue Trail", length: "5 miles", level: "Intermediate" },
+  { name: "Sugar Mountain Loop", length: "7 miles", level: "Intermediate" },
+  { name: "Drunken Monkey", length: "1.5 miles", level: "Advanced" },
+  { name: "Southern Comfort", length: "4 miles", level: "Advanced" },
+  { name: "Bootlegger Hill", length: "3 miles", level: "Advanced" },
+];
 
 const photos: TrailPhoto[] = [
   { src: '/feature1.jpg', alt: 'Trail through pine forest' },
@@ -239,46 +261,69 @@ export default function CroomTrailPage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 mt-10">
         {activeTab === 'overview' && (
-          <div className="max-w-7xl mx-auto flex flex-col gap-6">
-            {/* About Section */}
-            <h2 className="text-3xl font-bold text-white mb-6">About Croom</h2>
-            <div className="prose prose-invert max-w-none mb-8">
-              <p className="text-gray-300 text-lg mb-4">
-                Nesetled in the heart of the Withlacoochee State Forest, Croom&apos;s mountain biking network delivers one of Florida&apos;s most rugged and exhilerating off-road experiences. With more than 50 miles of singletrack, this trail system offers an intense cardio workout wrapped in scenic wilderness-perfect for riders chasing adventure and variety. </p>
-                <p> Croom offers over 50 miles of diverse singletrack trails and is famous for its suprisingly steep climbs and extended trail runs-rare finds in Florida. Many trails wind through abandoned phosphate quarries, turning the landscape into a natural playground of punchy ascents, sharp drops, and rocky features that demand attention and reward skill. </p>
-                <p>While intermediate riders will find plenty of challenges to improve their game, the trail system offers something for every level-from beginner-friendly flow trails to advanced technical routes packed with obstacles.</p>
-                <p className="text-gray-300 text-lg mb-4">
-                  With color-coded trail markings and strategically placed bailout points, riders can easily navigate the extensive network while enjoying the natural beauty of central Florida.
-                </p>
-            </div>
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* LEFT COLUMN: Main Content */}
+              <div className="lg:col-span-2 flex flex-col gap-6">
+                {/* About Section */}
+                <h2 className="text-3xl font-bold text-white mb-6">About Croom</h2>
+                <div className="prose prose-invert max-w-none mb-8">
+                  <p className="text-gray-300 text-lg mb-4">
+                    Nesetled in the heart of the Withlacoochee State Forest, Croom&apos;s mountain biking network delivers one of Florida&apos;s most rugged and exhilerating off-road experiences. With more than 50 miles of singletrack, this trail system offers an intense cardio workout wrapped in scenic wilderness-perfect for riders chasing adventure and variety. </p>
+                    <p> Croom offers over 50 miles of diverse singletrack trails and is famous for its suprisingly steep climbs and extended trail runs-rare finds in Florida. Many trails wind through abandoned phosphate quarries, turning the landscape into a natural playground of punchy ascents, sharp drops, and rocky features that demand attention and reward skill. </p>
+                    <p>While intermediate riders will find plenty of challenges to improve their game, the trail system offers something for every level-from beginner-friendly flow trails to advanced technical routes packed with obstacles.</p>
+                    <p className="text-gray-300 text-lg mb-4">
+                      With color-coded trail markings and strategically placed bailout points, riders can easily navigate the extensive network while enjoying the natural beauty of central Florida.
+                    </p>
+                </div>
 
-            {/* Video Section */}
-            <div className="bg-gray-800 overflow-hidden shadow-xl transition-transform hover:scale-105 mb-8">
-              <iframe 
-                width="100%" 
-                height="400" 
-                src="https://www.youtube.com/embed/nfGt3Ai24mc?si=1RslhoJF2XL6tKIJ" 
-                title="YouTube video player" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerPolicy="strict-origin-when-cross-origin" 
-                allowFullScreen
-                className="rounded-lg"
-              ></iframe>
-            </div>
+                {/* Video Section */}
+                <div className="bg-gray-800 overflow-hidden shadow-xl transition-transform hover:scale-105 mb-8">
+                  <iframe 
+                    width="100%" 
+                    height="400" 
+                    src="https://www.youtube.com/embed/nfGt3Ai24mc?si=1RslhoJF2XL6tKIJ" 
+                    title="YouTube video player" 
+                    frameBorder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerPolicy="strict-origin-when-cross-origin" 
+                    allowFullScreen
+                    className="rounded-lg"
+                  ></iframe>
+                </div>
 
-            {/* Trail Features Section */}
-            <TrailFeatures features={features} />
+                {/* Trail Features Section */}
+                <TrailFeatures features={features} />
 
-            {/* Map Section */}
-            <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
-              <div className="w-full h-[400px] relative overflow-hidden rounded-lg">
-                <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+                {/* Map Section */}
+                <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
+                  <div className="w-full h-[400px] relative overflow-hidden rounded-lg">
+                    <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+                  </div>
+                </div>
+
+                {/* Photo Gallery Section */}
+                <TrailPhotoGallery photos={photos} />
+              </div>
+
+              {/* RIGHT COLUMN: Weather & Difficulty */}
+              <div className="lg:col-span-1 flex flex-col gap-8">
+                <WeatherForecast
+                  location={TRAIL_COORDS.location}
+                  latitude={TRAIL_COORDS.latitude}
+                  longitude={TRAIL_COORDS.longitude}
+                  apiKey={process.env.NEXT_PUBLIC_WEATHERAPI_KEY || ''}
+                />
+                <div className="bg-gray-800 rounded-lg overflow-visible shadow-lg">
+                  <div className="bg-gray-700 px-6 py-4">
+                    <h3 className="text-xl font-bold text-white">Trail Difficulty Breakdown</h3>
+                  </div>
+                  <div className="p-6">
+                    <TrailDifficulty trails={trailDifficulties} />
+                  </div>
+                </div>
               </div>
             </div>
-
-            {/* Photo Gallery Section */}
-            <TrailPhotoGallery photos={photos} />
           </div>
         )}
         {activeTab === 'beginner' && (
