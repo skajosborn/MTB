@@ -24,7 +24,7 @@ const trails = [
     name: 'Santos/Vortex',
     difficulty: 'Intermediate',
     location: 'Ocala, Florida',
-    image: '/images/santos/santos1.jpg',
+    image: '/trail10.jpg',
     description: "Florida's largest and most popular MTB destination, featuring 80+ miles of singletrack with trails for all skill levels."
   },
   {

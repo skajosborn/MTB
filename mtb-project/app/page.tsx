@@ -468,7 +468,7 @@ export default function Home() {
         <section className="relative flex flex-col items-center justify-center pt-20 min-h-[500px] md:min-h-[600px] lg:min-h-[700px]">
           <BackgroundCarousel />
           <div className="relative z-10 text-center text-white px-2">
-            <h1 className="text-5xl md:text-5xl font-bold mb-6">Central FLorida</h1>
+            <h1 className="text-5xl md:text-5xl font-bold mb-6">Central Florida</h1>
             <h1 className="text-5xl md:text-5xl font-bold mb-6">MTB Trails</h1>
             <p className="text-xl md:text-2xl mb-8">Discover the best mountain biking experiences</p>
             <Link 
