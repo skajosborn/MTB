@@ -115,7 +115,7 @@ type Props = {
           Get Directions
         </button> */}
       </div>
-      <div ref={mapContainerRef} className="w-full h-[500px] rounded-lg" />
+      <div ref={mapContainerRef} className="w-full h-[300px] md:h-[500px] rounded-lg" />
     </div>
   );
 }

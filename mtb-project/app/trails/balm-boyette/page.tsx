@@ -182,9 +182,9 @@ export default function BalmBoyetteTrailPage() {
   };
   
   return (
-    <main className="min-h-screen pt-20">
+    <main className="min-h-screen pt-16 md:pt-20">
       {/* Hero Header Section */}
-      <div className="relative min-h-[50vh] flex flex-col items-center justify-center text-center py-16 px-4 pt-20">
+      <div className="relative min-h-[50vh] flex flex-col items-center justify-center text-center py-16 px-4">
         <div className="absolute inset-0 z-0">
           <Image
             src="/bikebg.png"
@@ -195,11 +195,11 @@ export default function BalmBoyetteTrailPage() {
           />
         </div>
         <div className="relative z-10">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">Balm Boyette Trails</h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">Balm Boyette Trails</h1>
           <div className="inline-block bg-red-500 px-4 py-1 rounded-full text-white font-semibold mb-4">
             Expert Difficulty
           </div>
-          <p className="text-xl text-white max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-white max-w-2xl mx-auto px-4">
             Experience Florida&apos;s most technical singletrack with challenging terrain and expert-level features
           </p>
         </div>
@@ -249,7 +249,7 @@ export default function BalmBoyetteTrailPage() {
       <div className="bg-gray-900 w-full border-b border-gray-700">
         <div className="max-w-[90%] mx-auto px-4 md:px-8">
           <div className="flex items-center py-2">
-            <div className="flex flex-grow space-x-8 text-gray-300 overflow-x-auto no-scrollbar">
+            <div className="flex flex-grow space-x-2 md:space-x-8 text-gray-300 overflow-x-auto no-scrollbar">
               <button 
                 onClick={() => setActiveTab('overview')}
                 className={`whitespace-nowrap px-4 py-2 text-base font-medium rounded-lg transition-all duration-200 ${
@@ -296,28 +296,28 @@ export default function BalmBoyetteTrailPage() {
       </div>
       
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 mt-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10 mt-6 md:mt-10">
         {/* Overview Tab */}
         {activeTab === 'overview' && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
             <div className="lg:col-span-2">
               <h2 className="text-3xl font-bold text-white mb-6">About Balm Boyette</h2>
               <div className="prose prose-invert max-w-none">
-                <p className="text-gray-300 text-lg mb-4">
+                <p className="text-gray-300 text-base md:text-lg mb-4">
                   Balm Boyette Scrub Nature Preserve offers some of Florida&apos;s most challenging mountain biking experiences. Located on former phosphate mining land, the preserve features unique topography with steep climbs, technical descents, and expert-level features.
                 </p>
-                <p className="text-gray-300 text-lg mb-4">
+                <p className="text-gray-300 text-base md:text-lg mb-4">
                   The trail system spans over 25 miles of diverse singletrack, with the majority of trails catering to advanced and expert riders. The preserve&apos;s varied terrain includes challenging rock gardens, steep drops, and technical features that make it a destination for skilled mountain bikers.
                 </p>
-                <p className="text-gray-300 text-lg mb-4">
+                <p className="text-gray-300 text-base md:text-lg mb-4">
                   While primarily known for its expert-level riding, Balm Boyette also offers some intermediate trails for progressing riders. The unique landscape, created by historical phosphate mining, provides an exceptional riding environment unlike anywhere else in Florida.
                 </p>
               </div>
               
                              {/* Trail Map */}
-               <div className="mt-10">
-                 <h3 className="text-2xl font-bold text-white mb-4">Trail Map</h3>
-                 <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
+               <div className="mt-8 md:mt-10">
+                 <h3 className="text-xl md:text-2xl font-bold text-white mb-4">Trail Map</h3>
+                 <div className="relative h-64 md:h-96 rounded-lg overflow-hidden shadow-lg">
                    <TrailMap 
                      lat={TRAIL_COORDS.latitude}
                      lon={TRAIL_COORDS.longitude}
@@ -327,20 +327,20 @@ export default function BalmBoyetteTrailPage() {
                </div>
 
               {/* Trail Difficulty */}
-              <div className="mt-10">
-                <h3 className="text-2xl font-bold text-white mb-4">Trail Difficulty Breakdown</h3>
+              <div className="mt-8 md:mt-10">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-4">Trail Difficulty Breakdown</h3>
                 <TrailDifficulty trails={trailDifficulties} />
               </div>
               
               {/* Trail Maintenance & Community */}
-              <div className="mt-20">
+              <div className="mt-12 md:mt-20">
                 <div className="flex items-center mb-4">
-                  <h3 className="text-2xl font-bold text-white">Trail Maintenance & Community</h3>
+                  <h3 className="text-xl md:text-2xl font-bold text-white">Trail Maintenance & Community</h3>
                 </div>
                 <div className="rounded-lg shadow-lg">
-                  <p className="text-gray-300">The <a href="https://www.swampmtbclub.com/trails" className="text-green-500 hover:text-green-300 font-bold">SWAMP</a> Mountain Bike Club actively maintains these challenging trails, ensuring they remain safe while preserving their technical nature. Regular trail work days help maintain and improve the trail system.</p>
+                  <p className="text-gray-300 text-base md:text-lg">The <a href="https://www.swampmtbclub.com/trails" className="text-green-500 hover:text-green-300 font-bold">SWAMP</a> Mountain Bike Club actively maintains these challenging trails, ensuring they remain safe while preserving their technical nature. Regular trail work days help maintain and improve the trail system.</p>
                 </div>
-                <div className="relative h-48 mt-6 rounded-lg overflow-hidden">
+                <div className="relative h-32 md:h-48 mt-6 rounded-lg overflow-hidden">
                   <Image
                     src="/images/balm-boyette/balmboyettemap.jpg"
                     alt="Trail maintenance at Balm Boyette"
@@ -401,7 +401,7 @@ export default function BalmBoyetteTrailPage() {
         {/* Trail Features Tab */}
         {activeTab === 'features' && (
           <div>
-            <h2 className="text-3xl font-bold text-white mb-8">Trail Features</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 md:mb-8">Trail Features</h2>
             <TrailFeatures features={features} />
           </div>
         )}
@@ -409,8 +409,8 @@ export default function BalmBoyetteTrailPage() {
         {/* Riding Tips Tab */}
         {activeTab === 'tips' && (
           <div>
-            <h2 className="text-3xl font-bold text-white mb-8">Riding Tips</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 md:mb-8">Riding Tips</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               {ridingTips.map((category, idx) => (
                 <div key={idx} className="bg-gray-800 rounded-lg p-6 shadow-lg">
                   <h3 className="text-xl font-bold text-white mb-4">{category.category}</h3>
@@ -434,11 +434,11 @@ export default function BalmBoyetteTrailPage() {
         {/* Access & Amenities Tab */}
         {activeTab === 'amenities' && (
           <div>
-            <h2 className="text-3xl font-bold text-white mb-8">Access & Amenities</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 md:mb-8">Access & Amenities</h2>
             <TrailAmenities amenities={amenities} />
             
-            <div className="mt-10">
-              <h3 className="text-2xl font-bold text-white mb-6">Photo Gallery</h3>
+            <div className="mt-8 md:mt-10">
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6">Photo Gallery</h3>
               <TrailPhotoGallery photos={photos} />
             </div>
           </div>
@@ -447,10 +447,10 @@ export default function BalmBoyetteTrailPage() {
 
       {/* Call to Action */}
       <div className="bg-gray-800">
-        <div className="max-w-4xl mx-auto text-center py-8 px-4">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Ride Balm Boyette?</h2>
-          <p className="text-xl text-white opacity-90 mb-8">Join the community and experience some of Florida&apos;s most technical trails.</p>
-          <div className="flex flex-wrap justify-center gap-4">
+        <div className="max-w-4xl mx-auto text-center py-6 md:py-8 px-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Ready to Ride Balm Boyette?</h2>
+          <p className="text-lg md:text-xl text-white opacity-90 mb-6 md:mb-8">Join the community and experience some of Florida&apos;s most technical trails.</p>
+          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
             <Link href="/trails" className="inline-block bg-white text-green-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-full transition-colors">
               Explore More Trails
             </Link>
