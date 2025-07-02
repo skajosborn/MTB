@@ -3,25 +3,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
-import WeatherForecast from '@/app/components/WeatherForecast';
 import TrailMap from '@/app/components/TrailMap';
 import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
 import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import TrailFeatures from '@/app/components/TrailFeatures';
-import TrailDifficulty from '@/app/components/TrailDifficulty';
 
 type Features = {
   image: string;
   title: string;
   description: string;
   type: string;
-};
-
-const TRAIL_COORDS = {
-  latitude: 28.542212,
-  longitude: -82.301273,
-  location: "Withlacoochee State Forest, FL"
 };
 
 const trailData = {

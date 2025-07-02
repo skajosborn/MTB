@@ -310,60 +310,77 @@ export default function AlafiaTrailPage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 mt-10">
         {activeTab === 'overview' && (
-          <div className="max-w-7xl mx-auto flex flex-col gap-6">
-            {/* About Section */}
-            <h2 className="text-3xl font-bold text-white mb-6">About Alafia River State Park</h2>
-            <div className="prose prose-invert max-w-none mb-8">
-              <p className="text-gray-300 text-lg mb-4">
-                Alafia River State Park is renowned for offering some of Florida&apos;s most challenging mountain biking experiences. Built on former phosphate mining land, the park features unique topography with significant elevation changes, creating an exceptional riding environment.
-              </p>
-              <p className="text-gray-300 text-lg mb-4">
-                The trail system includes over 20 miles of off-road bicycle trails, ranging from beginner-friendly paths to highly technical single-track that will challenge even the most experienced riders. The park&apos;s varied terrain includes steep climbs, fast descents, wooden features, and technical rock gardens.
-              </p>
-              <p className="text-gray-300 text-lg mb-4">
-                The park&apos;s unique geology provides elevation changes and technical features rarely found in Florida, making it a premier destination for mountain bikers seeking challenging terrain. The trail system is well-maintained and offers clear progression paths for riders of all skill levels.
-              </p>
-            </div>
-
-            {/* Video Section */}
-            <div className="bg-gray-800 overflow-hidden shadow-xl transition-transform hover:scale-105 mb-8">
-              <div className="aspect-video w-full">
-                <iframe
-                  src="https://www.youtube.com/embed/QLtqDpgK6dg?si=7VPkkd1RH6ifElsR"
-                  width="100%"
-                  height="100%"
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                  className="w-full h-full"
-                ></iframe>
+          <div className="max-w-7xl mx-auto px-4 py-12 pt-20 mb-10">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* LEFT COLUMN: Main Content */}
+              <div className="lg:col-span-2 flex flex-col gap-8">
+                <h2 className="text-3xl font-bold text-white mb-6">About Alafia River State Park</h2>
+                <div className="prose prose-invert max-w-none mb-8">
+                  <p className="text-gray-300 text-lg mb-4">
+                    Alafia River State Park is renowned for offering some of Florida&apos;s most challenging mountain biking experiences. Built on former phosphate mining land, the park features unique topography with significant elevation changes, creating an exceptional riding environment.
+                  </p>
+                  <p className="text-gray-300 text-lg mb-4">
+                    The trail system includes over 20 miles of off-road bicycle trails, ranging from beginner-friendly paths to highly technical single-track that will challenge even the most experienced riders. The park&apos;s varied terrain includes steep climbs, fast descents, wooden features, and technical rock gardens.
+                  </p>
+                  <p className="text-gray-300 text-lg mb-4">
+                    The park&apos;s unique geology provides elevation changes and technical features rarely found in Florida, making it a premier destination for mountain bikers seeking challenging terrain. The trail system is well-maintained and offers clear progression paths for riders of all skill levels.
+                  </p>
+                </div>
+                {/* Video Section */}
+                <div className="bg-gray-800 overflow-hidden shadow-xl transition-transform hover:scale-105 mb-8">
+                  <div className="aspect-video w-full">
+                    <iframe
+                      src="https://www.youtube.com/embed/QLtqDpgK6dg?si=7VPkkd1RH6ifElsR"
+                      width="100%"
+                      height="100%"
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                      className="w-full h-full"
+                    ></iframe>
+                  </div>
+                </div>
+                {/* Trail Features Section */}
+                <TrailFeatures features={features} />
+                {/* Map Section */}
+                <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8 mt-8">
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-4">Interactive Trail Map</h3>
+                  <div className="relative w-full h-96 rounded-lg overflow-hidden shadow-lg">
+                    <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+                  </div>
+                </div>
+                {/* Alafia Map Image */}
+                <h3 className="text-2xl font-bold text-white mt-10 mb-6">Alafia Trail Map</h3>
+                <div className="relative h-96 max-w-contain mx-auto">
+                  <Image
+                    src="/images/alafia/AlafiaMap-10.jpeg"
+                    alt="Alafia River State Park Trail Map"
+                    fill
+                    className="object-contain rounded-lg"
+                  />
+                </div>
+                {/* Photo Gallery Section */}
+                <TrailPhotoGallery photos={photos} />
               </div>
-            </div>
-
-            {/* Trail Features Section */}
-            <TrailFeatures features={features} />
-
-            {/* Map Section */}
-            <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
-              <div className="w-full h-96 overflow-hidden rounded-lg">
-                <TrailMap lat={trailData.lat} lon={trailData.lon} name={trailData.name} />
+              {/* RIGHT COLUMN: Weather & Difficulty */}
+              <div className="lg:col-span-1 flex flex-col gap-8">
+                <WeatherForecast
+                  location={TRAIL_COORDS.location}
+                  latitude={TRAIL_COORDS.latitude}
+                  longitude={TRAIL_COORDS.longitude}
+                  apiKey={process.env.NEXT_PUBLIC_WEATHERAPI_KEY || ''}
+                />
+                <div className="bg-gray-800 rounded-lg overflow-visible shadow-lg">
+                  <div className="bg-gray-700 px-6 py-4">
+                    <h3 className="text-xl font-bold text-white">Trail Difficulty Breakdown</h3>
+                  </div>
+                  <div className="p-6">
+                    <TrailDifficulty trails={trailDifficulties} />
+                  </div>
+                </div>
               </div>
-            </div>
-
-            {/* Photo Gallery Section */}
-            <TrailPhotoGallery photos={photos} />
-
-            {/* Alafia Map Image */}
-            <h3 className="text-3xl font-bold text-white mt-10 mb-6">Trail Map</h3>
-            <div className="relative h-96 max-w-contain mx-auto">
-              <Image
-                src="/images/alafia/AlafiaMap-10.jpeg"
-                alt="Alafia River State Park Trail Map"
-                fill
-                className="object-contain rounded-lg"
-              />
             </div>
           </div>
         )}

@@ -8,16 +8,9 @@ import TrailMap from '@/app/components/TrailMap';
 import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
 import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import TrailFeatures from '@/app/components/TrailFeatures';
-import TrailDifficulty from '@/app/components/TrailDifficulty';
+// import TrailFeatures from '@/app/components/TrailFeatures';
+// import TrailDifficulty from '@/app/components/TrailDifficulty';
 import TrailAmenities from '@/app/components/TrailAmenities';
-
-type Features = {
-  image: string;
-  title: string;
-  description: string;
-  type: string;
-};
 
 const TRAIL_COORDS = {
   latitude: 28.745284,
@@ -38,93 +31,6 @@ const photos: TrailPhoto[] = [
   { src: '/rocks.jpg', alt: 'Rocky Technical Section' },
   { src: '/gator.jpg', alt: 'Wildlife Viewing Area' },
   { src: '/lake.jpg', alt: 'Open Prairie Crossing' },
-];
-
-const features: Features[] = [
-  {
-    image: '/bridge1.jpg',
-    title: 'Wooden Boardwalks',
-    description: 'Elevated wooden structures that cross over wetland areas, offering unique views of the surrounding landscape and wildlife.',
-    type: 'Infrastructure',
-  },
-  {
-    image: '/bridge20.jpg',
-    title: 'Swampland Sections',
-    description: 'Beautiful sections that wind through cypress swamps, providing a striking backdrop for riders with reflective water surfaces.',
-    type: 'Natural Terrain',
-  },
-  {
-    image: '/woodedtrail.jpg',
-    title: 'Pine Forest Segments',
-    description: 'Fast-flowing segments through pine forests with a bed of pine needles creating a smooth, cushioned riding surface.',
-    type: 'Natural Terrain',
-  },
-  {
-    image: '/rocks.jpg',
-    title: 'Rocky Technical Sections',
-    description: 'Several short but challenging sections with limestone outcroppings that provide technical riding opportunities.',
-    type: 'Technical Challenge',
-  },
-  {
-    image: '/gator.jpg',
-    title: 'Wildlife Viewing Areas',
-    description: 'Designated spots along the trail that offer excellent opportunities to observe native Florida wildlife in their natural habitat.',
-    type: 'Points of Interest',
-  },
-  {
-    image: '/lake.jpg',
-    title: 'Open Prairie Crossings',
-    description: 'Occasional sections that cross open prairies, offering a change of scenery and expansive views of the Florida landscape.',
-    type: 'Natural Terrain',
-  },
-];
-
-const ridingTips = [
-  {
-    category: 'Best Practices',
-    tips: [
-      'Always check trail conditions before riding, especially after rain',
-      'Bring plenty of water, as Florida humidity can lead to rapid dehydration',
-      'Wear insect repellent during warmer months',
-      'Use wider tires (2.2"+) for better stability on boardwalks',
-      'Be cautious on boardwalks when wet, as they can become slippery',
-      'Respect wildlife and maintain a safe distance if encountered',
-    ],
-  },
-  {
-    category: 'Weather Considerations',
-    description: 'Carter Road Trail can be affected significantly by weather conditions:',
-    tips: [
-      'During rainy season (June-September), parts of the trail may be underwater',
-      'Summer months bring high temperatures and humidity - ride early morning or evening',
-      'Winter and spring offer the best riding conditions with moderate temperatures',
-      'After heavy rain, boardwalks can take 1-2 days to dry completely',
-      'Trail conditions are typically posted on the Florida Trail Association website',
-    ],
-  },
-  {
-    category: 'Technical Sections',
-    description: 'Tips for handling the more challenging parts of the trail:',
-    tips: [
-      'Maintain momentum through sandy sections to avoid getting bogged down',
-      'For rocky areas, stand up slightly on your pedals to let the bike move beneath you',
-      'When crossing narrow boardwalks, look ahead rather than down at your front wheel',
-      'Use a slightly lower tire pressure than usual to improve traction',
-      'First-timers should ride conservatively until familiar with trail features',
-    ],
-  },
-  {
-    category: 'Recommended Gear',
-    tips: [
-      'Hardtail or short-travel full suspension bike works well',
-      'Wider tires (2.2-2.6") provide stability on various surfaces',
-      'Hydration pack with at least 2 liters of water',
-      'Basic tool kit including spare tube and patch kit',
-      'Sunscreen and insect repellent',
-      'Moisture-wicking clothing',
-      'Camera for wildlife photography opportunities',
-    ],
-  },
 ];
 
 const amenities = [
@@ -170,6 +76,54 @@ const trailDifficulties: { name: string; length: string; level: DifficultyLevelT
   { name: 'The Beast', length: '0.42', level: 'Advanced' },
   { name: 'The Moe', length: '0.25', level: 'Advanced' },
   { name: 'Your Mom', length: '0.45', level: 'Expert' },
+];
+
+const ridingTips: { category: string; description?: string; tips: string[] }[] = [
+  {
+    category: 'Best Practices',
+    tips: [
+      'Always check trail conditions before riding, especially after rain',
+      'Bring plenty of water, as Florida humidity can lead to rapid dehydration',
+      'Wear insect repellent during warmer months',
+      'Use wider tires (2.2"+) for better stability on boardwalks',
+      'Be cautious on boardwalks when wet, as they can become slippery',
+      'Respect wildlife and maintain a safe distance if encountered',
+    ],
+  },
+  {
+    category: 'Weather Considerations',
+    description: 'Carter Road Trail can be affected significantly by weather conditions:',
+    tips: [
+      'During rainy season (June-September), parts of the trail may be underwater',
+      'Summer months bring high temperatures and humidity - ride early morning or evening',
+      'Winter and spring offer the best riding conditions with moderate temperatures',
+      'After heavy rain, boardwalks can take 1-2 days to dry completely',
+      'Trail conditions are typically posted on the Florida Trail Association website',
+    ],
+  },
+  {
+    category: 'Technical Sections',
+    description: 'Tips for handling the more challenging parts of the trail:',
+    tips: [
+      'Maintain momentum through sandy sections to avoid getting bogged down',
+      'For rocky areas, stand up slightly on your pedals to let the bike move beneath you',
+      'When crossing narrow boardwalks, look ahead rather than down at your front wheel',
+      'Use a slightly lower tire pressure than usual to improve traction',
+      'First-timers should ride conservatively until familiar with trail features',
+    ],
+  },
+  {
+    category: 'Recommended Gear',
+    tips: [
+      'Hardtail or short-travel full suspension bike works well',
+      'Wider tires (2.2-2.6") provide stability on various surfaces',
+      'Hydration pack with at least 2 liters of water',
+      'Basic tool kit including spare tube and patch kit',
+      'Sunscreen and insect repellent',
+      'Moisture-wicking clothing',
+      'Camera for wildlife photography opportunities',
+    ],
+  },
 ];
 
 export default function CarterRoadTrailPage() {
@@ -565,13 +519,13 @@ export default function CarterRoadTrailPage() {
             <div className="mt-12">
               <h2 className="text-3xl font-bold text-white mb-8">Riding Tips</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {ridingTips.map((section, idx) => (
+                {ridingTips.map((section: { category: string; description?: string; tips: string[] }, idx: number) => (
                   <div key={idx} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
                     <div className="p-6">
                       <h3 className="text-xl font-semibold text-white mb-3">{section.category}</h3>
                       {section.description && <p className="text-gray-300 mb-4">{section.description}</p>}
                       <ul className="list-disc pl-5 text-gray-300 space-y-2">
-                        {section.tips.map((tip, tipIdx) => (
+                        {section.tips.map((tip: string, tipIdx: number) => (
                           <li key={tipIdx}>{tip}</li>
                         ))}
                       </ul>
