@@ -6,9 +6,10 @@ import { useState } from 'react';
 import WeatherForecast from '@/app/components/WeatherForecast';
 import TrailPhotoGallery, { TrailPhoto } from '@/app/components/TrailPhotoGallery';
 import TrailDifficulty from '@/app/components/TrailDifficulty';
-// import TrailMap from '@/app/components/TrailMap';
+import TrailMap from '@/app/components/TrailMap';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import TrailFeatures from '@/app/components/TrailFeatures';
 // import RadialMenu, { RadialMenuItem } from '@/app/components/RadialMenu';
-// import 'mapbox-gl/dist/mapbox-gl.css';
 // import TrailFeatures from '@/app/components/TrailFeatures';
 
 const features = [
@@ -227,8 +228,30 @@ export default function SantosVortexTrailPage() {
                   The trail system is known for its variety: fast singletrack, technical rock gardens, wooden features, and a vibrant community. Whether you&apos;re looking for a family ride or a pro-level challenge, Santos delivers.
                 </p>
               </div>
+              {/* Trail Features Section */}
+              <TrailFeatures features={features} />
+              {/* Interactive Mapbox Map */}
+              <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8 mt-8">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-4">Interactive Trail Map</h3>
+                <div className="relative w-full h-96 rounded-lg overflow-hidden shadow-lg">
+                  <TrailMap lat={29.102} lon={-82.137} name="Santos Trailhead" />
+                </div>
+              </div>
+              {/* Static Trail Map Image */}
+              <h3 className="text-2xl font-bold text-white mt-10 mb-6">Santos Trail Map</h3>
+              <div className="relative h-96 max-w-contain mx-auto">
+                <Image
+                  src="/images/santos/santosmap.png"
+                  alt="Santos Trail Map"
+                  fill
+                  className="object-contain rounded-lg"
+                  priority
+                />
+              </div>
+              {/* Photo Gallery Section */}
+              <TrailPhotoGallery photos={photos} />
             </div>
-            {/* RIGHT COLUMN: Weather */}
+            {/* RIGHT COLUMN: Weather & Difficulty */}
             <div className="lg:col-span-1 flex flex-col gap-8">
               <WeatherForecast
                 location="Santos Trailhead"
@@ -247,10 +270,6 @@ export default function SantosVortexTrailPage() {
               </div>
             </div>
           </div>
-          {/* Photo Gallery */}
-          <div className="mt-10">
-            <TrailPhotoGallery photos={photos} />
-          </div>
         </div>
       )}
 
@@ -258,23 +277,7 @@ export default function SantosVortexTrailPage() {
         <section className="py-16 w-full bg-gray-800/50">
           <div className="max-w-7xl mx-auto px-4">
             <h2 className="text-4xl font-bold text-white text-center mb-12">Trail Features</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-              {features.map((feature, idx) => (
-                <div key={idx} className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow">
-                  <div className="relative h-40 mb-4">
-                    <Image
-                      src={feature.image}
-                      alt={feature.title}
-                      fill
-                      className="object-cover rounded"
-                    />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
-                  <p className="text-gray-300 mb-2">{feature.description}</p>
-                  <span className="text-green-400 text-sm">{feature.type}</span>
-                </div>
-              ))}
-            </div>
+            <TrailFeatures features={features} />
           </div>
         </section>
       )}
@@ -389,6 +392,11 @@ export default function SantosVortexTrailPage() {
         <section className="py-16 w-full">
           <div className="max-w-4xl mx-auto px-4">
             <h2 className="text-4xl font-bold text-white text-center mb-4">Trail Map</h2>
+            {/* Interactive Mapbox Map */}
+            <div className="relative w-full bg-gray-900 rounded-lg overflow-hidden shadow-2xl flex items-center justify-center mb-10">
+              <TrailMap lat={29.102} lon={-82.137} name="Santos Trailhead" />
+            </div>
+            {/* Static Trail Map Image */}
             <div className="relative w-full h-[70vh] bg-gray-900 rounded-lg overflow-hidden shadow-2xl flex items-center justify-center">
               <Image
                 src="/images/santos/santosmap.png"
@@ -397,15 +405,6 @@ export default function SantosVortexTrailPage() {
                 className="object-contain p-4"
                 priority
               />
-            </div>
-            <div className="mt-6 text-center">
-              <a
-                href="/images/santos/trail-1.jpg"
-                download
-                className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded transition-colors mt-4"
-              >
-                Download Map
-              </a>
             </div>
           </div>
         </section>
