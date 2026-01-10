@@ -1,9 +1,13 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+if (MAPBOX_TOKEN) {
+  mapboxgl.accessToken = MAPBOX_TOKEN;
+}
 
 type Trail = {
   id: string;
@@ -28,7 +32,13 @@ export default function MultiTrailMap({ trails }: Props) {
 
   // Initialize map only once
   useEffect(() => {
-    if (mapRef.current) return;
+    if (mapRef.current || !mapContainerRef.current) return;
+    
+    if (!mapboxgl.accessToken) {
+      console.error('Mapbox access token is missing. Please set NEXT_PUBLIC_MAPBOX_TOKEN in your environment variables.');
+      return;
+    }
+
     const map = new mapboxgl.Map({
       container: mapContainerRef.current!,
       style: mapStyle,
@@ -76,13 +86,6 @@ export default function MultiTrailMap({ trails }: Props) {
           .setPopup(new mapboxgl.Popup().setHTML(`<a href="/trails/${trail.id}" style="color:#16a34a;font-weight:bold;">${trail.name}</a>`))
           .addTo(map);
       });
-      // Add directions control (optional)
-      const directions = new MapboxDirections({
-        accessToken: mapboxgl.accessToken || '',
-        unit: 'metric',
-        profile: 'mapbox/cycling',
-      });
-      map.addControl(directions, 'top-left');
       // Fit bounds to all markers
       if (trails.length > 1) {
         const bounds = new mapboxgl.LngLatBounds();
@@ -155,23 +158,33 @@ export default function MultiTrailMap({ trails }: Props) {
 
   return (
     <div className="bg-gray-700 rounded-lg p-4 shadow-lg mt-20 max-w-4xl mx-auto flex flex-col justify-center min-h-[600px]">
-      <div className="flex flex-col items-center justify-center h-full">
-        <div className="flex justify-center gap-4 mb-6">
-          <button
-            className={`px-4 py-1 text-white rounded transition-colors ${!is3D ? 'bg-blue-500' : 'bg-blue-600 hover:bg-blue-700'}`}
-            onClick={toggle2D}
-          >
-            2D Map
-          </button>
-          <button
-            className={`px-4 py-1 text-white rounded transition-colors ${is3D ? 'bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}
-            onClick={toggle3D}
-          >
-            3D Satellite
-          </button>
+      {!MAPBOX_TOKEN ? (
+        <div className="text-center text-white p-8">
+          <h2 className="text-2xl font-bold mb-4">Map Configuration Required</h2>
+          <p className="mb-4 text-gray-300">Please add your Mapbox access token to continue.</p>
+          <div className="bg-black/30 p-4 rounded text-left font-mono text-sm inline-block">
+            NEXT_PUBLIC_MAPBOX_TOKEN=your_token_here
+          </div>
         </div>
-        <div ref={mapContainerRef} className="w-full h-[500px] rounded-lg" />
-      </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-full">
+          <div className="flex justify-center gap-4 mb-6">
+            <button
+              className={`px-4 py-1 text-white rounded transition-colors ${!is3D ? 'bg-blue-500' : 'bg-blue-600 hover:bg-blue-700'}`}
+              onClick={toggle2D}
+            >
+              2D Map
+            </button>
+            <button
+              className={`px-4 py-1 text-white rounded transition-colors ${is3D ? 'bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}
+              onClick={toggle3D}
+            >
+              3D Satellite
+            </button>
+          </div>
+          <div ref={mapContainerRef} className="w-full h-[500px] rounded-lg" />
+        </div>
+      )}
     </div>
   );
 }
