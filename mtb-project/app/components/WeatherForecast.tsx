@@ -31,6 +31,7 @@ interface WeatherAPIResponse {
       };
       hour: Array<{
         time: string;
+        time_epoch: number;
         temp_f: number;
         condition: {
           icon: string;
@@ -82,13 +83,18 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey,
 
       // Set fallback hourly data
       const hours = [];
+      const currentHour = now.getHours();
       const baseTemp = 75;
+      
+      // Get 24 hours starting from current hour
       for (let i = 0; i < 24; i++) {
-        const hour = i.toString().padStart(2, '0') + ':00';
-        // Create a simple temperature curve
-        const temp = baseTemp + Math.sin((i - 6) * Math.PI / 12) * 8;
+        const h = (currentHour + i) % 24;
+        const hourStr = h === 0 ? '12 AM' : h < 12 ? `${h} AM` : h === 12 ? '12 PM' : `${h - 12} PM`;
+        
+        // Create a simple temperature curve based on the actual hour of day
+        const temp = baseTemp + Math.sin((h - 6) * Math.PI / 12) * 8;
         hours.push({
-          time: hour,
+          time: hourStr,
           temp: Math.round(temp),
           icon: '☀️',
           text: 'Sunny'
@@ -163,19 +169,42 @@ export default function WeatherForecast({ location, latitude, longitude, apiKey,
             }))
         ];
 
-        // For hourly forecast (for today)
-        const todayHourly = forecastDays[0]?.hour.map((hour) => ({
-          time: hour.time.split(' ')[1], // "HH:MM"
-          temp: Math.round(hour.temp_f),
-          icon: `https:${hour.condition.icon}`,
-          text: hour.condition.text,
-        })) || [];
+        // For hourly forecast (start from current hour and show next 24 hours)
+        const now = new Date();
+        const currentEpoch = Math.floor(now.getTime() / 1000);
+        
+        // Combine hours from today and tomorrow to ensure we have a full 24h sequence
+        const allAvailableHours = [
+          ...(forecastDays[0]?.hour || []),
+          ...(forecastDays[1]?.hour || [])
+        ];
+
+        const next24Hours = allAvailableHours
+          .filter(hour => {
+            const hourEpoch = typeof hour.time_epoch === 'number' ? hour.time_epoch : Math.floor(new Date(hour.time).getTime() / 1000);
+            // Show current hour and future hours
+            return hourEpoch >= currentEpoch - 3600; 
+          })
+          .slice(0, 24)
+          .map((hour) => {
+            const hourDate = new Date(hour.time);
+            const h = hourDate.getHours();
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            const displayHour = h % 12 === 0 ? 12 : h % 12;
+            
+            return {
+              time: `${displayHour} ${ampm}`,
+              temp: Math.round(hour.temp_f),
+              icon: `https:${hour.condition.icon}`,
+              text: hour.condition.text,
+            };
+          });
+
         setWeatherData(processedData);
-        setHourlyData(todayHourly);
+        setHourlyData(next24Hours);
         setError(null);
         
         // Format current time for "last updated"
-        const now = new Date();
         setLastUpdated(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
       } catch (err: unknown) {
         if (timeoutId) clearTimeout(timeoutId);
