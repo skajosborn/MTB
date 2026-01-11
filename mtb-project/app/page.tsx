@@ -46,7 +46,7 @@ const trails = [
   { id: "carter-road", name: "Carter Road", lat: 27.9, lon: -82.0 },
   { id: "alafia", name: "Alafia", lat: 28.0, lon: -82.1 },
   { id: "santos-vortex", name: "Santos/Vortex", lat: 29.102, lon: -82.137 },
-  // ...add more trails
+  { id: "49th-ave", name: "49th Ave Trailhead", lat: 29.0214, lon: -82.1811 },
 ];
 
 // Trail features data

@@ -59,14 +59,14 @@ const trails = [
     image: '/bike.jpg',
     description: 'A unique riding experience through Florida swamplands with wooden boardwalks and diverse ecosystems.'
   },
-  // {
-  //   slug: '49th-ave',
-  //   name: '49th Ave Trailhead',
-  //   difficulty: 'Advanced',
-  //   location: 'Ocala, Florida',
-  //   image: '/magestic.jpg',
-  //   description: 'Southern access point to the Santos trail system with direct entry to the southern trails and less crowded sections.'
-  // }
+  {
+    slug: '49th-ave',
+    name: '49th Ave Trailhead',
+    difficulty: 'Advanced',
+    location: 'Ocala, Florida',
+    image: '/magestic.jpg',
+    description: 'Southern access point to the Santos trail system with direct entry to the southern trails and less crowded sections.'
+  }
 ];
 
 export default function TrailsDirectory() {

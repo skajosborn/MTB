@@ -15,6 +15,8 @@ const trails = [
   { name: "18 Road", slug: "18-road", difficulty: "Beginner" },
   { name: "Captain Ahab", slug: "captain-ahab", difficulty: "Expert" },
   { name: "Doctor Park", slug: "doctor-park", difficulty: "Advanced" },
+  { name: "Alafia", slug: "alafia", difficulty: "Intermediate" },
+  { name: "49th Ave Trailhead", slug: "49th-ave", difficulty: "Advanced" },
 ];
 
 interface TrailsNavigationProps {
